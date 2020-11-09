@@ -1,10 +1,31 @@
-{% block header %}
+<!doctype html>
+<html>
+    <head>
+        <title>chain_gift</title>
 
-（各htmlページ固有の内容が反映・表示される箇所）
-{% endblock header %}
+    </head>
+    <body>
+      
+      <h2>homeページ</h2>
+        <ul>
+          <li><a href="home.html">プロフィール</a></li>
+          <li><a href="message.html">メッセージ</a></li>
+          <li><a href="point.html">ポイント</a></li>
+          <li><a href="user.html">ユーザー検索</a></li>
+          <li><a href="login.html">ログアウト</a></li>
+        </ul>
+        <br><br>
+        
+        
+        <button mat-icon-button>
+          <mat-icon class="icon">notifications</mat-icon>
+          <span class="badge">5</span>
+        </button>
+        
+        {% block content %}
+        {% endblock %}
 
-{% block content %}
+    </body>
+</html>
 
-（各htmlページ固有の内容が反映・表示される箇所） 
 
-{% endblock content %}
