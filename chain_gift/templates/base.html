@@ -1,27 +1,31 @@
 <!doctype html>
 <html>
     <head>
-
         <title>chain_gift</title>
 
     </head>
     <body>
-
-        <h2>homeページ</h2>
-
+      
+      <h2>homeページ</h2>
         <ul>
-            <a href="{% url 'todo:index' %}">
-                <li>トップ</li>
-            </a>
-            {% for category in category_list %}
-                <a href="{% url 'todo:todo_category' category %}">
-                    <li>{{ category }}></li>
-                </a>
-            {% endfor %}
+          <li><a href="home.html">プロフィール</a></li>
+          <li><a href="message.html">メッセージ</a></li>
+          <li><a href="point.html">ポイント</a></li>
+          <li><a href="user.html">ユーザー検索</a></li>
+          <li><a href="login.html">ログアウト</a></li>
         </ul>
-
+        <br><br>
+        
+        
+        <button mat-icon-button>
+          <mat-icon class="icon">notifications</mat-icon>
+          <span class="badge">5</span>
+        </button>
+        
         {% block content %}
         {% endblock %}
 
     </body>
 </html>
+
+
