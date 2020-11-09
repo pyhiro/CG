@@ -1,10 +1,27 @@
-{% block header %}
+<!doctype html>
+<html>
+    <head>
 
-（各htmlページ固有の内容が反映・表示される箇所）
-{% endblock header %}
+        <title>chain_gift</title>
 
-{% block content %}
+    </head>
+    <body>
 
-（各htmlページ固有の内容が反映・表示される箇所） 
+        <h2>homeページ</h2>
 
-{% endblock content %}
+        <ul>
+            <a href="{% url 'todo:index' %}">
+                <li>トップ</li>
+            </a>
+            {% for category in category_list %}
+                <a href="{% url 'todo:todo_category' category %}">
+                    <li>{{ category }}></li>
+                </a>
+            {% endfor %}
+        </ul>
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>
