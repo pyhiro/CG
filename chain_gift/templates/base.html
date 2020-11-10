@@ -13,25 +13,20 @@
           <li><a href="point.html">ポイント</a></li>
           <li><a href="user_search.html">ユーザー検索</a></li>        
           {% if user.is_authenticated %}
-          <li>
-              <a class="nav-link">ユーザ名：{{ user.get_username }}</a>          
-          </li>     
+          
           <li>
               <a class="nav-link" href="{% url 'logout' %}">
               <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
           </li>
           
           {% endif %}
+          
         </ul>
         
         <br><br>
+
         
-        
-        <button mat-icon-button>
-          <mat-icon class="icon">新しい通知</mat-icon>
-          <span class="badge">5</span>
-        </button>
-        
+
         {% block content %}
         {% endblock %}
 
