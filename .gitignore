@@ -8,3 +8,4 @@ chain_gift/__pycache__/forms.cpython-38.pyc
 chain_gift/__pycache__/models.cpython-38.pyc
 chain_gift/__pycache__/views.cpython-38.pyc
 chain_gift/migrations/__pycache__/__init__.cpython-38.pyc
+db.sqlite3
