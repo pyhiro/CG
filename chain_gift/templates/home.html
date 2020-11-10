@@ -1,34 +1,38 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+
 
 
 {% block content %}
+<ul>
 <li>
   <a class="nav-link">ユーザ名：{{ user.get_username }}</a>          
 </li>     
 <li>学年・クラス選択</li>
-          <select name=”address”>
-            <optgroup label=”学年１”>
-            <option value=”one”>１組</option>
-            <option value=”two”>2組</option>
-            <option value=”three”>3組</option>
+          <select name="address">
+            <optgroup label="学年１">
+            <option value="one">１組</option>
+            <option value="two">2組</option>
+            <option value="three">3組</option>
           </optgroup>
-            <optgroup label=”学年２”>
-            <option value=”fhour”>１組</option>
-            <option value=”five”>２組</option>
-            <option value=”six”>３組</option>
+            <optgroup label="学年２">
+            <option value="fhour">１組</option>
+            <option value="five">２組</option>
+            <option value="six">３組</option>
           </optgroup>
-          <optgroup label=”学年3”>
-            <option value=”seven”>１組</option>
-            <option value=”eight”>２組</option>
-            <option value=”nine”>３組</option>
+          <optgroup label="学年3">
+            <option value="seven">１組</option>
+            <option value="eight">２組</option>
+            <option value="nine">３組</option>
             </optgroup>
         </select>
         <li>送信相手選択</li>
-        <select name=”picture_messenger”>
-          <optgroup label=”選択”>
-            <option value=”name_one”>名前</option>
-            <option value=”name_two”>名前</option>
-            <option value=”name_three”>名前</option>
+        <select name="picture_messenger">
+          <optgroup label="選択">
+            <option value="name_one">名前</option>
+            <option value="name_two">名前</option>
+            <option value="name_three">名前</option>
           </optgroup>
         </select>
         <li>定型文選択</li>

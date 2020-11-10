@@ -1,14 +1,17 @@
+{% load static %}
+
 <!doctype html>
 <html>
     <head>
         <title>chain_gift</title>
-
+        <link rel="stylesheet" href="{% static 'base.css' %}">
     </head>
     <body>
       
       <h2>homeページ</h2>
         <ul>
-          <li><a href="home.html">プロフィール</a></li>
+          
+          <li><a href="{% url 'home' %}">プロフィール</a></li>
           <li><a href="message.html">メッセージ</a></li>
           <li><a href="point.html">ポイント</a></li>
           <li><a href="user_search.html">ユーザー検索</a></li>        
