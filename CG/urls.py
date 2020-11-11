@@ -26,4 +26,8 @@ urlpatterns = [
     path('message/', views.message, name='message'),
     path('point/', views.point, name='point'),
     path('user_search/', views.user_search, name='user_search'),
+    path('wallet/amount/', views.calculate_amount, name='calculate_amount'),
+    path('index', views.index, name='index'),##test
+    path('wallet/', views.create_wallet, name='create_wallet'),
+    path('transaction/', views.create_transaction, name='transaction'),
 ]
