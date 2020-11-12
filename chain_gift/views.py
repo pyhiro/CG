@@ -123,3 +123,6 @@ def point(request):
 
 def user_search(request):
     return render(request, 'user_search.html')
+
+def shop_home(request):
+    return render(request, 'shop.html')
