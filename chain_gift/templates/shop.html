@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ﾁｪﾝﾎﾟ!!</title>
+    <link rel="stylesheet" href="{% static 'shop.css' %}">
+</head>
+
+<body>
+    <script type="text/javascript" src="https://ad.netowl.jp/js/star-php.js"></script>
+
+    <!--ヘッダー-->
+    <header>
+        <h1>販売サイト</h1>
+        <p>保有ポイント</p>
+        <p>200pt</p>
+    </header>
+    <!--/ヘッダー-->
+
+    <!--wrapper-->
+    <div id="wrapper">
+        <!--メイン-->
+        <div id="main">
+            <article>
+                <h2>交換するもの</h2>
+                <p class="lead">貰ったポイントで商品を貰おう！</p>
+                <p></p>
+                <section id="gallery">
+                    <ul>
+                        <div class="selection-group">
+                            <ol>
+
+                                <input id="a" type="radio" name="rate" value="a">
+                                <label for="a">
+                                    <img src="images/item01.jpg">
+                                </label>
+                                <li>花</li>
+                                
+                                <input id="b" type="radio" name="rate" value="b">
+                                <label for="b">
+                                    <img src="images/miya.jpg">
+                                </label>
+                                <li>みや</li>
+                                
+                                <input id="c" type="radio" name="rate" value="c">
+                                <label for="c">
+                                    <img src="images/nisan.jpeg">
+                                </label>
+                                <li>兄</li>
+                            </ol>
+                          </div>
+                        <button type="submit" name="name" value="値">交換</button>
+                    </ul>
+                </section>
+            </article>
+        </div>
+        <!--JavaScript-->
+        <script src="JS/jquery-3.4.1.min.js"></script>
+        <script src="JS/app.js"></script>
+        <!--JavaScript-->
+
+</body>
+
+</html>

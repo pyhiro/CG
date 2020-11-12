@@ -30,4 +30,5 @@ urlpatterns = [
     path('index', views.index, name='index'),##test
     path('wallet/', views.create_wallet, name='create_wallet'),
     path('transaction/', views.create_transaction, name='transaction'),
+    path('shop/', views.shop_home, name='shop_home'),
 ]
