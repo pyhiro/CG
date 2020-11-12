@@ -1,63 +1,38 @@
-ul {
+.menu {
+  display: flex;
+  height: 2rem;
+  margin: 0 auto;
+  width: 1000px;
+}
+.menu > li {/*親階層のみ幅を25%にする*/
+  width: 25%;
+}
+/*全てのリスト・リンク共通*/
+.menu li {
   list-style: none;
+  position: relative;
 }
-body {
-	background-color:#ffffff;	/*ページ全体の背景色*/
-	text-align:center;		/*IE6以下でセンタリングするための対策*/
+.menu li a {
+  background: #001b34;
+  border-right: 1px solid #eee;
+  color: #fff;
+  display: block;
+  height: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
 }
-div#pagebody {
-	width:900px; margin:0 auto;	/*内容全体をセンタリング*/
-	text-align:left;	/*テキストの配置を左揃えにする*/
-	background-image:url("images/bg_pagebody.gif");	/*内容全体の背景*/
-	background-repeat:repeat-y;		/*背景画像を縦方向に繰り返す*/
-	background-color:#ffffff;		/*内容全体の背景色*/
+/*子階層以降共通*/
+.menu li li {
+  height: 0;
+  overflow: hidden;
+  transition: .5s;
 }
-div#header {
-	height:77px;	/*背景画像のサイズに合わせてボックスの高さを指定*/
-	background-image:url("images/bg_header.jpg");	/*ヘッダ部分の背景画像*/
-	background-repeat:no-repeat;		/*背景画像を繰り返さない*/
-	background-color:#cccccc;		/*ヘッダ部分の背景色*/
+.menu li li a {
+  border-top: 1px solid #eee;
 }
-h1 {
-	padding:20px 0px 0px 30px;		/*見出し内容の位置調整*/
-	font-family:Arial, Helvetica, sans-serif;	/*フォントの種類*/
-}
-h1 a {text-decoration:none;} 			/*リンクの下線を無くす*/
-
-ul#menu {
-	height:42px; background-color:#eeeeee; font-weight:bold;
-}
-li#menu01,li#menu02,li#menu03,li#menu04,li#menu05 {
-	float:left;			/*リスト項目を横に並べる*/
-	display:inline;			/*リスト項目をインライン表示にする*/
-	list-style-type:none;		/*リストマーカー無しにする*/
-	background-repeat:no-repeat; 	/*背景画像を繰り返さない*/	
-}
-
-/*ボタン01～05にはそれぞれ異なる背景画像を指定する*/
-li#menu01 {
-	width:164px; height:42px;	/*背景画像に合わせたサイズ指定*/
-	background-image:url("images/bg_menu01.jpg");	/*背景画像*/
-}
-li#menu02 {
-	width:156px; height:42px;	/*背景画像に合わせたサイズ指定*/
-	background-image:url("images/bg_menu02.jpg");	/*背景画像*/
-}
-li#menu03 {
-	width:156px; height:42px;	/*背景画像に合わせたサイズ指定*/
-	background-image:url("images/bg_menu03.jpg");	/*背景画像*/
-}
-li#menu04 {
-	width:156px; height:42px;	/*背景画像に合わせたサイズ指定*/
-	background-image:url("images/bg_menu04.jpg");	/*背景画像*/
-}
-li#menu05 {
-	width:164px; height:42px;	/*背景画像に合わせたサイズ指定*/
-	background-image:url("images/bg_menu05.jpg");	/*背景画像*/
-}
-ul#menu a {
-	display:block;				/*リンクをブロック表示にする*/
-	height:42px; padding-top:4px; text-align:center;
-	text-decoration:none; 			/*リンクの下線を無くす*/
-	font-family:Arial, Helvetica, sans-serif;	/*フォントの種類*/
+.menu li:hover > ul > li {
+  height: 2rem;
+  overflow: visible;
 }

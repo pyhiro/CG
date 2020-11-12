@@ -7,18 +7,41 @@
   <title>chain_gift</title>
   <link rel="stylesheet" href="{% static 'base.css' %}">
   <link rel="stylesheet" href="{% static 'home.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('.slider').bxSlider({
+                auto: true,
+                pause: 5000,
+            });
+        });
+</script>
+
 </head>
 
 <body>
   <div id="pagebody">
 
     <h2>My HOMEページ</h2>
-    <ul id="menu">
-      <li id="menu01"><a href="{% url 'home' %}">プロフィール</a></li>
-      <li id="menu02"><a href="message.html">メッセージ</a></li>
-      <li id="menu03"><a href="point.html">ポイント</a></li>
-      <li id="menu04"><a href="user_search.html">ユーザー検索</a></li>
-
+    <button mat-icon-button>
+      <mat-icon class="icon">新しい通知</mat-icon>
+      <span class="badge">5</span>
+    </button>
+    
+    
+    <ul class="menu">
+      <li><a href="{% url 'home' %}">プロフィール</a></li>
+      <li><a href="{% url 'message' %}">メッセージ</a></li>
+      <li><a href="{% url 'point' %}">ポイント</a>
+        <ul>
+          <li><a href="">ショップ</a></li>
+          <li><a href="">ポイント確認</a></li>
+        </ul>
+      </li>
+      <li> <a href="{% url 'user_search' %}">ユーザー検索</a></li>
       {% if user.is_authenticated %}
       <li id="menu05"> <a class="nav-link" href="{% url 'logout' %}">
           <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
@@ -26,6 +49,11 @@
     </ul>
     {% endif %}
     <br><br>
+    <div class="slider">
+      <img src="/sample03.jpg" width="500" height="300" alt="">
+      <img src="gazou2.jpg" width="500" height="300" alt="">
+      
+      </div>
   </div>
   {% block content %}
   {% endblock %}
