@@ -6,21 +6,29 @@ from django.utils.translation import gettext_lazy as _
 
 class User(AbstractBaseUser, PermissionsMixin):
     user_vali = UnicodeUsernameValidator()
-    username = models.CharField(_('名前'), max_length=150, validators=[user_vali])
-    email = models.EmailField(_('メール'), unique=True, blank=False)
+
     is_staff = models.BooleanField(_('staff status'), default=False)
+
     student_id = models.CharField(_('学籍番号'), max_length=10, primary_key=True)
-    furigana = models.CharField(_('ふりがな'), max_length=30)
-    birth_day = models.DateField(_('誕生日'), blank=True, null=True)
+    email = models.EmailField(_('メールアドレス'), unique=True, blank=False)
     blockchain_address = models.CharField(max_length=150, blank=False)
-    class_id = models.IntegerField(_('クラス'))
+    username = models.CharField(_('名前'), max_length=150, validators=[user_vali])
+    furigana = models.CharField(_('ふりがな'), max_length=30)
+
+    birth_day = models.DateField(_('誕生日'), blank=True, null=True)
+
+
     grade_id = models.IntegerField(_('学年'), blank=False, default=1)
-    login_flag = models.BooleanField(default=False)
-    delete_flag = models.BooleanField(default=False)
+    class_id = models.IntegerField(_('クラス'))
+
     profile_img = models.CharField(_('image'),max_length=150, blank=True, null=True)
     qr_img = models.CharField(_('QR'), max_length=18, blank=True, null=True)
+
     profile_message = models.TextField(_('プロフィール'), max_length=200, blank=True, null=True)
+
     login_missed = models.IntegerField(default=0)
+    login_flag = models.BooleanField(default=False)
+    delete_flag = models.BooleanField(default=False)
 
     objects = UserManager()
 
@@ -38,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     QR_IMG_FIELD = 'qr_img'
     PROFILE_MESSAGE_FIELD = 'profile_message'
     LOGIN_MISSED_FIELD = 'login_missed'
-    REQUIRED_FIELDS = ['username', 'student_id', 'furigana', 'class_id']
+    REQUIRED_FIELDS = ['student_id', 'username', 'furigana', 'class_id']
 
     def __str__(self):
         return self.username
