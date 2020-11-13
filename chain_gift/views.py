@@ -1,8 +1,8 @@
-from django.shortcuts import render 
+from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView)
 from django.http.response import JsonResponse
-from .forms import LoginForm
+from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 
@@ -124,5 +124,24 @@ def point(request):
 def user_search(request):
     return render(request, 'user_search.html')
 
+
 def shop_home(request):
     return render(request, 'shop.html')
+
+
+def signup(request):
+    if request.method == 'GET':
+        form = SignUpForm()
+        return render(request, 'signup.html', {'form': form})
+
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        data = form.data
+        print(data)
+        ###########################TODO
+        return redirect('/home/')
+
+    form = SignUpForm()
+
+    context = {'form':form}
+    return render(request, 'polls/signup.html', context)
