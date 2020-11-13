@@ -1,3 +1,11 @@
+.menu li a:hover {
+	background-color:#56565a; 	/*リンクにマウスが乗ったら背景色を変更する*/
+}
+.menu{
+    z-index:1;
+    position: relative;
+}
+
 .menu {
   display: flex;
   height: 2rem;
