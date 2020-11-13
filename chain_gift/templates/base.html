@@ -37,7 +37,7 @@
 
         <div class="box_area">
             <ul class="menu">
-                <li><a href="{% url 'home' %}">プロフィール</a> {% if user.is_authenticated %}
+                <li><a href="{''}">プロフィール</a> {% if user.is_authenticated %}
                     <ul>
                         <li>
                             <a class="nav-link" href="{% url 'logout' %}">
@@ -46,7 +46,7 @@
                     </ul>
                 </li>
                 <li><a href="{% url 'message' %}">メッセージ</a></li>
-                <li><a href="{% url 'point' %}">ポイント </a>
+                <li><a href="{''}">ポイント </a>
                     <ul>
                         <li><a href="">ショップ</a></li>
                         <li><a href="">ポイント確認</a></li>
