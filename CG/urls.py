@@ -31,4 +31,5 @@ urlpatterns = [
     path('wallet/', views.create_wallet, name='create_wallet'),
     path('transaction/', views.create_transaction, name='transaction'),
     path('shop/', views.shop_home, name='shop_home'),
+    path('signup/', views.signup, name='signup'),
 ]
