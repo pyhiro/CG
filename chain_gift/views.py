@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret
 
+import datetime
 import hashlib
 import json
 import random
@@ -126,8 +127,34 @@ def message(request):
 
 
 def point(request):
+    if request.method == 'GET':
+        user = request.user
+        my_blockchain_address = user.blockchain_address
 
-    return render(request, 'point.html')
+        if my_blockchain_address is None:
+            return HttpResponse('Missing values', status=400)
+
+        response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=10)
+        if response.status_code == 200:
+            history = response.json()['history']
+            params = dict()
+            params['send'] = history['send']
+            params['receive'] = history['receive']
+            if params['receive']:
+                for transaction in params['receive']:
+                    transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+            if params['send']:
+                for transaction in params['send']:
+                    transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+            print(params['receive'])
+            for t in params['receive']:
+                print(t)
+                print(t['transacted_time'])
+            return render(request, 'point.html', params, status=200)
+        return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
 def user_search(request):
