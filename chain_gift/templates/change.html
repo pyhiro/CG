@@ -1,9 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head>
+<HTML>
+<HEAD>
+    <TITLE>パスワード変更画面</TITLE>
+</HEAD>
 
-    </head>
-    <body>
-        
-    </body>
-</html>
+<BODY>
+    <DIV ALIGN="CENTER">
+        <H1>パスワード変更画面</H1>
+    </DIV>
+
+    <P>現在のパスワードと新しいパスワードと確認パスワードを入力してから登録ボタンをクリックして下さい</P>
+
+    <FORM METHOD="POST" ACTION="/cgi-bin/passchg">
+        <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2">
+            <TR>
+                <TH ALIGN="LEFT">現在のパスワード</TH>
+                <TD><INPUT TYPE="PASSWORD" NAME="PASS" SIZE="15" MAXLENGTH="10"></TD>
+            </TR>
+            <TR>
+                <TH ALIGN="LEFT" VALIGN="TOP">新しいパスワード</TH>
+                <TD><INPUT TYPE="PASSWORD" NAME="NEWPASS" SIZE="15" MAXLENGTH="10"></TD>
+            </TR>
+            <TR>
+                <TH ALIGN="LEFT" VALIGN="TOP">確認パスワード</TH>
+                <TD><INPUT TYPE="PASSWORD" NAME="NEWPASS2" SIZE="15" MAXLENGTH="10"></TD>
+            </TR>
+        </TABLE>
+
+        <INPUT TYPE="SUBMIT" VALUE="登録する">
+    </FORM>
+</BODY>
+
+</HTML>
