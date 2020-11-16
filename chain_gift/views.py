@@ -6,6 +6,7 @@ from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret
+from django.contrib.auth.decorators import login_required
 
 import datetime
 import hashlib
@@ -47,6 +48,20 @@ def create_wallet(request):
         }
         return JsonResponse(response, status=200)
 
+
+@login_required
+@csrf_exempt
+def user_info(request):
+    if request.method == 'POST':
+        user = request.user
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        secret = Secret.objects.filter(id_hash=hashed_id)[0]
+        response = {
+            'private_key': secret.private_key,
+            'public_key': secret.public_key,
+            'blockchain_address': user.blockchain_address
+        }
+        return JsonResponse(response, status=200)
 
 @csrf_exempt
 def create_transaction(request):
@@ -99,7 +114,6 @@ def home(request):
 
 def calculate_amount(request):
     if request.method == 'GET':
-        # required = ['blockchain_address']
         my_blockchain_address = request.GET.get('blockchain_address', None)
 
         # json_data = json.loads(request.body)
