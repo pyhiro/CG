@@ -7,80 +7,23 @@
     <title>chain_gift</title>
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'home.css' %}">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'jquery.bxslider.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
-  
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neucha">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.slider').bxSlider({
+                auto: true,
+                pause: 5000,
+            });
+        });
+    </script>
 
 </head>
 
 <body>
-    <div id="wrapper">
-
-        <h1>わりまんTV</h1>
-        <h2>A Pen by <a href="http://www.andrecortellini.com" target="_blank">André Cortellini</a></h2>
-    
-        <div id="slider-wrap">
-          <ul id="slider">
-            <li data-color="#1abc9c">
-              <div>
-                <h3>Slide #1</h3>
-                <span>Sub-title #1</span>
-              </div>
-              <i class="fa fa-image"></i>
-            </li>
-    
-            <li data-color="#3498db">
-              <div>
-                <h3>Slide #2</h3>
-                <span>Sub-title #2</span>
-              </div>
-              <i class="fa fa-gears"></i>
-            </li>
-    
-            <li data-color="#9b59b6">
-              <div>
-                <h3>Slide #3</h3>
-                <span>Sub-title #3</span>
-              </div>
-              <i class="fa fa-sliders"></i>
-            </li>
-    
-            <li data-color="#34495e">
-              <div>
-                <h3>Slide #4</h3>
-                <span>Sub-title #4</span>
-              </div>
-              <i class="fa fa-code"></i>
-            </li>
-    
-            <li data-color="#e74c3c">
-              <div>
-                <h3>Slide #5</h3>
-                <span>Sub-title #5</span>
-              </div>
-              <i class="fa fa-microphone-slash"></i>
-            </li>
-    
-    
-          </ul>
-    
-          <!--controls-->
-          <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
-          <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
-          <div id="counter"></div>
-    
-          <div id="pagination-wrap">
-            <ul>
-            </ul>
-          </div>
-          <!--controls-->
-    
-        </div>
-    
-      </div>
-    {% if user.is_authenticated %}
     <div id="pagebody">
         <a href="#">
             <img src="{% static 'images/chain2.png' %url 'home' %}" width="140" height="50" alt="Parrots">
@@ -88,13 +31,13 @@
 
 
         <button mat-icon-button>
-            <mat-icon class="icon">新しい通知</mat-icon>
-            <span class="badge">5</span>
+      <mat-icon class="icon">新しい通知</mat-icon>
+      <span class="badge">5</span>
     </button>
 
         <div class="box_area">
             <ul class="menu">
-                <li><a href="{''}">プロフィール</a>
+                <li><a href="{% url 'home' %}">プロフィール</a> {% if user.is_authenticated %}
                     <ul>
                         <li>
                             <a class="nav-link" href="{% url 'logout' %}">
@@ -103,7 +46,7 @@
                     </ul>
                 </li>
                 <li><a href="{% url 'message' %}">メッセージ</a></li>
-                <li><a href="{''}">ポイント </a>
+                <li><a href="{% url 'point' %}">ポイント </a>
                     <ul>
                         <li><a href="">ショップ</a></li>
                         <li><a href="">ポイント確認</a></li>
@@ -112,15 +55,13 @@
                 <li> <a href="{% url 'user_search' %}">ユーザー検索</a></li>
 
             </ul>
-            
+            {% endif %}
         </div>
         <br><br>
 
     </div>
-    {% block content %}
-    {% endblock %}
-    
-    {% endif %}
+    {% block content %} {% endblock %}
+
 </body>
 
 </html>
