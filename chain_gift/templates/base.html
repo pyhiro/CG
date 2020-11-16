@@ -24,6 +24,7 @@
 </head>
 
 <body>
+    {% if user.is_authenticated %}
     <div id="pagebody">
         <a href="#">
             <img src="{% static 'images/chain2.png' %url 'home' %}" width="140" height="50" alt="Parrots">
@@ -31,13 +32,13 @@
 
 
         <button mat-icon-button>
-      <mat-icon class="icon">新しい通知</mat-icon>
-      <span class="badge">5</span>
+            <mat-icon class="icon">新しい通知</mat-icon>
+            <span class="badge">5</span>
     </button>
 
         <div class="box_area">
             <ul class="menu">
-                <li><a href="{''}">プロフィール</a> {% if user.is_authenticated %}
+                <li><a href="{''}">プロフィール</a>
                     <ul>
                         <li>
                             <a class="nav-link" href="{% url 'logout' %}">
@@ -55,13 +56,15 @@
                 <li> <a href="{% url 'user_search' %}">ユーザー検索</a></li>
 
             </ul>
-            {% endif %}
+            
         </div>
         <br><br>
 
     </div>
-    {% block content %} {% endblock %}
-
+    {% block content %}
+    {% endblock %}
+    
+    {% endif %}
 </body>
 
 </html>
