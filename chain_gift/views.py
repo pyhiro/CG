@@ -11,12 +11,13 @@ import datetime
 import hashlib
 import json
 import random
-import requests
 import string
 import urllib
+import yaml
 
 import smtplib, ssl
 from email.mime.text import MIMEText
+import requests
 
 from . import wallet
 
@@ -149,10 +150,7 @@ def point(request):
             if params['send']:
                 for transaction in params['send']:
                     transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
-            print(params['receive'])
-            for t in params['receive']:
-                print(t)
-                print(t['transacted_time'])
+
             return render(request, 'point.html', params, status=200)
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
@@ -205,8 +203,10 @@ def signup(request):
 
 
 def send_gmail(password, email):
-    gmail_account = "cgift1158@gmail.com"
-    gmail_password = "chenpo1234"
+    with open('chain_gift/config.yaml', 'r') as file:
+        config = yaml.load(file, Loader=yaml.SafeLoader)
+    gmail_account = config['account'][0]
+    gmail_password = config['password'][0]
     # メールの送信先★ --- (*2)
     mail_to = email
 
@@ -223,4 +223,3 @@ def send_gmail(password, email):
                               context=ssl.create_default_context())
     server.login(gmail_account, gmail_password)
     server.send_message(msg)  # メールの送信
-    print("ok.")
