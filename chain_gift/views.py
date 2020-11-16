@@ -5,10 +5,17 @@ from django.http.response import JsonResponse
 from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from .models import User, Secret
 
+import hashlib
 import json
+import random
 import requests
+import string
 import urllib
+
+import smtplib, ssl
+from email.mime.text import MIMEText
 
 from . import wallet
 
@@ -109,6 +116,7 @@ def calculate_amount(request):
             return JsonResponse({'message': 'success', 'amount': total}, status=200)
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
+
 def change(request):
     return render(request, 'change.html')
 
@@ -137,11 +145,50 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         data = form.data
-        print(data)
-        ###########################TODO
+        password_by_list = [random.choice(string.ascii_letters + string.digits) for _ in range(8)]
+        password = ''.join(password_by_list)
+
+        user = User(
+            username=data['username'],
+            email=data['email'],
+            class_id=data['class_id'])
+        user.set_password(password)
+        user.furigana = data['furigana']
+        user.student_id = data['student_id']
+        w = wallet.Wallet()
+        user.blockchain_address = w.blockchain_address
+        user.save()
+
+        send_gmail(password, data['email'])
+
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
+        s.save()
         return redirect('/home/')
 
     form = SignUpForm()
 
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'polls/signup.html', context)
+
+
+def send_gmail(password, email):
+    gmail_account = "cgift1158@gmail.com"
+    gmail_password = "chenpo1234"
+    # メールの送信先★ --- (*2)
+    mail_to = email
+
+    # メールデータ(MIME)の作成 --- (*3)
+    subject = "初回ログイン"
+    body = password
+    msg = MIMEText(body, "html")
+    msg["Subject"] = subject
+    msg["To"] = mail_to
+    msg["From"] = gmail_account
+
+    # Gmailに接続 --- (*4)
+    server = smtplib.SMTP_SSL("smtp.gmail.com", 465,
+                              context=ssl.create_default_context())
+    server.login(gmail_account, gmail_password)
+    server.send_message(msg)  # メールの送信
+    print("ok.")
