@@ -17,11 +17,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     birth_day = models.DateField(_('誕生日'), blank=True, null=True)
 
-
     grade_id = models.IntegerField(_('学年'), blank=False, default=1)
     class_id = models.IntegerField(_('クラス'))
 
-    profile_img = models.CharField(_('image'),max_length=150, blank=True, null=True)
+    profile_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
     qr_img = models.CharField(_('QR'), max_length=18, blank=True, null=True)
 
     profile_message = models.TextField(_('プロフィール'), max_length=200, blank=True, null=True)
@@ -76,6 +75,7 @@ class Goods(models.Model):
     price = models.IntegerField()
     name = models.CharField(max_length=50)
     person = models.CharField(max_length=10)
+    goods_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
 
     def __str__(self):
         return self.name
