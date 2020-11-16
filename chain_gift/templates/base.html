@@ -7,23 +7,79 @@
     <title>chain_gift</title>
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <link rel="stylesheet" href="{% static 'home.css' %}">
-    <link rel="stylesheet" href="{% static 'jquery.bxslider.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.slider').bxSlider({
-                auto: true,
-                pause: 5000,
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Neucha">
 
 </head>
 
 <body>
+    <div id="wrapper">
+
+        <h1>わりまんTV</h1>
+        <h2>A Pen by <a href="http://www.andrecortellini.com" target="_blank">André Cortellini</a></h2>
+    
+        <div id="slider-wrap">
+          <ul id="slider">
+            <li data-color="#1abc9c">
+              <div>
+                <h3>Slide #1</h3>
+                <span>Sub-title #1</span>
+              </div>
+              <i class="fa fa-image"></i>
+            </li>
+    
+            <li data-color="#3498db">
+              <div>
+                <h3>Slide #2</h3>
+                <span>Sub-title #2</span>
+              </div>
+              <i class="fa fa-gears"></i>
+            </li>
+    
+            <li data-color="#9b59b6">
+              <div>
+                <h3>Slide #3</h3>
+                <span>Sub-title #3</span>
+              </div>
+              <i class="fa fa-sliders"></i>
+            </li>
+    
+            <li data-color="#34495e">
+              <div>
+                <h3>Slide #4</h3>
+                <span>Sub-title #4</span>
+              </div>
+              <i class="fa fa-code"></i>
+            </li>
+    
+            <li data-color="#e74c3c">
+              <div>
+                <h3>Slide #5</h3>
+                <span>Sub-title #5</span>
+              </div>
+              <i class="fa fa-microphone-slash"></i>
+            </li>
+    
+    
+          </ul>
+    
+          <!--controls-->
+          <div class="btns" id="next"><i class="fa fa-arrow-right"></i></div>
+          <div class="btns" id="previous"><i class="fa fa-arrow-left"></i></div>
+          <div id="counter"></div>
+    
+          <div id="pagination-wrap">
+            <ul>
+            </ul>
+          </div>
+          <!--controls-->
+    
+        </div>
+    
+      </div>
     {% if user.is_authenticated %}
     <div id="pagebody">
         <a href="#">
