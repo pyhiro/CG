@@ -1,10 +1,4 @@
-.slider-wrapper{
-	width: 300;
-	left: 0;
-	will-change: transform;
-	animation: slider 10s infinite
-	
-}
+
 li {
   list-style: none;
 }
