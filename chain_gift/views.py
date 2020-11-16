@@ -126,11 +126,16 @@ def message(request):
 
 
 def point(request):
+
     return render(request, 'point.html')
 
 
 def user_search(request):
     return render(request, 'user_search.html')
+
+
+def profile(request):
+    return render(request, 'profile.html')
 
 
 def shop_home(request):
