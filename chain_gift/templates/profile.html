@@ -1,7 +1,10 @@
 {% extends "base.html" %} {%load static%}
 {% block content %}
+
 <link rel="stylesheet" href="{% static 'profile.css' %}">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -20,21 +23,22 @@
                 <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
                 <div class="profile_name">にいさん</div>
             </div>
-            <div class="profile_box ul li">
-                <ul>
-                    <li>学年 クラス：2-1</li>
-                    <li>性別：男</li>
-                    <li>誕生日：12月13日</li>
-                </ul>
+            <div class="profile_box ul">
+                <div class="profile_box ul li">
+                    <ul>
+                        <li>学年 クラス：2-1</li>
+                        <li>性別：男</li>
+                        <li>誕生日：12月13日</li>
+                    </ul>
+                </div>
             </div>
-            <hr noshade>
-            <h2>ひとこと</h2>
-            <div class = "profile_box p">
-            <p>
-                アーノルドシュワル。。。ｐu..ぷー！！
-            </p>
-        </div>
-        <a href="" class="btn btn--orange">編集</a>
+            <h2 class="profile_box h2" style="text-align:left">ひとこと</h2>
+            <div class="profile_box p">
+                <p>
+                    アーノルドシュワル。。。ｐu..ぷー！！
+                </p>
+            </div>
+            <a href="" class="btn btn--orange">編集</a>
         </body>
     </div>
 </body>
