@@ -7,7 +7,7 @@
     <script>
          $(function () {
              $.ajax({
-                 url: '/wallet/',
+                 url: '/info/',
                  type: 'POST',
                  success: function (response) {
                      $('#public_key').val(response['public_key']);
