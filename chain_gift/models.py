@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
+
+import datetime
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -62,10 +65,10 @@ class Message(models.Model):
     contents = models.TextField(max_length=200, blank=True)
     sender = models.CharField(max_length=10, blank=False)
     recipient = models.CharField(max_length=10, blank=False)
-    time_of_message = models.DateTimeField()
-    read_flag = models.BooleanField()
-    point = models.IntegerField()
-    delete_flag = models.BooleanField()
+    time_of_message = models.DateTimeField(default=timezone.now())
+    read_flag = models.BooleanField(default=False, null=True)
+    point = models.IntegerField(default=10, null=True)
+    delete_flag = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.contents

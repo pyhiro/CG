@@ -152,10 +152,12 @@ def calculate_amount(request):
 
 @login_required
 def message(request):
+    m = Message(contents='hello', sender='1902005', recipient='1902005')
+    m.save()
     user = request.user
     student_id = user.student_id
-    received_message = Message.objects.filter(recipient=student_id)
-    send_message = Message.objects.filter(sender=student_id)
+    received_message = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
+    send_message = Message.objects.filter(sender=student_id).order_by('-time_of_message')
     params = {'receive': received_message,
               'send': send_message}
     return render(request, 'message.html', params)
