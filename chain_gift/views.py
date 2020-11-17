@@ -6,7 +6,7 @@ from django.http.response import JsonResponse
 from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import User, Secret
+from .models import User, Secret, Message
 from django.contrib.auth.decorators import login_required
 
 import datetime
@@ -150,11 +150,17 @@ def calculate_amount(request):
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
-
-
-
+@login_required
 def message(request):
-    return render(request, 'message.html')
+    m = Message(contents='hello', sender='1902005', recipient='1902005')
+    m.save()
+    user = request.user
+    student_id = user.student_id
+    received_message = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
+    send_message = Message.objects.filter(sender=student_id).order_by('-time_of_message')
+    params = {'receive': received_message,
+              'send': send_message}
+    return render(request, 'message.html', params)
 
 
 def point(request):
