@@ -94,14 +94,14 @@ padding: 4px;
 margin-top: 10px;
 }
 
-.login col-xs-4[type=submit]{
+.login button[type=submit]{
 width: 260px;
 height: 35px;
-background: #fff;
-border: 1px solid #fff;
+background:rgb(32, 100, 202);
+
 cursor: pointer;
 border-radius: 2px;
-color: #a18d6c;
+color:#fff;
 font-family: 'Exo', sans-serif;
 font-size: 16px;
 font-weight: 400;
@@ -109,11 +109,11 @@ padding: 6px;
 margin-top: 10px;
 }
 
-.login input[type=button]:hover{
+.login button[type=submit]:hover{
 opacity: 0.8;
 }
 
-.login input[type=button]:active{
+.login button[type=submit]:active{
 opacity: 0.6;
 }
 
@@ -127,7 +127,7 @@ outline: none;
 border: 1px solid rgba(255,255,255,0.9);
 }
 
-.login input[type=button]:focus{
+.login button[type=submit]:focus{
 outline: none;
 }
 
