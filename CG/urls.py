@@ -33,6 +33,7 @@ urlpatterns = [
     path('transaction/', views.create_transaction, name='transaction'),
     path('shop/', views.shop_home, name='shop_home'),
     path('signup/', views.signup, name='signup'),
-    path('profile/', views.profile, name='profile'),
     path('info/', views.user_info, name='info'),
+    path('profile/<int:pk>', views.profile, name='my_profile'),
+    path('profile/', views.profile, name='profile'),
 ]
