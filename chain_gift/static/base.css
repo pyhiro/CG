@@ -1,6 +1,66 @@
+/* PC用のCSSはメディアクエリの外に記述する */
+
+
+@media screen and (max-width: 480px) {
+  /* 480px以下に適用されるCSS（スマホ用） */
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  img {
+    width: 100%;
+  }
+  
+  @media screen and (min-width: 481px) {
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    li {
+      width: 50%;
+      box-sizing: border-box;
+      padding: 10px;
+    }
+  }
+  @media screen and (min-width: 640px) {
+    li {
+      width: 33%;
+    }
+  }
+}
+@media screen and (max-width: 959px) {
+	/* 959px以下に適用されるCSS（タブレット用） */
+}
+.fa-bell{
+  position: relative;
+}
+
+.badge:after{
+  content:"";
+  position: absolute;
+  background: #fff;
+  height:6px;
+  width:6px;
+  top:-2px;
+  right:-5px;
+  text-align: center;
+  border-radius: 50%;
+  color:white;
+}
+
+
+
+.nav-link{
+  float:right;
+
+}
+
+
+
 *{margin:0; padding:0; list-style:none;}
 a{text-decoration:none;color:#666;}
-a:hover{color:#1bc1a3;}
+
 body, hmtl{background: #ecf0f1; font-family: 'Anton', sans-serif;}
 
 

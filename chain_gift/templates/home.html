@@ -3,14 +3,19 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'home.css' %}"> 
 <div class="slider">
-    <img src="{% static 'images/sample01.jpg' %}" width="400" height="300" alt="">
-    <img src="{% static 'images/sample02.jpg' %}" width="400" height="300" alt="">
-    <img src="{% static 'images/sample03.jpg' %}" width="400" height="300" alt="">
-
+  <div class="shop1">
+  <a href="{% url 'point' %}">
+    <img src="{% static 'images/sample01.jpg' %}" width="1200" height="300" alt="">
+  </a>
 </div>
-<li>
-    <a class="nav-link">ユーザ名：{{ user.get_username }}</a>
-</li>
+<a href="{% url 'point' %}">
+    <img src="{% static 'images/sample02.jpg' %}" width="1200" height="300" alt="">
+</a>
+<a href="{% url 'point' %}">
+    <img src="{% static 'images/sample03.jpg' %}" width="1200" height="300" alt="">
+</a>
+</div>
+
 <div id="content">
     <div id="quickpoint">
         <h2>クイックポイント</h2>
