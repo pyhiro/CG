@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
     <script type="text/javascript">
+      
         $(document).ready(function() {
             $('.slider').bxSlider({
                 auto: true,
@@ -21,19 +22,32 @@
         });
     </script>
 
+    <li>
+        <a class="nav-link">ユーザ名：{{ user.get_username }}</a>
+
+    </li>
 </head>
 
 <body>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
     <div id="pagebody">
-        <a href="#">
+        <a href="{% url 'home' %}">
             <img src="{% static 'images/chain2.png' %url 'home' %}" width="140" height="50" alt="Parrots">
         </a>
 
 
         <button mat-icon-button>
+
+            <mat-icon class="icon">新しい通知</mat-icon>
+            <span class="badge"></span>
+            <i class="fas fa-bell badge"></i>
+        </button>
+
       <mat-icon class="icon">新しい通知</mat-icon>
       <span class="badge">5</span>
     </button>
+
 
         <div class="box_area">
             <ul class="menu">
