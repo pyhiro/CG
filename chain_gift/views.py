@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
@@ -245,6 +245,26 @@ def profile(request, pk):
         else:
             params['self_user'] = False
     return render(request, 'profile.html', params)
+
+
+@login_required
+def edit_profile(request, pk):
+    user = request.user
+    if int(user.pk) != pk:
+        return redirect('/home/')
+    if request.method == 'POST':
+        user = get_object_or_404(User, student_id=user.student_id)
+        form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/profile/{user.pk}')
+        params = {'form': form, 'message': '値が不正です'}
+        return render(request, 'edit_profile.html', params)
+
+    form = UserUpdateForm(initial={'profile_img': user.profile_img,
+                                   'birth_day': user.birth_day,
+                                   'profile_message': user.profile_message})
+    return render(request, 'edit_profile.html', {'form': form})
 
 
 def shop_home(request):

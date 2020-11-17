@@ -20,7 +20,11 @@
         <body>
             <div class="box-title">プロフィール</div>
             <div class="profile_center">
+                {% if user.profile_img %}
+                <img src="/media/{{ user.profile_img}}" alt="" class="profile_figure">
+                {% else %}
                 <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
+                {% endif %}
                 <div class="profile_name">{{ username }}</div>
             </div>
             <div class="profile_box ul">
@@ -41,7 +45,7 @@
                 </p>
             </div>
             {% if self_user %}
-            <a href="" class="btn btn--orange">編集</a>
+            <a href="/profile/edit/{{ user.pk }}" class="btn btn--orange">編集</a>
             {% else %}
             送信フォーム
             {% endif %}

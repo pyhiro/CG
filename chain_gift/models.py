@@ -23,7 +23,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     grade_id = models.IntegerField(_('学年'), blank=True, null=False)
     class_id = models.IntegerField(_('クラス'), blank=True, null=False)
 
-    profile_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
+    # profile_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
+    profile_img = models.ImageField(_('image'), upload_to='', blank=True, null=True)
     qr_img = models.CharField(_('QR'), max_length=18, blank=True, null=True)
 
     profile_message = models.TextField(_('プロフィール'), max_length=200, blank=True, null=True)
