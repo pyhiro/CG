@@ -1,21 +1,25 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import(LoginView, LogoutView)
+from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
 from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret
+from django.contrib.auth.decorators import login_required
 
+import datetime
 import hashlib
 import json
 import random
-import requests
 import string
 import urllib
+import yaml
 
 import smtplib, ssl
 from email.mime.text import MIMEText
+import requests
 
 from . import wallet
 
@@ -28,6 +32,22 @@ class Login(LoginView):
 class Logout(LoginRequiredMixin, LogoutView):
     """ログアウトページ"""
     template_name = 'login.html'
+
+
+class PasswordChange(LoginRequiredMixin, PasswordChangeView):
+    """パスワード変更ビュー"""
+    success_url = reverse_lazy('password_change_done')
+    template_name = 'change.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) # 継承元のメソッドCALL
+        context["form_name"] = "password_change"
+        return context
+
+
+class PasswordChangeDone(LoginRequiredMixin,PasswordChangeDoneView):
+    """パスワード変更完了"""
+    template_name = 'password_change_done.html'
 
 
 def index(request):
@@ -45,6 +65,20 @@ def create_wallet(request):
         }
         return JsonResponse(response, status=200)
 
+
+@login_required
+@csrf_exempt
+def user_info(request):
+    if request.method == 'POST':
+        user = request.user
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        secret = Secret.objects.filter(id_hash=hashed_id)[0]
+        response = {
+            'private_key': secret.private_key,
+            'public_key': secret.public_key,
+            'blockchain_address': user.blockchain_address
+        }
+        return JsonResponse(response, status=200)
 
 @csrf_exempt
 def create_transaction(request):
@@ -97,7 +131,6 @@ def home(request):
 
 def calculate_amount(request):
     if request.method == 'GET':
-        # required = ['blockchain_address']
         my_blockchain_address = request.GET.get('blockchain_address', None)
 
         # json_data = json.loads(request.body)
@@ -117,8 +150,7 @@ def calculate_amount(request):
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
-def change(request):
-    return render(request, 'change.html')
+
 
 
 def message(request):
@@ -126,11 +158,39 @@ def message(request):
 
 
 def point(request):
-    return render(request, 'point.html')
+    if request.method == 'GET':
+        user = request.user
+        my_blockchain_address = user.blockchain_address
+
+        if my_blockchain_address is None:
+            return HttpResponse('Missing values', status=400)
+
+        response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=10)
+        if response.status_code == 200:
+            history = response.json()['history']
+            params = dict()
+            params['send'] = history['send']
+            params['receive'] = history['receive']
+            if params['receive']:
+                for transaction in params['receive']:
+                    transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+            if params['send']:
+                for transaction in params['send']:
+                    transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+
+            return render(request, 'point.html', params, status=200)
+        return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
 def user_search(request):
     return render(request, 'user_search.html')
+
+
+def profile(request):
+    return render(request, 'profile.html')
 
 
 def shop_home(request):
@@ -173,8 +233,10 @@ def signup(request):
 
 
 def send_gmail(password, email):
-    gmail_account = "cgift1158@gmail.com"
-    gmail_password = "chenpo1234"
+    with open('chain_gift/config.yaml', 'r') as file:
+        config = yaml.load(file, Loader=yaml.SafeLoader)
+    gmail_account = config['account'][0]
+    gmail_password = config['password'][0]
     # メールの送信先★ --- (*2)
     mail_to = email
 
@@ -191,4 +253,3 @@ def send_gmail(password, email):
                               context=ssl.create_default_context())
     server.login(gmail_account, gmail_password)
     server.send_message(msg)  # メールの送信
-    print("ok.")

@@ -22,7 +22,8 @@ urlpatterns = [
     path('home/',views.home, name='home'),
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
-    path('change/', views.change, name='change'),
+    path('change/', views.PasswordChange.as_view(), name='change'),
+    path('password_change/done/', views.PasswordChangeDone.as_view(), name='password_change_done'), 
     path('message/', views.message, name='message'),
     path('point/', views.point, name='point'),
     path('user_search/', views.user_search, name='user_search'),
@@ -32,4 +33,6 @@ urlpatterns = [
     path('transaction/', views.create_transaction, name='transaction'),
     path('shop/', views.shop_home, name='shop_home'),
     path('signup/', views.signup, name='signup'),
+    path('profile/', views.profile, name='profile'),
+    path('info/', views.user_info, name='info'),
 ]

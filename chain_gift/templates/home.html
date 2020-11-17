@@ -1,8 +1,9 @@
 {% extends "base.html" %} {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'home.css' %}"> 
+<link rel="stylesheet" href="{% static 'home.css' %}">
 <div class="slider">
+
   <div class="shop1">
   <a href="{% url 'point' %}">
     <img src="{% static 'images/sample01.jpg' %}" width="1200" height="300" alt="">
@@ -16,41 +17,51 @@
 </a>
 </div>
 
+
+  <img src="{% static 'images/sample01.jpg' %}" width="400" height="300" alt="">
+  <img src="{% static 'images/sample02.jpg' %}" width="400" height="300" alt="">
+  <img src="{% static 'images/sample03.jpg' %}" width="400" height="300" alt="">
+
+</div>
+<li>
+  <a class="nav-link">ユーザ名：{{ user.get_username }}</a>
+</li>
+
 <div id="content">
-    <div id="quickpoint">
-        <h2>クイックポイント</h2>
+  <div id="quickpoint">
+    <h2>クイックポイント</h2>
+  </div>
+  <div id="news">
+    <div id="teikeibun">
+      <li>定型文選択</li>
     </div>
-    <div id="news">
-        <div id="teikeibun">
-            <li>定型文選択</li>
-        </div>
-        <label for="sentence selection_checkbox">
+    <label for="sentence selection_checkbox">
       <input type="radio" name="message" value="thank" />ありがとう
     </label>
-        <label for="sentence selection_checkbox">
+    <label for="sentence selection_checkbox">
       <input type="radio" name="message" value="good" />良かったよ
     </label>
-        <label for="sentence selection_checkbox">
+    <label for="sentence selection_checkbox">
       <input type="radio" name="message" value="please" />よろしく
     </label>
-        <div id="point">
-            <li>ポイント選択</li>
-        </div>
-        <label for="sentence selection_checkbox">
+    <div id="point">
+      <li>ポイント選択</li>
+    </div>
+    <label for="sentence selection_checkbox">
       <input type="radio" name="point" value="5pt" />5pt
     </label>
-        <label for="sentence selection_checkbox">
+    <label for="sentence selection_checkbox">
       <input type="radio" name="point" value="10pt" />10pt
     </label>
-        <label for="sentence selection_checkbox">
+    <label for="sentence selection_checkbox">
       <input type="radio" name="point" value="100pt" />100pt
     </label>
-    </div>
-    <div id="submenu">
-        <div id="submenu_header">メニュー欄</div>
-        <ul id="submenu_body">
-            <li>学年・クラス選択</li>
-            <select name="address">
+  </div>
+  <div id="submenu">
+    <div id="submenu_header">メニュー欄</div>
+    <ul id="submenu_body">
+      <li>学年・クラス選択</li>
+      <select name="address">
         <optgroup label="学年１">
           <option value="one">1組</option>
           <option value="two">2組</option>
@@ -67,8 +78,8 @@
           <option value="nine">3組</option>
         </optgroup>
       </select>
-            <li>送信相手選択</li>
-            <select name="picture_messenger">
+      <li>送信相手選択</li>
+      <select name="picture_messenger">
         <optgroup label="選択">
           <option value="name_one">名前</option>
           <option value="name_two">名前</option>
@@ -77,15 +88,15 @@
       </select>
 
 
-            <!-- フッタ -->
-        </ul>
+      <!-- フッタ -->
+    </ul>
 
-    </div>
-    <div id="footer">
-        <address><button mat-icon-button>
+  </div>
+  <div id="footer">
+    <address><button mat-icon-button>
         <mat-icon class="icon">送信</mat-icon>
       </button>
     </address>
-    </div>
+  </div>
 </div>
 {% endblock content %}

@@ -1,3 +1,4 @@
+
 /* PC用のCSSはメディアクエリの外に記述する */
 
 
@@ -220,7 +221,6 @@ h2{ color: #7f8c8d; font-family: Neucha, Arial, sans serif; font-size:18px; marg
 -ms-transition: all 0.3s cubic-bezier(1,.01,.32,1);
 transition: all 0.3s cubic-bezier(1,.01,.32,1);
 }
-
 
 .menu li a:hover {
 	background-color:#56565a; 	/*リンクにマウスが乗ったら背景色を変更する*/

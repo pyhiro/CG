@@ -1,33 +1,32 @@
-<HTML>
-<HEAD>
-    <TITLE>パスワード変更画面</TITLE>
-</HEAD>
+{% block title %}パスワード変更{% endblock %}
 
-<BODY>
-    <DIV ALIGN="CENTER">
-        <H1>パスワード変更画面</H1>
-    </DIV>
+{% block styles %}
+{% endblock %}
 
-    <P>現在のパスワードと新しいパスワードと確認パスワードを入力してから登録ボタンをクリックして下さい</P>
+{% block headertitle %}パスワード変更{% endblock %}
 
-    <FORM METHOD="POST" ACTION="/cgi-bin/passchg">
-        <TABLE BORDER="0" CELLSPACING="0" CELLPADDING="2">
-            <TR>
-                <TH ALIGN="LEFT">現在のパスワード</TH>
-                <TD><INPUT TYPE="PASSWORD" NAME="PASS" SIZE="15" MAXLENGTH="10"></TD>
-            </TR>
-            <TR>
-                <TH ALIGN="LEFT" VALIGN="TOP">新しいパスワード</TH>
-                <TD><INPUT TYPE="PASSWORD" NAME="NEWPASS" SIZE="15" MAXLENGTH="10"></TD>
-            </TR>
-            <TR>
-                <TH ALIGN="LEFT" VALIGN="TOP">確認パスワード</TH>
-                <TD><INPUT TYPE="PASSWORD" NAME="NEWPASS2" SIZE="15" MAXLENGTH="10"></TD>
-            </TR>
-        </TABLE>
-
-        <INPUT TYPE="SUBMIT" VALUE="登録する">
-    </FORM>
-</BODY>
-
-</HTML>
+{% block content %}
+<div class="row justify-content-md-center">
+<div  class="col-6">
+<form action="" method="POST">
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="form-group">
+        <label class="col-6" for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+        {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    {% csrf_token %}
+    <div class="form-group row">
+      <div class="col-sm">
+        <button type="submit" class="btn btn-primary btn-block">送信</button>
+      </div>
+      <div class="col-sm">
+        <button type="submit" class="btn btn-primary btn-block" onClick="javascript:history.go(-1);">戻る</button>
+      </div>
+    </div>
+</form>
+</div>
+</div>
+{% endblock %}

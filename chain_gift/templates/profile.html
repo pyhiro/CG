@@ -1,3 +1,6 @@
+{% extends "base.html" %} {%load static%}
+{% block content %}
+<link rel="stylesheet" href="{% static 'profile.css' %}">
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -6,19 +9,29 @@
     <title>プロフィール</title>
     <meta name="description" content="プロフィール">
 </head>
-<body>
-    <h1>チェンポ</h1>
-    <img src="" alt="チェンポのプロフィール画像">
-    <h2>プロフィール</h2>
-    <p>
-        学年 クラス：2-1<br>
-        性別：男<br>
-        誕生日：12月22日<br>
-    </p>
-    <h2>ひとこと</h2>
-    <p>
-        パワー
-    </p>
-    <INPUT TYPE="SUBMIT" VALUE="編集">
-</body>
+
+<div class="profile_box">
+
+    <body>
+        <div class="box-title">プロフィール</div>
+        <div class="profile_center">
+            <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
+            <div class="profile_name">にいさん</div>
+        </div>
+        <ul>
+            <li>氏名：きんに君</li>
+            <li>学年 クラス：2-1</li>
+            <li>性別：男</li>
+            <li>誕生日：12月13日</li>
+        </ul>
+        <hr noshade>
+        <p>ひとこと</p>
+        <p>
+            アーノルドシュワル。。。ｐu..ぷー！！
+        </p>
+        <INPUT TYPE="SUBMIT" VALUE="編集">
+    </body>
+</div>
+
 </html>
+{% endblock content %}
