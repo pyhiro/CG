@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, UserSearchForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret, Message
@@ -124,6 +124,41 @@ def create_transaction(request):
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
+def user_search(request):
+    if request.method == 'GET':
+        form = UserSearchForm()
+        users = User.objects.all()
+        params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
+        return render(request, 'user_search.html', params)
+
+    if request.method == 'POST':
+
+        grade_id = request.POST.get('grade_id', None)
+        class_id = request.POST.get('class_id', None)
+        print()
+        print(grade_id)
+        if grade_id and not class_id:
+            users = User.objects.filter(grade_id=grade_id)
+            form = UserSearchForm(request.POST)
+            params = {'users': users, 'form': form}
+            return render(request, 'user_search.html', params)
+        elif grade_id and class_id:
+            users = User.objects.filter(grade_id=grade_id, class_id=class_id)
+            form = UserSearchForm(request.POST)
+            params = {'users': users, 'form': form}
+            return render(request, 'user_search.html', params)
+        elif not grade_id and class_id:
+            users = User.objects.filter(class_id=class_id)
+            form = UserSearchForm(request.POST)
+            params = {'users': users, 'form': form}
+            return render(request, 'user_search.html', params)
+        else:
+            form = UserSearchForm()
+            users = User.objects.all()
+            params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
+            return render(request, 'user_search.html', params)
+
+
 def home(request):
 
     return render(request, 'home.html')
@@ -189,10 +224,6 @@ def point(request):
 
             return render(request, 'point.html', params, status=200)
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
-
-
-def user_search(request):
-    return render(request, 'user_search.html')
 
 
 def profile(request):

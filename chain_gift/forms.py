@@ -17,3 +17,9 @@ class SignUpForm(forms.ModelForm):
         model = User
         fields = ('student_id', 'class_id', 'username', 'furigana', 'email')
 
+
+class UserSearchForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('grade_id', 'class_id')
+
