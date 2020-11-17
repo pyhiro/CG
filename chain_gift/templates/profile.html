@@ -1,6 +1,7 @@
 {% extends "base.html" %} {%load static%}
 {% block content %}
 <link rel="stylesheet" href="{% static 'profile.css' %}">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -10,28 +11,33 @@
     <meta name="description" content="プロフィール">
 </head>
 
-<div class="profile_box">
+<body>
+    <div class="profile_box">
 
-    <body>
-        <div class="box-title">プロフィール</div>
-        <div class="profile_center">
-            <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
-            <div class="profile_name">にいさん</div>
+        <body>
+            <div class="box-title">プロフィール</div>
+            <div class="profile_center">
+                <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
+                <div class="profile_name">にいさん</div>
+            </div>
+            <div class="profile_box ul li">
+                <ul>
+                    <li>学年 クラス：2-1</li>
+                    <li>性別：男</li>
+                    <li>誕生日：12月13日</li>
+                </ul>
+            </div>
+            <hr noshade>
+            <h2>ひとこと</h2>
+            <div class = "profile_box p">
+            <p>
+                アーノルドシュワル。。。ｐu..ぷー！！
+            </p>
         </div>
-        <ul>
-            <li>氏名：きんに君</li>
-            <li>学年 クラス：2-1</li>
-            <li>性別：男</li>
-            <li>誕生日：12月13日</li>
-        </ul>
-        <hr noshade>
-        <p>ひとこと</p>
-        <p>
-            アーノルドシュワル。。。ｐu..ぷー！！
-        </p>
-        <INPUT TYPE="SUBMIT" VALUE="編集">
-    </body>
-</div>
+        <a href="" class="btn btn--orange">編集</a>
+        </body>
+    </div>
+</body>
 
 </html>
 {% endblock content %}
