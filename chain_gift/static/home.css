@@ -95,9 +95,10 @@ div#footer {
 }
 address {
 	font-style:normal;			 /*フォントスタイルを標準にする*/
-	font-size:small;			 /*フォントサイズを小さくする*/
+	font-size:auto;			 /*フォントサイズを小さくする*/
 	padding:50px 0px 5px 100px;		 /*要素内容の位置調整*/
 }
+
 
 
 
