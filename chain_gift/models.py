@@ -20,8 +20,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     birth_day = models.DateField(_('誕生日'), blank=True, null=True)
 
-    grade_id = models.IntegerField(_('学年'), blank=False, default=1)
-    class_id = models.IntegerField(_('クラス'))
+    grade_id = models.IntegerField(_('学年'), blank=True, null=False)
+    class_id = models.IntegerField(_('クラス'), blank=True, null=False)
 
     profile_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
     qr_img = models.CharField(_('QR'), max_length=18, blank=True, null=True)
