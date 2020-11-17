@@ -3,8 +3,9 @@
     font-size: 14px;
     margin: 2em 0;
     background: #dcefff; /*内容の背景色*/
-    }
-    .profile_box .box-title {
+}
+
+.profile_box .box-title {
     font-size: 18px;
     line-height:1.8;
     background: #5fb3f5; /*タイトルの背景色*/
@@ -13,97 +14,113 @@
     color: #FFF; /*文字色*/
     font-weight: bold;
     letter-spacing: 0.05em;
-    }
+}
+
     /*内容*/
-    .profile_center{
+.profile_center{
     text-align: center;
     margin: 10px 15px 0 0;
-    }
+}
+
     /*プロフィール画像*/
-    .profile_figure {
+.profile_figure {
     width:150px;
     height:150px;
     border-radius: 50%; /*丸くする*/
     border: solid 3px #5fb3f5; /*枠線*/
-    }
+}
+
     /*名前*/
-    .profile_name {
+.profile_name {
     padding: 15px 20px;
     font-weight:bold;
     font-size:16px;
-    }
+}
+
     /*自己紹介文*/
-    .profile_box p {
-    padding: 15px 20px;
-    margin: 0;
-    }
-    /*リスト*/
-    .profile_box ul {
-    padding: 0.5em 1em 0.5em 2.3em;
+.profile_box p {
     position: relative;
-    }
-    .profile_box ul li {
+    background-color: #FFF;
+    padding: 5.0rem 2.5rem;
+    border: 6px double #000;
+}
+
+    /*リスト*/
+.profile_box ul {
+    padding: 0.5em 1em 0.5em 2.3em;
+    border: 3px dotted #000;
+    border-color: cadetblue;
+    position: relative;
+}
+
+.profile_box ul li {
     line-height: 1.5;
     padding: 0.5em 0;
     list-style-type: none!important;
-    }
-    .profile_box ul li:before {
+}
+
+.profile_box ul li:before {
     content: "\f138";/*アイコンの種類*/
     font-family: "Font Awesome 5 Free";
     font-weight:900;
     position: absolute;
     left : 1em;/*左端からのアイコンまでの距離*/
     color: skyblue;/*アイコン色*/
-    }
+}
 
-    *,
+.profile_box h2 {
+    font-size: 14px;
+    color:#000000;
+    border: none;
+}
+
+*,
 *:before,
 *:after {
-  -webkit-box-sizing: inherit;
-  box-sizing: inherit;
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 html {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 62.5%;/*rem算出をしやすくするために*/
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 62.5%;/*rem算出をしやすくするために*/
 }
 
 .btn,
 a.btn,
 button.btn {
-  font-size: 1.3rem;
-  font-weight: 700;
-  line-height: 1.5;
-  position: relative;
-  display: inline-block;
-  padding: 1rem 4rem;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  color: #212529;
-  border-radius: 0.5rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 4rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
 }
 
-    .btn--orange,
-    a.btn--orange {
-      color: #fff;
-      background-color: #eb6100;
+.btn--orange,a.btn--orange {
+    color: #fff;
+    background-color: #eb6100;
     }
     .btn--orange:hover,
     a.btn--orange:hover {
-      color: #fff;
-      background: #f56500;
+    color: #fff;
+    background: #f56500;
     }
     
     a.btn--radius {
-       border-radius: 100vh;
-    }
+    border-radius: 100vh;
+}
