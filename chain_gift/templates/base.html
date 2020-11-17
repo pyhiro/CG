@@ -11,10 +11,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
     <script type="text/javascript">
-      
-        $(document).ready(function() {
+
+        $(document).ready(function () {
             $('.slider').bxSlider({
                 auto: true,
                 pause: 5000,
@@ -26,6 +27,7 @@
         <a class="nav-link">ユーザ名：{{ user.get_username }}</a>
 
     </li>
+    
 </head>
 
 <body>
@@ -44,15 +46,13 @@
             <i class="fas fa-bell badge"></i>
         </button>
 
-      <mat-icon class="icon">新しい通知</mat-icon>
-      <span class="badge">5</span>
-    </button>
 
-
+        {% if user.is_authenticated %}
         <div class="box_area">
             <ul class="menu">
-                <li><a href="{% url 'home' %}">プロフィール</a> {% if user.is_authenticated %}
+                <li><a href="">プロフィール</a>
                     <ul>
+                        <li><a href="{% url 'profile' %}">MYプロフィール</a></li>
                         <li>
                             <a class="nav-link" href="{% url 'logout' %}">
                                 <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
@@ -62,7 +62,7 @@
                 <li><a href="{% url 'message' %}">メッセージ</a></li>
                 <li><a href="{% url 'point' %}">ポイント </a>
                     <ul>
-                        <li><a href="">ショップ</a></li>
+                        <li><a href="{% url 'shop_home' %}">ショップ</a></li>
                         <li><a href="">ポイント確認</a></li>
                     </ul>
                 </li>
