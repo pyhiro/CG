@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import(LoginView, LogoutView)
+from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
 from .forms import LoginForm, SignUpForm
 from django.views.decorators.csrf import csrf_exempt
@@ -31,6 +32,22 @@ class Login(LoginView):
 class Logout(LoginRequiredMixin, LogoutView):
     """ログアウトページ"""
     template_name = 'login.html'
+
+
+class PasswordChange(LoginRequiredMixin, PasswordChangeView):
+    """パスワード変更ビュー"""
+    success_url = reverse_lazy('password_change_done')
+    template_name = 'change.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) # 継承元のメソッドCALL
+        context["form_name"] = "password_change"
+        return context
+
+
+class PasswordChangeDone(LoginRequiredMixin,PasswordChangeDoneView):
+    """パスワード変更完了"""
+    template_name = 'password_change_done.html'
 
 
 def index(request):
@@ -133,8 +150,7 @@ def calculate_amount(request):
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
-def change(request):
-    return render(request, 'change.html')
+
 
 
 def message(request):
