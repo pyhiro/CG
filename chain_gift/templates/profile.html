@@ -20,25 +20,35 @@
         <body>
             <div class="box-title">プロフィール</div>
             <div class="profile_center">
+                {% if user.profile_img %}
+                <img src="/media/{{ user.profile_img}}" alt="" class="profile_figure">
+                {% else %}
                 <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
-                <div class="profile_name">にいさん</div>
+                {% endif %}
+                <div class="profile_name">{{ username }}</div>
             </div>
             <div class="profile_box ul">
                 <div class="profile_box ul li">
                     <ul>
-                        <li>学年 クラス：2-1</li>
-                        <li>性別：男</li>
-                        <li>誕生日：12月13日</li>
+                        <li>学年 クラス：{{grade_id}}-{{class_id}}</li>
+                        {% if birth_day %}
+                        <li>誕生日：{{ birth_day }}</li>
+                        {% endif %}
+
                     </ul>
                 </div>
             </div>
-            <h2 class="profile_box h2" style="text-align:left">ひとこと</h2>
+            <h2 class="profile_box h2" style="text-align:left">プロフィールメッセージ</h2>
             <div class="profile_box p">
                 <p>
-                    アーノルドシュワル。。。ｐu..ぷー！！
+                    {{ profile }}
                 </p>
             </div>
-            <a href="" class="btn btn--orange">編集</a>
+            {% if self_user %}
+            <a href="/profile/edit/{{ user.pk }}" class="btn btn--orange">編集</a>
+            {% else %}
+            送信フォーム
+            {% endif %}
         </body>
     </div>
 </body>

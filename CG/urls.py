@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from chain_gift import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/',views.home, name='home'),
+    path('home/', views.home, name='home'),
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
     path('change/', views.PasswordChange.as_view(), name='change'),
@@ -33,6 +35,7 @@ urlpatterns = [
     path('transaction/', views.create_transaction, name='transaction'),
     path('shop/', views.shop_home, name='shop_home'),
     path('signup/', views.signup, name='signup'),
-    path('profile/', views.profile, name='profile'),
     path('info/', views.user_info, name='info'),
-]
+    path('profile/<int:pk>', views.profile, name='profile'),
+    path('profile/edit/<int:pk>', views.edit_profile, name='edit_profile'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

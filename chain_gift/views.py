@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
-from .forms import LoginForm, SignUpForm, UserSearchForm
+from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret, Message
 from django.contrib.auth.decorators import login_required
+from django.views import generic
 
 import datetime
 import hashlib
@@ -83,7 +84,6 @@ def user_info(request):
 @csrf_exempt
 def create_transaction(request):
     json_data = json.loads(request.body)
-    print(json_data)
 
     required = (
         'sender_private_key',
@@ -135,8 +135,6 @@ def user_search(request):
 
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
-        print()
-        print(grade_id)
         if grade_id and not class_id:
             users = User.objects.filter(grade_id=grade_id)
             form = UserSearchForm(request.POST)
@@ -226,8 +224,47 @@ def point(request):
         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
-def profile(request):
-    return render(request, 'profile.html')
+def profile(request, pk):
+    user = User.objects.filter(student_id=pk)[0]
+    params = {
+        'username': user.username,
+        'grade_id': user.grade_id,
+        'class_id': user.class_id
+    }
+    if user.birth_day:
+        birth_day = user.birth_day
+        params['birth_day'] = birth_day
+    if user.profile_message:
+        user_profile = user.profile_message
+        params['profile'] = user_profile
+
+    if request.method == 'GET':
+        user = request.user
+        if int(user.pk) == pk:
+            params['self_user'] = True
+        else:
+            params['self_user'] = False
+    return render(request, 'profile.html', params)
+
+
+@login_required
+def edit_profile(request, pk):
+    user = request.user
+    if int(user.pk) != pk:
+        return redirect('/home/')
+    if request.method == 'POST':
+        user = get_object_or_404(User, student_id=user.student_id)
+        form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/profile/{user.pk}')
+        params = {'form': form, 'message': '値が不正です'}
+        return render(request, 'edit_profile.html', params)
+
+    form = UserUpdateForm(initial={'profile_img': user.profile_img,
+                                   'birth_day': user.birth_day,
+                                   'profile_message': user.profile_message})
+    return render(request, 'edit_profile.html', {'form': form})
 
 
 def shop_home(request):
@@ -252,6 +289,7 @@ def signup(request):
         user.set_password(password)
         user.furigana = data['furigana']
         user.student_id = data['student_id']
+        user.grade_id = 1
         w = wallet.Wallet()
         user.blockchain_address = w.blockchain_address
         user.save()

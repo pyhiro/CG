@@ -23,3 +23,21 @@ class UserSearchForm(forms.ModelForm):
         model = User
         fields = ('grade_id', 'class_id')
 
+
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('profile_img', 'birth_day', 'profile_message')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('profile_img',)
+

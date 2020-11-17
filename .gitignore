@@ -5,3 +5,4 @@ local_settings.py
 db.sqlite3
 *.py[co]
 chain_gift/migrations
+media
