@@ -394,3 +394,4 @@ def send_gmail(password, email):
                               context=ssl.create_default_context())
     server.login(gmail_account, gmail_password)
     server.send_message(msg)  # メールの送信
+
