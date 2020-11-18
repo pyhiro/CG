@@ -236,7 +236,7 @@ def profile(request, pk):
             return redirect(f'/profile/{pk}')
         message = request.POST.get('message')
         value = str(request.POST.get('amount'))
-        if not value.isdigit():
+        if not value.isdigit() or int(value) <= 0:
             return redirect(f'/profile/{pk}')
 
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
