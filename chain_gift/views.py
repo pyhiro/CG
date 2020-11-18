@@ -233,11 +233,11 @@ def profile(request, pk):
         my_blockchain_address = request.user.blockchain_address
 
         if not to_send:
-            return render(request, 'home.html')
+            return redirect(f'/profile/{pk}')
         message = request.POST.get('message')
         value = str(request.POST.get('amount'))
         if not value.isdigit():
-            return render(request, 'home.html')
+            return redirect(f'/profile/{pk}')
 
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
         secret = Secret.objects.filter(id_hash=hashed_id)[0]
@@ -268,8 +268,8 @@ def profile(request, pk):
 
         if response.status_code == 201:
             return redirect(f'/profile/{pk}')
-        return JsonResponse({'message': 'fail', 'response': response}, status=400)
-
+        else:
+            return redirect('/home/')
     params = {
         'username': user.username,
         'grade_id': user.grade_id,
