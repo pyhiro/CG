@@ -45,3 +45,13 @@ div.content {
 		float: none;
 	}
 }
+
+
+div.item li {
+	display: block;
+	float: left;
+	height: 100px;
+	list-style-type: none;
+	text-align: center;
+	width: 25%;
+	}

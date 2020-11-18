@@ -11,32 +11,33 @@
 </head>
 
 <body>
+    <h2>すべての商品</h2>
+    <div class="item">
+    <ul>{% for item in data %}
+        <li >
+            <p>{{item.name}}</p>
+            <p>{{item.price}}</p>
+            <p>{{item.category}}</p>
+        </li>
+    </ul>{% endfor %}
+</div>
 
-    {% for item in data %}
-    <ul>
-        <li>{{item.price}}</li>
-        <li>{{item.name}}</li>
-        <li>{{item.person}}</li>
-        <li>{{item.goods_img}}</li>
-        
-    </ul>
     <div id="app">
+        <ul class="sidenav">
+            <li><a href="#home">すべての商品</a></li>
+            <li><a href="#news">テスト1</a></li>
+            <li><a href="#contact">テスト2</a></li>
+            <li><a href="#about">テスト1</a></li>
+        </ul>
 
-            <ul class="sidenav">
-                <li><a href="#home">すべての商品</a></li>
-                <li><a href="#news">テスト1</a></li>
-                <li><a href="#contact">テスト2</a></li>
-                <li><a href="#about">テスト1</a></li>
-            </ul>
 
-
-            <ul for= "item in data">
-                <li>{{item.price}}</li>
-                <li>{{item.name}}</li>
-                <li>{{item.person}}</li>
-                <li>{{item.goods_img}}</li>
-                
-            </ul>
+        <div v-for="item in f_list" v-bind:key="item.id"></div>
+        <ul class="item">
+            <li>{{item.name}}</li>
+            <li>{{item.price}}</li>
+            <li>{{item.category}}</li>
+    </div>
+    </ul>
     </div>
     <script src="{% static 'js/shop.js' %}"></script>
 </body>
