@@ -13,14 +13,15 @@ from django.views import generic
 import datetime
 import hashlib
 import json
+import os
 import random
 import string
-import urllib
-import yaml
-
 import smtplib, ssl
 from email.mime.text import MIMEText
+import urllib
+
 import requests
+import yaml
 
 from . import wallet
 
@@ -254,12 +255,20 @@ def edit_profile(request, pk):
         return redirect('/home/')
     if request.method == 'POST':
         user = get_object_or_404(User, student_id=user.student_id)
-        form = UserUpdateForm(request.POST, request.FILES, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect(f'/profile/{user.pk}')
-        params = {'form': form, 'message': '値が不正です'}
-        return render(request, 'edit_profile.html', params)
+        if user:
+            before = user.profile_img
+            form = UserUpdateForm(request.POST, request.FILES, instance=user)            
+            if form.is_valid():
+                form.save()
+                user = get_object_or_404(User, student_id=user.student_id)
+                after = user.profile_img
+                if before and not after:
+                    os.remove(f'media/{before}')
+                if (before and after) and (before != after):
+                    os.remove(f'media/{before}')
+                return redirect(f'/profile/{user.pk}')
+            params = {'form': form, 'message': '値が不正です'}
+            return render(request, 'edit_profile.html', params)
 
     form = UserUpdateForm(initial={'profile_img': user.profile_img,
                                    'birth_day': user.birth_day,
