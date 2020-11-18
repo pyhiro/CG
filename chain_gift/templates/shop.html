@@ -1,7 +1,48 @@
 {% extends "base.html" %}{% load static %}
-<script src="https://jp.vuejs.org/js/vue.js"></script>
+{% block content %}
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://jp.vuejs.org/js/vue.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+</head>
+
+<body>
     <div id="app">
-        
+        <div class="container container-normal">
+            <table border="0" cellspacing="0" width="770" id="makebanner">
+                <body>
+                    <tr>
+                        <td width="150" height="100%">
+                            <div class="side-nav">
+                                <div id="M_ctgList2">
+                                    <ul class="M_layer1">
+                                        <li id="M_ctg_1" class="M_current">
+                                            <a href="" class="M_currentAnchor">すべて</a>
+                                        </li>
+                                        <li id="M_ctg1_2">
+                                            <a href="">テスト１</a>
+                                        </li>
+                                        <li id="M_ctg1_3">
+                                            <a href="">テスト１</a>
+                                        </li>
+                                        <li id="M_ctg1_4">
+                                            <a href="">テスト１</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td> 
+                    </tr>
+                </body>
+            </table>
+        </div>
 
     </div>
     <script src="{% static 'js/shop.js' %}"></script>
+</body>
+
+</html>
+{% endblock content %}
