@@ -38,4 +38,5 @@ urlpatterns = [
     path('info/', views.user_info, name='info'),
     path('profile/<int:pk>', views.profile, name='profile'),
     path('profile/edit/<int:pk>', views.edit_profile, name='edit_profile'),
+    path('goods_db/', views.goods_db, name='goods_db'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
