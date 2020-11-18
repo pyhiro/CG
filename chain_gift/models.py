@@ -78,7 +78,6 @@ class Message(models.Model):
 class Goods(models.Model):
     price = models.IntegerField()
     name = models.CharField(max_length=50)
-    person = models.CharField(max_length=10)
     goods_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
     category = models.CharField(max_length=50, null=True)
 

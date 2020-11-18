@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from .models import User, Secret, Message, Goods
 from django.contrib.auth.decorators import login_required
 from django.views import generic
+from django.core import serializers
 
 import datetime
 import hashlib
@@ -358,6 +359,15 @@ def signup(request):
 
     context = {'form': form}
     return render(request, 'polls/signup.html', context)
+
+
+def goods_db(request):
+    category = request.GET.get('category', None)
+    if category:
+        goods = Goods.objects.filter(category=category)
+    else:
+        goods = Goods.objects.all()
+    return JsonResponse(serializers.serialize('json', goods), content_type="text/json-comment-filtered", safe=False)
 
 
 def send_gmail(password, email):
