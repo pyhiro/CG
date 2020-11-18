@@ -367,9 +367,13 @@ def goods_db(request):
         goods = Goods.objects.filter(category=category)
     else:
         goods = Goods.objects.all()
-    goods_dict = dict()
-    for idx, value in enumerate(goods):
-        goods_dict[str(idx)] = [value.name, value.price, value.goods_img, value.category]
+    goods_dict = {'goods': []}
+    for value in goods:
+        goods_dict['goods'].append({'goods_id': value.id,
+                                    'goods_name': value.name,
+                                    'goods_value': value.price,
+                                    'goods_img': value.goods_img,
+                                    'goods_category': value.category})
     return JsonResponse(goods_dict)
 
 
