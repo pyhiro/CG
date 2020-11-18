@@ -367,7 +367,10 @@ def goods_db(request):
         goods = Goods.objects.filter(category=category)
     else:
         goods = Goods.objects.all()
-    return JsonResponse(serializers.serialize('json', goods), content_type="text/json-comment-filtered", safe=False)
+    goods_dict = dict()
+    for idx, value in enumerate(goods):
+        goods_dict[str(idx)] = [value.name, value.price, value.goods_img, value.category]
+    return JsonResponse(goods_dict)
 
 
 def send_gmail(password, email):
