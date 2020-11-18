@@ -74,7 +74,7 @@ def user_info(request):
     if request.method == 'POST':
         user = request.user
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-        secret = Secret.objects.filter(id_hash=hashed_id)[0]
+        secret = Secret.objects.get(id_hash=hashed_id)
         response = {
             'private_key': secret.private_key,
             'public_key': secret.public_key,
@@ -196,12 +196,12 @@ def message(request):
     send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
     for obj in received_messages:
         sender_id = obj.sender
-        sender_name = User.objects.filter(student_id=sender_id)[0]
+        sender_name = User.objects.get(student_id=sender_id)
         obj.sender = sender_name
 
     for obj in send_messages:
         recipient_id = obj.recipient
-        recipient_name = User.objects.filter(student_id=recipient_id)[0]
+        recipient_name = User.objects.get(student_id=recipient_id)
         obj.recipient = recipient_name
 
     params = {'receive': received_messages,
@@ -251,7 +251,7 @@ def profile(request, pk):
             return redirect(f'/profile/{pk}')
 
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-        secret = Secret.objects.filter(id_hash=hashed_id)[0]
+        secret = Secret.objects.get(id_hash=hashed_id)
         sender_private_key = secret.private_key
         sender_blockchain_address = my_blockchain_address
         recipient_blockchain_address = to_send
