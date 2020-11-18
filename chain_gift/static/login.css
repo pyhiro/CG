@@ -19,10 +19,14 @@ right: -40px;
 bottom: -40px;
 width: auto;
 height: auto;
-background-image: url(http://ginva.com/wp-content/uploads/2012/07/city-skyline-wallpapers-008.jpg);
+background: linear-gradient(to top, rgba(217, 175, 217, 0.7) 0%, rgba(151, 217, 225, 0.7) 100%),url(images/power.jpeg);
+background-repeat:  no-repeat;
+background-position: center;
+/* background-image: url(images/power.jpeg); */
 background-size: cover;
 -webkit-filter: blur(5px);
 z-index: 0;
+
 }
 
 .grad{
@@ -74,7 +78,7 @@ background: transparent;
 border: 1px solid rgba(255,255,255,0.6);
 border-radius: 2px;
 color: #fff;
-font-family: 'Exo', sans-serif;
+font-family: Arial;
 font-size: 16px;
 font-weight: 400;
 padding: 4px;
@@ -87,7 +91,7 @@ background: transparent;
 border: 1px solid rgba(255,255,255,0.6);
 border-radius: 2px;
 color: #fff;
-font-family: 'Exo', sans-serif;
+font-family: Arial;
 font-size: 16px;
 font-weight: 400;
 padding: 4px;
@@ -102,7 +106,7 @@ background:rgb(32, 100, 202);
 cursor: pointer;
 border-radius: 2px;
 color:#fff;
-font-family: 'Exo', sans-serif;
+font-family: Arial;
 font-size: 16px;
 font-weight: 400;
 padding: 6px;
