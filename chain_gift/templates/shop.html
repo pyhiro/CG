@@ -11,9 +11,16 @@
 </head>
 
 <body>
-    <div id="app">
 
-        <body>
+    {% for item in data %}
+    <ul>
+        <li>{{item.price}}</li>
+        <li>{{item.name}}</li>
+        <li>{{item.person}}</li>
+        <li>{{item.goods_img}}</li>
+        
+    </ul>
+    <div id="app">
 
             <ul class="sidenav">
                 <li><a href="#home">すべての商品</a></li>
@@ -22,14 +29,14 @@
                 <li><a href="#about">テスト1</a></li>
             </ul>
 
-            <ul v-for= item in data>
+
+            <ul for= "item in data">
                 <li>{{item.price}}</li>
                 <li>{{item.name}}</li>
                 <li>{{item.person}}</li>
                 <li>{{item.goods_img}}</li>
+                
             </ul>
-
-        </body>
     </div>
     <script src="{% static 'js/shop.js' %}"></script>
 </body>
