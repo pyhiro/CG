@@ -8,8 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret, Message, Goods
 from django.contrib.auth.decorators import login_required
-from django.views import generic
-from django.core import serializers
+from django.db.models import Q
 
 import datetime
 import hashlib
@@ -160,8 +159,10 @@ def user_search(request):
 
 
 def home(request):
-
-    return render(request, 'home.html')
+    not_read_messages = Message.objects.filter(read_flag=0, recipient=request.user.student_id)
+    not_read_message_count = len(not_read_messages)
+    params = {'not_read_message_count': not_read_message_count}
+    return render(request, 'home.html', params)
 
 
 def calculate_amount(request):
@@ -187,14 +188,24 @@ def calculate_amount(request):
 
 @login_required
 def message(request):
-    m = Message(contents='hello', sender='1902005', recipient='1902005')
-    m.save()
+    # m = Message(contents='hello', sender='1902005', recipient='1902005')
     user = request.user
     student_id = user.student_id
-    received_message = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
-    send_message = Message.objects.filter(sender=student_id).order_by('-time_of_message')
-    params = {'receive': received_message,
-              'send': send_message}
+    Message.objects.filter(read_flag=0, recipient=request.user.student_id).update(read_flag=1)
+    received_messages = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
+    send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
+    for obj in received_messages:
+        sender_id = obj.sender
+        sender_name = User.objects.filter(student_id=sender_id)[0]
+        obj.sender = sender_name
+
+    for obj in send_messages:
+        recipient_id = obj.recipient
+        recipient_name = User.objects.filter(student_id=recipient_id)[0]
+        obj.recipient = recipient_name
+
+    params = {'receive': received_messages,
+              'send': send_messages}
     return render(request, 'message.html', params)
 
 
@@ -227,7 +238,7 @@ def point(request):
 
 
 def profile(request, pk):
-    user = User.objects.filter(student_id=pk)[0]
+    user = User.objects.get(student_id=pk)
     if request.method == 'POST':
         to_send = user.blockchain_address
         my_blockchain_address = request.user.blockchain_address
@@ -267,6 +278,10 @@ def profile(request, pk):
             json=json_data_return, timeout=10)
 
         if response.status_code == 201:
+            if message:
+                message_obj = Message(contents=message, sender=request.user.student_id,
+                                      recipient=user.student_id, point=value)
+                message_obj.save()
             return redirect(f'/profile/{pk}')
         else:
             return redirect('/home/')

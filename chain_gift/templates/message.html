@@ -1,18 +1,18 @@
 <p>受信</p>
 {% for value in receive %}
-{{ value.contents }}
 {{ value.sender }}
+{{ value.contents }}
 {{ value.point }}
-{{ value.time_of_message }}
+{{ value.time_of_message|date:"n/j H:i"}}
 <br>
 {% endfor %}
 <br>
 <br>
 <p>送信</p>
 {% for value in send %}
-{{ value.contents }}
 {{ value.recipient }}
+{{ value.contents }}
 {{ value.point }}
-{{ value.time_of_message }}
+{{ value.time_of_message|date:"n/j H:i" }}
 <br>
 {% endfor %}
