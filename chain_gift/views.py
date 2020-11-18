@@ -6,7 +6,7 @@ from django.http.response import JsonResponse
 from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import User, Secret, Message
+from .models import User, Secret, Message, Goods
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 
@@ -227,10 +227,53 @@ def point(request):
 
 def profile(request, pk):
     user = User.objects.filter(student_id=pk)[0]
+    if request.method == 'POST':
+        to_send = user.blockchain_address
+        my_blockchain_address = request.user.blockchain_address
+
+        if not to_send:
+            return render(request, 'home.html')
+        message = request.POST.get('message')
+        value = str(request.POST.get('amount'))
+        if not value.isdigit():
+            return render(request, 'home.html')
+
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        secret = Secret.objects.filter(id_hash=hashed_id)[0]
+        sender_private_key = secret.private_key
+        sender_blockchain_address = my_blockchain_address
+        recipient_blockchain_address = to_send
+        sender_public_key = secret.public_key
+        value = int(value)
+
+        transaction = wallet.Transaction(
+            sender_private_key,
+            sender_public_key,
+            sender_blockchain_address,
+            recipient_blockchain_address,
+            value)
+
+        json_data_return = {
+            'sender_blockchain_address': sender_blockchain_address,
+            'recipient_blockchain_address': recipient_blockchain_address,
+            'sender_public_key': sender_public_key,
+            'value': value,
+            'signature': transaction.generate_signature(),
+        }
+
+        response = requests.post(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
+            json=json_data_return, timeout=10)
+
+        if response.status_code == 201:
+            return redirect(f'/profile/{pk}')
+        return JsonResponse({'message': 'fail', 'response': response}, status=400)
+
     params = {
         'username': user.username,
         'grade_id': user.grade_id,
-        'class_id': user.class_id
+        'class_id': user.class_id,
+        'img_url': user.profile_img
     }
     if user.birth_day:
         birth_day = user.birth_day
@@ -277,7 +320,8 @@ def edit_profile(request, pk):
 
 
 def shop_home(request):
-    return render(request, 'shop.html')
+    data = Goods.objects.all()
+    return render(request, 'shop.html', {'data': data})
 
 
 def signup(request):
