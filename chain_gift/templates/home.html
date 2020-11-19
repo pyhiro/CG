@@ -2,19 +2,20 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'home.css' %}">
-<div class="slider">
-
-  <div class="shop1">
+<div id="slide-wrapper">
+  <div class="slider">
+    <div class="shop1">
+      <a href="{% url 'point' %}">
+        <img src="{% static 'images/borupen.jpg' %}" width="1200" height="300" alt="please">
+      </a>
+    </div>
     <a href="{% url 'point' %}">
-      <img src="{% static 'images/borupen.jpg' %}" width="1200" height="300" alt="please">
+      <img src="{% static 'images/borupen1.jpg' %}" width="1200" height="300" alt="please">
+    </a>
+    <a href="{% url 'point' %}">
+      <img src="{% static 'images/eraser.jpg' %}" width="1200" height="300" alt="please">
     </a>
   </div>
-  <a href="{% url 'point' %}">
-    <img src="{% static 'images/borupen1.jpg' %}" width="1200" height="300" alt="please">
-  </a>
-  <a href="{% url 'point' %}">
-    <img src="{% static 'images/eraser.jpg' %}" width="1200" height="300" alt="please">
-  </a>
 </div>
 
 
@@ -84,6 +85,7 @@
 
   </div>
   <div id="footer">
+    
     <address><button mat-icon-button>
         <a href class="btn--orange">送信</a>
       </button>

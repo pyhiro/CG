@@ -4,9 +4,10 @@
 div#shop1 {
 	float: auto;
 }
-.slider {
-	display: block;
-	width: 60%;
+
+#slide-wrapper {
+	width: 70%;
+	margin: auto;
 }
 
 li {
