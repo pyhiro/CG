@@ -210,6 +210,19 @@ def message(request):
     return render(request, 'message.html', params)
 
 
+def message_detail(request, pk):
+    msg = Message.objects.get(id=pk)
+    user = request.user
+
+    if msg.sender != user.student_id and msg.recipient != user.student_id:
+        return HttpResponse('アクセスできません')
+    if msg.recipient == user.student_id:
+        msg.read_flag = True
+        msg.save()
+
+    return render(request, 'message_detail.html', {'message': msg})
+
+
 def point(request):
     if request.method == 'GET':
         user = request.user
@@ -378,6 +391,8 @@ def signup(request):
 
 
 def goods_db(request):
+    m = Message(contents='good morning', sender='1902050', recipient=request.user.student_id)
+    m.save()
     category = request.GET.get('category', None)
     if category:
         goods = Goods.objects.filter(category=category)

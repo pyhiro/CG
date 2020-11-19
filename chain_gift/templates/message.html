@@ -1,6 +1,6 @@
 <p>受信</p>
 {% for value in receive %}
-<a href="">
+<a href="/message_detail/{{ value.pk }}">
 {% if value.read_flag == 0 %}
     <span style="background-color: pink">未読</span>
 {% else %}
@@ -17,7 +17,7 @@
 <br>
 <p>送信</p>
 {% for value in send %}
-<a href="">
+<a href="/message_detail/{{ value.pk }}">
 {{ value.recipient }}
 {{ value.contents }}
 {{ value.point }}
