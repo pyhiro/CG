@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>{{ name }}さんへ</p>
+
+<form method="post">
+{% csrf_token %}
+<p>ポイント<br>
+<input type="radio" name="point" value="10" checked> 10
+<input type="radio" name="point" value="30"> 30
+<input type="radio" name="point" value="50"> 50
+</p>
+
+<p>メッセージ<br>
+<input type="radio" name="msg" value="いいね" checked> いいね
+<input type="radio" name="msg" value="ありがとう"> ありがとう
+</p>
+
+<p><input type="submit" value="確定"></p>
+
+</form>
+
+</form>
+</body>
+</html>

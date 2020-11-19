@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.top, name='top'),
     path('home/', views.home, name='home'),
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
@@ -43,5 +44,6 @@ urlpatterns = [
     path('all_users/', views.all_users, name='all_users'),
     path('super_edit/<int:pk>', views.super_edit, name='super_edit'),
     path('super_delete/<int:pk>', views.super_delete, name='super_delete'),
-    path('message_detail/<int:pk>', views.message_detail, name='message_detail')
+    path('message_detail/<int:pk>', views.message_detail, name='message_detail'),
+    path('quick_send/<int:pk>', views.quick_send, name='quick_send'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

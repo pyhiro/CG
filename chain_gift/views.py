@@ -15,8 +15,9 @@ import hashlib
 import json
 import os
 import random
+import smtplib
+import ssl
 import string
-import smtplib, ssl
 from email.mime.text import MIMEText
 import urllib
 
@@ -25,10 +26,16 @@ import yaml
 
 from . import wallet
 
+
 class Login(LoginView):
     """ログインページ"""
     form_class = LoginForm
     template_name = 'login.html'
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect('/home')
+        return render(request, self.template_name, {'form': self.form_class})
 
 
 class Logout(LoginRequiredMixin, LogoutView):
@@ -47,13 +54,23 @@ class PasswordChange(LoginRequiredMixin, PasswordChangeView):
         return context
 
 
-class PasswordChangeDone(LoginRequiredMixin,PasswordChangeDoneView):
+class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
     """パスワード変更完了"""
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        user.login_flag = True
+        user.save()
+        return render(request, 'password_change_done.html')
     template_name = 'password_change_done.html'
 
 
 def index(request):
     return render(request, 'index.html')
+
+
+def top(request):
+    return render(request, 'top.html')
 
 
 @csrf_exempt
@@ -82,6 +99,7 @@ def user_info(request):
         }
         return JsonResponse(response, status=200)
 
+
 @csrf_exempt
 def create_transaction(request):
     json_data = json.loads(request.body)
@@ -108,7 +126,7 @@ def create_transaction(request):
         recipient_blockchain_address,
         value)
 
-    json_data_return = {
+    json_data_send = {
         'sender_blockchain_address': sender_blockchain_address,
         'recipient_blockchain_address': recipient_blockchain_address,
         'sender_public_key': sender_public_key,
@@ -118,10 +136,65 @@ def create_transaction(request):
 
     response = requests.post(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
-        json=json_data_return, timeout=10)
+        json=json_data_send, timeout=10)
 
     if response.status_code == 201:
         return JsonResponse({'message': 'success'}, status=200)
+    return JsonResponse({'message': 'fail', 'response': response}, status=400)
+
+
+def quick_send(request, pk):
+    if not request.user.is_authenticated:
+        return redirect(f'/login?next=/quick_send/{pk}')
+    user = request.user
+    if user.student_id == str(pk):
+        return redirect(f'/profile/{pk}')
+    to_user = User.objects.get(student_id=str(pk))
+
+    if request.method == 'GET':
+        name = to_user.username
+        params = {'name': name}
+        return render(request, 'submit.html', params)
+    point = request.POST.get('point')
+    msg = request.POST.get('msg')
+    hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+    secret = Secret.objects.get(id_hash=hashed_id)
+
+    sender_private_key = secret.private_key
+    sender_blockchain_address = user.blockchain_address
+    recipient_blockchain_address = to_user.blockchain_address
+    sender_public_key = secret.public_key
+    value = int(point)
+
+    transaction = wallet.Transaction(
+        sender_private_key,
+        sender_public_key,
+        sender_blockchain_address,
+        recipient_blockchain_address,
+        value)
+    print(transaction.sender_private_key)
+    print(transaction.sender_public_key)
+    print(transaction.recipient_blockchain_address)
+    print(transaction.sender_blockchain_address)
+    print(transaction.value)
+
+    json_data_send = {
+        'sender_blockchain_address': sender_blockchain_address,
+        'recipient_blockchain_address': recipient_blockchain_address,
+        'sender_public_key': sender_public_key,
+        'value': value,
+        'signature': transaction.generate_signature(),
+    }
+
+    response = requests.post(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
+        json=json_data_send, timeout=10)
+
+    if response.status_code == 201:
+        msg = Message(contents=msg , sender=user.student_id,
+                      recipient=to_user.student_id, point=point)
+        msg.save()
+        return redirect(f'/profile/{pk}')
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
@@ -228,9 +301,6 @@ def point(request):
         user = request.user
         my_blockchain_address = user.blockchain_address
 
-        if my_blockchain_address is None:
-            return HttpResponse('Missing values', status=400)
-
         response = requests.get(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
             {'blockchain_address': my_blockchain_address},
@@ -242,9 +312,15 @@ def point(request):
             params['receive'] = history['receive']
             if params['receive']:
                 for transaction in params['receive']:
+                    transacted_blockchain_address = transaction['transacted_blockchain_address']
+                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                    transaction['name'] = usr
                     transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
             if params['send']:
                 for transaction in params['send']:
+                    transacted_blockchain_address = transaction['transacted_blockchain_address']
+                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                    transaction['name'] = usr
                     transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
 
             return render(request, 'point.html', params, status=200)
