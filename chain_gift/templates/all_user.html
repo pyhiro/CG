@@ -1,0 +1,12 @@
+{% for usr in all_user %}
+<a href="">
+{{ usr.student_id }}
+{{ usr.username }}
+{{ usr.email }}
+{{ usr.grade_id }}
+{{ usr.class_id }}
+</a>
+<a href="/super_edit/{{ usr.student_id }}"><button>編集</button></a>
+<a href="/super_delete/{{ usr.student_id }}"><button>削除</button></a>
+<br>
+{% endfor %}

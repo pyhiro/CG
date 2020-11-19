@@ -36,6 +36,18 @@ class UserUpdateForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
 
 
+class SuperUserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('grade_id', 'class_id', 'email', 'username', 'furigana', 'student_id', 'delete_flag')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+
+
 class ImageForm(forms.ModelForm):
     class Meta:
         model = User
