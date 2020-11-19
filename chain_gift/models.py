@@ -68,6 +68,7 @@ class Message(models.Model):
     recipient = models.CharField(max_length=10, blank=False)
     time_of_message = models.DateTimeField(default=timezone.now())
     read_flag = models.BooleanField(default=False, null=True)
+    notify_flag = models.BooleanField(default=False, null=True)
     point = models.IntegerField(default=10, null=True)
     delete_flag = models.BooleanField(default=False, null=True)
 

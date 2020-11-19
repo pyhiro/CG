@@ -1,18 +1,27 @@
 <p>受信</p>
 {% for value in receive %}
+<a href="">
+{% if value.read_flag == 0 %}
+    <span style="background-color: pink">未読</span>
+{% else %}
+既読
+{% endif %}
 {{ value.sender }}
 {{ value.contents }}
 {{ value.point }}
 {{ value.time_of_message|date:"n/j H:i"}}
+</a>
 <br>
 {% endfor %}
 <br>
 <br>
 <p>送信</p>
 {% for value in send %}
+<a href="">
 {{ value.recipient }}
 {{ value.contents }}
 {{ value.point }}
 {{ value.time_of_message|date:"n/j H:i" }}
+</a>
 <br>
 {% endfor %}
