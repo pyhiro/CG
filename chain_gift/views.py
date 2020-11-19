@@ -159,9 +159,9 @@ def user_search(request):
 
 
 def home(request):
-    not_read_messages = Message.objects.filter(read_flag=0, recipient=request.user.student_id)
-    not_read_message_count = len(not_read_messages)
-    params = {'not_read_message_count': not_read_message_count}
+    not_notified_messages = Message.objects.filter(notify_flag=0, recipient=request.user.student_id)
+    not_notified_message_count = len(not_notified_messages)
+    params = {'not_read_message_count': not_notified_message_count}
     return render(request, 'home.html', params)
 
 
@@ -189,9 +189,10 @@ def calculate_amount(request):
 @login_required
 def message(request):
     # m = Message(contents='hello', sender='1902005', recipient='1902005')
+    # m.save()
     user = request.user
     student_id = user.student_id
-    Message.objects.filter(read_flag=0, recipient=request.user.student_id).update(read_flag=1)
+    Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
     received_messages = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
     send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
     for obj in received_messages:
