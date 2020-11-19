@@ -161,7 +161,7 @@ def user_search(request):
 def home(request):
     not_notified_messages = Message.objects.filter(notify_flag=0, recipient=request.user.student_id)
     not_notified_message_count = len(not_notified_messages)
-    params = {'not_read_message_count': not_notified_message_count}
+    params = {'not_notified_message_count': not_notified_message_count}
     return render(request, 'home.html', params)
 
 

@@ -2,6 +2,9 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'home.css' %}">
+{% if not_notified_message_count %}
+<a href="/message">{{ not_notified_message_count }}件のメッセージがあります</a>
+{% endif %}
 <div id="slide-wrapper">
   <div class="slider">
     <div class="shop1">
