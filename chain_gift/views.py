@@ -66,6 +66,8 @@ class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect(f'/login?next=/index')
     return render(request, 'index.html')
 
 
@@ -199,6 +201,8 @@ def quick_send(request, pk):
 
 
 def user_search(request):
+    if not request.user.is_authenticated:
+        return redirect('/login?next=/search')
     if request.method == 'GET':
         form = UserSearchForm()
         users = User.objects.all()
@@ -232,35 +236,38 @@ def user_search(request):
 
 
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect('/login')
     not_notified_messages = Message.objects.filter(notify_flag=0, recipient=request.user.student_id)
     not_notified_message_count = len(not_notified_messages)
     params = {'not_notified_message_count': not_notified_message_count}
     return render(request, 'home.html', params)
-
-
-def calculate_amount(request):
-    if request.method == 'GET':
-        my_blockchain_address = request.GET.get('blockchain_address', None)
-
-        # json_data = json.loads(request.body)
-        # if not all(k in json_data for k in required):
-
-        if my_blockchain_address is None:
-            return HttpResponse('Missing values', status=400)
-
-        # my_blockchain_address = request.args.get('blockchain_address')
-        response = requests.get(
-            urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
-            {'blockchain_address': my_blockchain_address},
-            timeout=10)
-        if response.status_code == 200:
-            total = response.json()['amount']
-            return JsonResponse({'message': 'success', 'amount': total}, status=200)
-        return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
+# def calculate_amount(request):
+#     if request.method == 'GET':
+#         my_blockchain_address = request.GET.get('blockchain_address', None)
+#
+#         # json_data = json.loads(request.body)
+#         # if not all(k in json_data for k in required):
+#
+#         if my_blockchain_address is None:
+#             return HttpResponse('Missing values', status=400)
+#
+#         # my_blockchain_address = request.args.get('blockchain_address')
+#         response = requests.get(
+#             urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+#             {'blockchain_address': my_blockchain_address},
+#             timeout=10)
+#         if response.status_code == 200:
+#             total = response.json()['amount']
+#             return JsonResponse({'message': 'success', 'amount': total}, status=200)
+#         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
+#
 
 
 @login_required
 def message(request):
+    if not request.user.is_authenticated:
+        return redirect('/login?next=/message')
     # m = Message(contents='hello', sender='1902005', recipient='1902005')
     # m.save()
     user = request.user
@@ -284,11 +291,13 @@ def message(request):
 
 
 def message_detail(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('/login?next=/message')
     msg = Message.objects.get(id=pk)
     user = request.user
 
     if msg.sender != user.student_id and msg.recipient != user.student_id:
-        return HttpResponse('アクセスできません')
+        return redirect('/message')
     if msg.recipient == user.student_id:
         msg.read_flag = True
         msg.save()
@@ -297,38 +306,39 @@ def message_detail(request, pk):
 
 
 def point(request):
-    if request.method == 'GET':
-        user = request.user
-        my_blockchain_address = user.blockchain_address
+    if not request.user.is_authenticated:
+        return redirect('/login?next=/point')
+    user = request.user
+    my_blockchain_address = user.blockchain_address
 
-        response = requests.get(
-            urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
-            {'blockchain_address': my_blockchain_address},
-            timeout=10)
-        if response.status_code == 200:
-            history = response.json()['history']
-            params = dict()
-            params['send'] = history['send']
-            params['receive'] = history['receive']
-            if params['receive']:
-                for transaction in params['receive']:
-                    transacted_blockchain_address = transaction['transacted_blockchain_address']
-                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
-                    transaction['name'] = usr
-                    transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
-            if params['send']:
-                for transaction in params['send']:
-                    transacted_blockchain_address = transaction['transacted_blockchain_address']
-                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
-                    transaction['name'] = usr
-                    transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+    response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=10)
+    if response.status_code == 200:
+        history = response.json()['history']
+        params = dict()
+        params['send'] = history['send']
+        params['receive'] = history['receive']
+        if params['receive']:
+            for transaction in params['receive']:
+                transacted_blockchain_address = transaction['transacted_blockchain_address']
+                usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                transaction['name'] = usr
+                transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+        if params['send']:
+            for transaction in params['send']:
+                transacted_blockchain_address = transaction['transacted_blockchain_address']
+                usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                transaction['name'] = usr
+                transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
 
-            return render(request, 'point.html', params, status=200)
-        return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
+        return render(request, 'point.html', params, status=200)
+    return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
 def profile(request, pk):
-    user = User.objects.get(student_id=pk)
+    user = get_object_or_404(User, student_id=pk)
     if request.method == 'POST':
         to_send = user.blockchain_address
         my_blockchain_address = request.user.blockchain_address
@@ -390,8 +400,9 @@ def profile(request, pk):
 
     if request.method == 'GET':
         user = request.user
-        if int(user.pk) == pk:
-            params['self_user'] = True
+        if user.is_authenticated:
+            if user.student_id == str(pk):
+                params['self_user'] = True
         else:
             params['self_user'] = False
     return render(request, 'profile.html', params)
@@ -400,24 +411,23 @@ def profile(request, pk):
 @login_required
 def edit_profile(request, pk):
     user = request.user
-    if int(user.pk) != pk:
+    if user.pk != str(pk):
         return redirect('/home/')
     if request.method == 'POST':
-        user = get_object_or_404(User, student_id=user.student_id)
-        if user:
-            before = user.profile_img
-            form = UserUpdateForm(request.POST, request.FILES, instance=user)            
-            if form.is_valid():
-                form.save()
-                user = get_object_or_404(User, student_id=user.student_id)
-                after = user.profile_img
-                if before and not after:
-                    os.remove(f'media/{before}')
-                if (before and after) and (before != after):
-                    os.remove(f'media/{before}')
-                return redirect(f'/profile/{user.pk}')
-            params = {'form': form, 'message': '値が不正です'}
-            return render(request, 'edit_profile.html', params)
+        user = User.objects.get(student_id=user.student_id)
+        before = user.profile_img
+        form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            user = get_object_or_404(User, student_id=user.student_id)
+            after = user.profile_img
+            if before and not after:
+                os.remove(f'media/{before}')
+            if (before and after) and (before != after):
+                os.remove(f'media/{before}')
+            return redirect(f'/profile/{user.pk}')
+        params = {'form': form, 'message': '値が不正です'}
+        return render(request, 'edit_profile.html', params)
 
     form = UserUpdateForm(initial={'profile_img': user.profile_img,
                                    'birth_day': user.birth_day,
@@ -430,11 +440,11 @@ def shop_home(request):
     return render(request, 'shop.html', {'data': data})
 
 
+@login_required
 def signup(request):
-    if request.method == 'GET':
-        form = SignUpForm()
-        return render(request, 'signup.html', {'form': form})
-
+    # user = request.user
+    # if not user.is_superuser:
+    #     return request('/home')
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         data = form.data
@@ -458,12 +468,10 @@ def signup(request):
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
         s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
         s.save()
-        return redirect('/home/')
+        return redirect('/signup')
 
     form = SignUpForm()
-
-    context = {'form': form}
-    return render(request, 'polls/signup.html', context)
+    return render(request, 'polls/signup.html', {'form': form})
 
 
 def goods_db(request):
@@ -484,46 +492,58 @@ def goods_db(request):
     return JsonResponse(goods_dict)
 
 
+@login_required
 def management(request):
+    # user = request.user
+    # if not user.is_superuser:
+    #     return redirect('/home')
     return render(request, 'management.html')
 
 
+@login_required
 def all_users(request):
+    # user = request.user
+    # if not user.is_superuser:
+    #     return redirect('/home')
     users = User.objects.all().order_by('student_id')
     params = {'all_user': users}
     return render(request, 'all_user.html', params)
 
 
+@login_required()
 def super_edit(request, pk):
+    # user = request.user
+    # if not user.is_superuser:
+    #     return redirect('/home')
     user = get_object_or_404(User, student_id=str(pk))
     
     if request.method == 'POST':
-        if user:
-            form = SuperUserUpdateForm(request.POST, instance=user)           
-            if form.is_valid():
-                form.save()
-                return redirect(f'/all_users/')
-            params = {'form': form, 'message': '値が不正です'}
-            return render(request, 'super_edit.html', params)
+        form = SuperUserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect(f'/all_users/')
+        params = {'form': form, 'message': '値が不正です'}
+        return render(request, 'super_edit.html', params)
 
-    if user:
-        form = SuperUserUpdateForm(initial={'grade_id': user.grade_id,
-                                       'class_id': user.class_id,
-                                       'email': user.email,
-                                       'username': user.username,
-                                       'furigana': user.furigana,
-                                       'student_id': user.student_id,
-                                       'delete_flag': user.delete_flag})
+    form = SuperUserUpdateForm(initial={'grade_id': user.grade_id,                               'class_id': user.class_id,
+                                        'email': user.email,
+                                        'username': user.username,
+                                        'furigana': user.furigana,
+                                        'student_id': user.student_id,
+                                        'delete_flag': user.delete_flag})
 
     return render(request, 'super_edit.html', {'form': form})
 
 
+@login_required
 def super_delete(request, pk):
-    user = User.objects.get(student_id=str(pk))
+    # user = request.user
+    # if not user.is_superuser:
+    #     return redirect('/home')
+    user = get_object_or_404(User, student_id=str(pk))
     if request.method == 'POST':
-        if user:
-            user.delete_flag = True
-            user.save()
+        user.delete_flag = True
+        user.save()
         return redirect('/all_users')
     return render(request, 'super_delete.html')
 
