@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
-from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm
+from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from .models import User, Secret, Message, Goods
@@ -391,6 +391,50 @@ def goods_db(request):
                                     'goods_img': value.goods_img,
                                     'goods_category': value.category})
     return JsonResponse(goods_dict)
+
+
+def management(request):
+    return render(request, 'management.html')
+
+
+def all_users(request):
+    users = User.objects.all().order_by('student_id')
+    params = {'all_user': users}
+    return render(request, 'all_user.html', params)
+
+
+def super_edit(request, pk):
+    user = get_object_or_404(User, student_id=str(pk))
+    
+    if request.method == 'POST':
+        if user:
+            form = SuperUserUpdateForm(request.POST, instance=user)           
+            if form.is_valid():
+                form.save()
+                return redirect(f'/all_users/')
+            params = {'form': form, 'message': '値が不正です'}
+            return render(request, 'super_edit.html', params)
+
+    if user:
+        form = SuperUserUpdateForm(initial={'grade_id': user.grade_id,
+                                       'class_id': user.class_id,
+                                       'email': user.email,
+                                       'username': user.username,
+                                       'furigana': user.furigana,
+                                       'student_id': user.student_id,
+                                       'delete_flag': user.delete_flag})
+
+    return render(request, 'super_edit.html', {'form': form})
+
+
+def super_delete(request, pk):
+    user = User.objects.get(student_id=str(pk))
+    if request.method == 'POST':
+        if user:
+            user.delete_flag = True
+            user.save()
+        return redirect('/all_users')
+    return render(request, 'super_delete.html')
 
 
 def send_gmail(password, email):
