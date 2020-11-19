@@ -1,7 +1,8 @@
 受信
 {% for value in receive %}
      <p>{{value.transacted_blockchain_address}}</p>
-     <p>{{value.transacted_time}}</p>
+     <p>{{value.name}}</p>
+     <p>{{value.transacted_time|date:"n/j H:i" }}</p>
      <p>{{value.transacted_value}}</p>
      <br>
 {% endfor %}
@@ -9,8 +10,10 @@
 <br>
 送信
 {% for value in send %}
-<p>{{value.transacted_blockchain_address}}</p>
-<p>{{value.transacted_time}}</p>
+<p>{{value.transacted_blockchain_address }}</p>
+<p>{{value.name}}</p>
+<p>{{value.transacted_time|date:"n/j H:i"}}</p>
 <p>{{value.transacted_value}}</p>
+<br>
 {% endfor %}
 
