@@ -200,17 +200,10 @@ def quick_send(request, pk):
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
+@login_required
 def user_search(request):
-    if not request.user.is_authenticated:
-        return redirect('/login?next=/search')
-    if request.method == 'GET':
-        form = UserSearchForm()
-        users = User.objects.all()
-        params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
-        return render(request, 'user_search.html', params)
 
     if request.method == 'POST':
-
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
         if grade_id and not class_id:
@@ -233,6 +226,11 @@ def user_search(request):
             users = User.objects.all()
             params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
             return render(request, 'user_search.html', params)
+
+    form = UserSearchForm()
+    users = User.objects.all()
+    params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
+    return render(request, 'user_search.html', params)
 
 
 def home(request):
@@ -292,7 +290,7 @@ def message(request):
 
 def message_detail(request, pk):
     if not request.user.is_authenticated:
-        return redirect('/login?next=/message')
+        return redirect(f'/login?next=/message_detail/{pk}')
     msg = Message.objects.get(id=pk)
     user = request.user
 
@@ -301,7 +299,20 @@ def message_detail(request, pk):
     if msg.recipient == user.student_id:
         msg.read_flag = True
         msg.save()
-
+    my_user = User.objects.get(student_id=user.student_id)
+    sender_id = msg.sender
+    recipient_id = msg.recipient
+    if sender_id == recipient_id:
+        msg.sender = my_user.username
+        msg.recipient = my_user.username
+    elif sender_id == my_user.student_id:
+        msg.sender = my_user.username
+        recipient = User.objects.get(student_id=recipient_id)
+        msg.recipient = recipient.username
+    else:
+        sender = User.objects.get(student_id=sender_id)
+        msg.sender = sender.username
+        msg.recipient = my_user.username
     return render(request, 'message_detail.html', {'message': msg})
 
 
