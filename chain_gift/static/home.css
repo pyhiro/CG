@@ -1,4 +1,9 @@
-
+#changePW{
+	float: right;
+	position: relative;
+	z-index: 5000;
+	top: -100px;
+}
 
 
 /*============================================
