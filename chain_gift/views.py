@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from .models import User, Secret, Message, Goods
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib.auth import logout
 
 import datetime
 import hashlib
@@ -585,7 +586,38 @@ def get_ranking(request):
         return render(request, 'ranking.html', {'ranking': sorted_ranking})
 
 
-def send_gmail(password, email):
+def forget_password(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = get_object_or_404(User, email=email)
+        random_query = [random.choice(string.ascii_letters + string.digits) for _ in range(30)]
+        random_query_str = ''.join(random_query)
+        user.password_change_query = random_query_str
+        user.save()
+        send_gmail(email=user.email, query=random_query_str)
+        return redirect('/login')
+    return render(request, 'forget.html')
+
+
+def forget_change_password(request):
+    query = request.GET.get('rand_query')
+    email = request.GET.get('email')
+    user = get_object_or_404(User, email=email)
+    if user.password_change_query != query:
+        return redirect('/')
+    if user.is_authenticated:
+        logout(request)
+    password_list = [random.choice(string.ascii_letters + string.digits) for _ in range(8)]
+    password = ''.join(password_list)
+    user.set_password(password)
+    user.password_change_query = None
+    user.login_flag = False
+    user.save()
+    send_gmail(password=password, email=user.email, subject='パスワード更新')
+    return redirect('/')
+
+
+def send_gmail(password=None, email=None, query=None, subject='初回ログイン'):
     with open('chain_gift/config.yaml', 'r') as file:
         config = yaml.load(file, Loader=yaml.SafeLoader)
     gmail_account = config['account'][0]
@@ -594,8 +626,11 @@ def send_gmail(password, email):
     mail_to = email
 
     # メールデータ(MIME)の作成 --- (*3)
-    subject = "初回ログイン"
     body = password
+    if query:
+        subject = 'パスワード再発行'
+        contents = f'http://127.0.0.1:8000/forget_change?rand_query={query}&email={email}'
+        body = contents
     msg = MIMEText(body, "html")
     msg["Subject"] = subject
     msg["To"] = mail_to
