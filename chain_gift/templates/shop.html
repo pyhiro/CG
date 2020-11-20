@@ -13,14 +13,15 @@
 <body>
     <h2>すべての商品</h2>
     <div class="item">
-    <ul>{% for item in data %}
-        <li >
-            <p>{{item.name}}</p>
-            <p>{{item.price}}</p>
-            <p>{{item.category}}</p>
-        </li>
-    </ul>{% endfor %}
-</div>
+        <ul>{% for item in data %}
+            <li>
+                <p class="name">{{item.name}}</p>
+                <p class="price">{{item.price}}</p>
+                <p class="category">{{item.category}}</p>
+            </li>
+        </ul>{% endfor %}
+    </div>
+
 
     <div id="app">
         <ul class="sidenav">
@@ -31,13 +32,15 @@
         </ul>
 
 
-        <div v-for="item in f_list" v-bind:key="item.id"></div>
-        <ul class="item">
-            <li>{{item.name}}</li>
-            <li>{{item.price}}</li>
-            <li>{{item.category}}</li>
-    </div>
-    </ul>
+        <div v-for="item in f_list" v-bind:key="item.id" class="item">
+            <ul>
+                <li>
+                    <p class="name">{{item.name}}</p>
+                    <p class="price">{{item.price}}</p>
+                    <p class="category">{{item.category}}</p>
+                </li>
+            </ul>
+        </div>
     </div>
     <script src="{% static 'js/shop.js' %}"></script>
 </body>
