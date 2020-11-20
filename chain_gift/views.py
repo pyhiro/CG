@@ -571,8 +571,18 @@ def get_ranking(request):
         {'duration': first_time_stamp},
         timeout=10)
     if response.status_code == 200:
-        ranking = response.json()[0]['ranking']
-        return JsonResponse({'message': 'success', 'ranking': ranking}, status=200)
+        tmp_rank = response.json()[0]['ranking']
+        ranking = dict()
+        for k, v in tmp_rank.items():
+            try:
+                user = User.objects.get(blockchain_address=k)
+                ranking[user.username] = v
+            except:
+                '''blockchain_miner'''
+                pass
+
+        sorted_ranking = sorted(ranking.items(), key=lambda x: x[1], reverse=True)
+        return render(request, 'ranking.html', {'ranking': sorted_ranking})
 
 
 def send_gmail(password, email):
