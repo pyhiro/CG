@@ -13,21 +13,22 @@ var app = new Vue({
         // エラーの有無
         isError: false,
         // メッセージ
-        message: ''
+        message: '',
     },
     created: function() {
         // JSONPのURL（サーバーに配置する）
-        var url = 'goods_db/';
+        var url = '/goods_db';
         // 非同期通信でJSONPを読み込む
         $.ajax({
           url : url,                // 通信先URL
           type: 'GET',              // 使用するHTTPメソッド
-          dataType: 'jsonp',        // レスポンスのデータタイプ
+          dataType: 'json',        // レスポンスのデータタイプ
           jsonp: 'callback',        // クエリパラメータの名前
           jsonpCallback: 'products' // コールバック関数の名前
         })
         .done(function(data, textStatus, jqXHR) {
           this.products = data;
+          alert(products);
         }.bind(this))
         .fail(function(jqXHR, textStatus, errorThrown) {
           this.isError = true;
@@ -44,17 +45,8 @@ var app = new Vue({
             var isShow = true;
             //i番目の商品が表示対象かどうかを判定する
             if(this.showSale) {
-                
-            }
+          }
         }
-
-        }
+      }
     }
 });
-
-
-/*var obj = JSON.parse(data);
-
-Object.keys(obj).forEach(function(key) {
-
-})*/
