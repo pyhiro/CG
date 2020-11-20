@@ -482,7 +482,7 @@ def signup(request):
         return redirect('/signup')
 
     form = SignUpForm()
-    return render(request, 'polls/signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})
 
 
 def goods_db(request):
