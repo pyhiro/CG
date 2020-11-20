@@ -33,6 +33,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     login_flag = models.BooleanField(default=False)
     delete_flag = models.BooleanField(default=False)
 
+    password_change_query = models.CharField(max_length=150, null=True)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
