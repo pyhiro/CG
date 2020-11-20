@@ -559,6 +559,22 @@ def super_delete(request, pk):
     return render(request, 'super_delete.html')
 
 
+def get_ranking(request):
+    now = datetime.datetime.now()
+    month_first = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    month_last = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+    first_time_stamp = month_first.timestamp()
+    last_time_stamp = month_last.timestamp()
+
+    response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'ranking'),
+        {'duration': first_time_stamp},
+        timeout=10)
+    if response.status_code == 200:
+        ranking = response.json()[0]['ranking']
+        return JsonResponse({'message': 'success', 'ranking': ranking}, status=200)
+
+
 def send_gmail(password, email):
     with open('chain_gift/config.yaml', 'r') as file:
         config = yaml.load(file, Loader=yaml.SafeLoader)
