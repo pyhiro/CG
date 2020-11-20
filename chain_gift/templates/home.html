@@ -3,7 +3,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'home.css' %}">
 {% if not_notified_message_count %}
-<a href="/message">{{ not_notified_message_count }}件のメッセージがあります</a>
+<a href="/message" id="message_count">{{ not_notified_message_count }}件のメッセージがあります</a>
 {% endif %}
 <div id="slide-wrapper">
   <div class="slider">
@@ -89,9 +89,10 @@
   </div>
   <div id="footer">
     
-    <address><button mat-icon-button>
-        <a href class="btn--orange">送信</a>
-      </button>
+    <address>
+      <button mat-icon-button>
+        <a href class="btn--orange">これやで</a>
+    </button>
     </address>
   </div>
 </div>
