@@ -45,4 +45,5 @@ urlpatterns = [
     path('super_delete/<int:pk>', views.super_delete, name='super_delete'),
     path('message_detail/<int:pk>', views.message_detail, name='message_detail'),
     path('quick_send/<int:pk>', views.quick_send, name='quick_send'),
+    path('ranking/', views.get_ranking, name='ranking')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
