@@ -500,7 +500,8 @@ def goods_db(request):
                                     'goods_name': value.name,
                                     'goods_value': value.price,
                                     'goods_img': value.goods_img,
-                                    'goods_category': value.category})
+                                    'goods_category': value.category,
+                                    'goods_show': value.show})
     return JsonResponse(goods_dict)
 
 
