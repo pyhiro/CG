@@ -23,30 +23,35 @@ var app = new Vue({
           url : url,                // 通信先URL
           type: 'GET',              // 使用するHTTPメソッド
           dataType: 'json',        // レスポンスのデータタイプ
-          jsonp: 'callback',        // クエリパラメータの名前
-          jsonpCallback: 'products' // コールバック関数の名前
         })
         .done(function(data, textStatus, jqXHR) {
           this.products = data;
-          alert(products);
+          alert('接続しました');
         }.bind(this))
         .fail(function(jqXHR, textStatus, errorThrown) {
           this.isError = true;
           this.message = '商品リストの読み込みに失敗しました。';
+          alert('接続失敗')
         }.bind(this));
-      },
+    },
     computed: {
-        //絞り込み後の商品リストを返す算出プロパティ
-        l_list: function() {
-          //絞り込み後の商品リストを格納する新しい配列
-          var newList = [];
-          for (var i=0; i < this.products.length; i++) {
-            //表示するかどうかのフラグ
-            var isShow = true;
-            //i番目の商品が表示対象かどうかを判定する
-            if(this.showSale) {
+      allList: function() {
+        return this.products;
+      },
+      stampList: function() {
+        var newList = [];
+        for (var i=0; i < this.products.length; i++) {
+          //カテゴリーがスタンプかどうかの判定
+          if (this.products[i].category != 'stamp'){
+            show = true;//この商品を表示させない
+          }
+          //表示対象の商品だけを新しい配列に追加する
+          if(show) {
+            newList.push(this.products[i]);
           }
         }
-      }
+        //絞り込み後の商品リストを返す
+        return newList;
+      },
     }
 });

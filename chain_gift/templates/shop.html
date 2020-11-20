@@ -11,33 +11,21 @@
 </head>
 
 <body>
-    <h2>すべての商品</h2>
-    <div class="item">
-        <ul>{% for item in data %}
-            <li>
-                <p class="name">{{item.name}}</p>
-                <p class="price">{{item.price}}</p>
-                <p class="category">{{item.category}}</p>
-            </li>
-        </ul>{% endfor %}
-    </div>
-
-
     <div id="app">
         <ul class="sidenav">
-            <li><a href="#home">すべての商品</a></li>
-            <li><a href="#news">テスト1</a></li>
-            <li><a href="#contact">テスト2</a></li>
-            <li><a href="#about">テスト1</a></li>
+            <li><a href="" v-on:click ="allList">すべての商品</a></li>
+            <li><a href="" v-on:click ="stampList">スタンプ</a></li>
+            <li><a href="" v-on:click ="bookList">参考書</a></li>
+            <li><a href="" v-on:click ="stationeryList">文房具</a></li>
         </ul>
 
 
-        <div v-for="item in f_list" v-bind:key="item.id" class="item">
+        <div class="item" v-for="item in Shoplist" v-bind:key="item.id">
             <ul>
                 <li>
-                    <p class="name">{{item.name}}</p>
-                    <p class="price">{{item.price}}</p>
-                    <p class="category">{{item.category}}</p>
+                    <p class="name">{{ item.name }}</p>
+                    <p class="price">{{ item.price }}</p>
+                    <p class="category">{{ item.category }}</p>
                 </li>
             </ul>
         </div>
