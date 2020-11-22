@@ -13,14 +13,14 @@
 <body>
     <div id="app">
         <ul class="sidenav">
-            <li><a href="" v-on:click ="allList">すべての商品</a></li>
-            <li><a href="" v-on:click ="stampList">スタンプ</a></li>
-            <li><a href="" v-on:click ="bookList">参考書</a></li>
-            <li><a href="" v-on:click ="stationeryList">文房具</a></li>
+            <li><button v-on:click ="allList">すべての商品</button></li>
+            <li><button v-on:click ="stampList">スタンプ</button></li>
+            <li><button v-on:click ="bookList">参考書</button></li>
+            <li><button v-on:click ="stationeryList">文房具</button></li>
         </ul>
 
 
-        <div class="item" v-for="item in Shoplist" v-bind:key="item.id">
+        <div class="item" v-for="item in newlist" v-bind:key="item.id">
             <ul>
                 <li>
                     <p class="name">{{ item.name }}</p>
