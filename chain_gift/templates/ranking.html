@@ -6,8 +6,15 @@
 </head>
 <body>
 
-{% for value in ranking %}
+<p>今月</p>
+貰ったポイントランキング
+{% for value in receive_ranking %}
     <p>{{value.0}} {{value.1}}</p>
+{% endfor %}
+
+送ったポイントランキング
+{% for value in send_ranking %}
+<p>{{value.0}} {{value.1}}</p>
 {% endfor %}
 </body>
 </html>

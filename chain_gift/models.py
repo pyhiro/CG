@@ -3,8 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserM
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-
-import datetime
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -20,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     birth_day = models.DateField(_('誕生日'), blank=True, null=True)
 
-    grade_id = models.IntegerField(_('学年'), blank=True, null=False)
+    grade_id = models.IntegerField(_('学年'), blank=True, null=False, default=1)
     class_id = models.IntegerField(_('クラス'), blank=True, null=False)
 
     # profile_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
@@ -71,7 +70,7 @@ class Message(models.Model):
     time_of_message = models.DateTimeField(default=timezone.now())
     read_flag = models.BooleanField(default=False, null=True)
     notify_flag = models.BooleanField(default=False, null=True)
-    point = models.IntegerField(default=10, null=True)
+    point = models.IntegerField(default=10, null=True, blank=False)
     delete_flag = models.BooleanField(default=False, null=True)
 
     def __str__(self):
@@ -89,3 +88,14 @@ class Goods(models.Model):
         return self.name
 
 
+class Grades(models.Model):
+    student_id = models.CharField(_('学籍番号'), max_length=10)
+    year = models.IntegerField(blank=True, default=int(timezone.now().year))
+    semester = models.IntegerField(default=1)
+    type = models.IntegerField(default=1) #中間, 期末, other
+    japanese = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    math = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    english = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    social = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    science = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    it = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
