@@ -438,7 +438,9 @@ def point(request):
 
 
 def profile(request, pk):
-    user = get_object_or_404(User, student_id=pk)
+    user = request.user
+    if not user.is_superuser:
+        user = get_object_or_404(User, student_id=str(pk))
     if request.method == 'POST':
         to_send = user.blockchain_address
         my_blockchain_address = request.user.blockchain_address
