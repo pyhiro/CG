@@ -34,24 +34,35 @@ var app = new Vue({
           alert('接続失敗')
         }.bind(this));
     },
-    computed: {
+    methods: {
       allList: function() {
         return this.products;
       },
       stampList: function() {
         var newList = [];
         for (var i=0; i < this.products.length; i++) {
+          var isShow = true;
           //カテゴリーがスタンプかどうかの判定
-          if (this.products[i].category != 'stamp'){
-            show = true;//この商品を表示させない
+          if (this.products[i].goods_category !== 'stamp'){
+            this.products[i].goods_show = true;//この商品を表示させない
+            isShow = false;
           }
           //表示対象の商品だけを新しい配列に追加する
-          if(show) {
+          if(isShow) {
             newList.push(this.products[i]);
           }
         }
         //絞り込み後の商品リストを返す
         return newList;
       },
+      bookList: function() {
+
+      },
+      stationeryList: function() {
+
+      },
+      Shoplist: function() {
+
+      }
     }
 });
