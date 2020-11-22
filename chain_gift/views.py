@@ -265,9 +265,18 @@ def message(request):
     # m.save()
     user = request.user
     student_id = user.student_id
-    Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
-    received_messages = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
-    send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
+    try:
+        Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
+    except:
+        return HttpResponse('no message')
+    try:
+        received_messages = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
+    except:
+        received_messages = None
+    try:
+        send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
+    except:
+        send_messages = None
     for obj in received_messages:
         sender_id = obj.sender
         sender_obj = User.objects.get(student_id=sender_id)
