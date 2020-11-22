@@ -1,0 +1,54 @@
+<h1>{{ object.name }}</h1>
+<section class="post-text">
+    {{ object.memo|linebreaksbr }}
+</section>
+<section class="post-date">
+    <p>Created:&nbsp;{{ object.created_at }}<span>/</span>Updated:&nbsp;{{ object.updated_at }}</p>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+{% for value in my_grades %}
+<canvas id="myChart{{ forloop.counter0 }}" style="width: 100%; height:300px;"></canvas>
+<script type="text/javascript">
+    var chartChart = document.getElementById("myChart{{ forloop.counter0 }}");
+    new Chart(chartChart, {
+        type: 'bar',
+        data: {
+            labels: ["国語", "数学", "英語", "社会", "理科", "情報"],
+            datasets: [{
+                label: '{{value.year}}年{{value.semester}}学期',
+                data: [{{ value.japanese|default:0 }}, {{ value.math|default:0 }}, {{ value.english|default:0 }},
+                 {{ value.social|default:0 }}, {{ value.science|default:0 }}, {{ value.it|default:0 }}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+{% endfor %}
+<section>
+    <p><a href="javascript:history.back()">&lt; Back</a></p>
+</section>

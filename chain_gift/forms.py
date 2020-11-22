@@ -1,6 +1,12 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import User
+from .models import User, Message
+
+
+class SuperPointForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ('contents', 'point')
 
 
 class LoginForm(AuthenticationForm):

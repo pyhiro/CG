@@ -3,10 +3,10 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
-from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm
+from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm, SuperPointForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import User, Secret, Message, Goods
+from .models import User, Secret, Message, Goods, Grades
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import logout
@@ -175,11 +175,6 @@ def quick_send(request, pk):
         sender_blockchain_address,
         recipient_blockchain_address,
         value)
-    print(transaction.sender_private_key)
-    print(transaction.sender_public_key)
-    print(transaction.recipient_blockchain_address)
-    print(transaction.sender_blockchain_address)
-    print(transaction.value)
 
     json_data_send = {
         'sender_blockchain_address': sender_blockchain_address,
@@ -203,7 +198,6 @@ def quick_send(request, pk):
 
 @login_required
 def user_search(request):
-
     if request.method == 'POST':
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
@@ -276,13 +270,16 @@ def message(request):
     send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
     for obj in received_messages:
         sender_id = obj.sender
-        sender_name = User.objects.get(student_id=sender_id)
-        obj.sender = sender_name
+        sender_obj = User.objects.get(student_id=sender_id)
+        if sender_obj.is_superuser:
+            obj.sender = 'Chain Gift'
+        else:
+            obj.sender = sender_obj.username
 
     for obj in send_messages:
         recipient_id = obj.recipient
         recipient_name = User.objects.get(student_id=recipient_id)
-        obj.recipient = recipient_name
+        obj.recipient = recipient_name.username
 
     params = {'receive': received_messages,
               'send': send_messages}
@@ -314,7 +311,77 @@ def message_detail(request, pk):
         sender = User.objects.get(student_id=sender_id)
         msg.sender = sender.username
         msg.recipient = my_user.username
+    send_user = User.objects.get(student_id=sender_id)
+    receive_user = User.objects.get(student_id=sender_id)
+    if send_user.is_superuser:
+        msg.sender = 'Chain Gift'
+    if receive_user.is_superuser:
+        msg.recipient = 'Chain Gift'
     return render(request, 'message_detail.html', {'message': msg})
+
+@login_required
+def super_point(request):
+    user = request.user
+    if not user.is_superuser:
+        redirect('/home')
+
+    if not user.blockchain_address:
+        w = wallet.Wallet()
+        user.blockchain_address = 'Chain Gift'
+        user.save()
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
+        s.save()
+
+    if request.method == 'POST':
+        users = User.objects.all()
+        user_address = list(map(lambda u: u.blockchain_address, users))
+        form = SuperPointForm(request.POST)
+        point = form.data['point']
+        if not point.isdigit():
+            redirect('/super_point')
+        if int(point) < 0:
+            redirect('/super_point')
+        point = int(point)
+        msg = form.data['contents']
+        print("msg", msg)
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        secret = Secret.objects.get(id_hash=hashed_id)
+
+        sender_private_key = secret.private_key
+        sender_blockchain_address = user.blockchain_address
+        recipient_blockchain_address = user_address
+        sender_public_key = secret.public_key
+        value = int(point)
+
+        transaction = wallet.Transaction(
+            sender_private_key,
+            sender_public_key,
+            sender_blockchain_address,
+            str(recipient_blockchain_address.sort()),
+            value)
+
+        json_data_send = {
+            'sender_blockchain_address': sender_blockchain_address,
+            'recipient_blockchain_address': recipient_blockchain_address,
+            'sender_public_key': sender_public_key,
+            'value': value,
+            'signature': transaction.generate_signature(),
+        }
+
+        response = requests.post(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
+            json=json_data_send, timeout=10)
+
+        if response.status_code == 201:
+            for usr in users:
+                print(msg, usr.student_id, user.student_id, usr.student_id, point)
+                new_msg = Message(contents=msg, sender=user.student_id,
+                                  recipient=usr.student_id, point=point)
+                new_msg.save()
+        return redirect('/home')
+    form = SuperPointForm()
+    return render(request, 'super_point.html', {'form': form})
 
 
 def point(request):
@@ -334,14 +401,26 @@ def point(request):
         params['receive'] = history['receive']
         if params['receive']:
             for transaction in params['receive']:
-                transacted_blockchain_address = transaction['transacted_blockchain_address']
-                usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                try:
+                    transacted_blockchain_address = transaction['transacted_blockchain_address']
+                except:
+                    continue
+                try:
+                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                except:
+                    continue
                 transaction['name'] = usr
                 transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
         if params['send']:
             for transaction in params['send']:
-                transacted_blockchain_address = transaction['transacted_blockchain_address']
-                usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                try:
+                    transacted_blockchain_address = transaction['transacted_blockchain_address']
+                except:
+                    continue
+                try:
+                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                except:
+                    continue
                 transaction['name'] = usr
                 transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
 
@@ -574,17 +653,28 @@ def get_ranking(request):
         timeout=10)
     if response.status_code == 200:
         tmp_rank = response.json()[0]['ranking']
-        ranking = dict()
-        for k, v in tmp_rank.items():
-            try:
-                user = User.objects.get(blockchain_address=k)
-                ranking[user.username] = v
-            except:
-                '''blockchain_miner'''
-                pass
+        receive_ranking, send_ranking = dict(), dict()
 
-        sorted_ranking = sorted(ranking.items(), key=lambda x: x[1], reverse=True)
-        return render(request, 'ranking.html', {'ranking': sorted_ranking})
+        for k, v in tmp_rank['receive_ranking'].items():
+            user = User.objects.get(blockchain_address=k)
+            receive_ranking[user.username] = v
+
+        for k, v in tmp_rank['send_ranking'].items():
+            user = User.objects.get(blockchain_address=k)
+            send_ranking[user.username] = v
+
+        sorted_send_ranking = sorted(send_ranking.items(), key=lambda x: x[1], reverse=True)
+        sorted_receive_ranking = sorted(receive_ranking.items(), key=lambda x: x[1], reverse=True)
+        params = {'send_ranking': sorted_send_ranking,
+                  'receive_ranking': sorted_receive_ranking}
+        return render(request, 'ranking.html', params)
+
+
+@login_required
+def grades(request):
+    user = request.user
+    my_grades = Grades.objects.filter(student_id=user.student_id).order_by('-year', '-semester')
+    return render(request, 'grades.html', {'my_grades': my_grades})
 
 
 def forget_password(request):
