@@ -5,6 +5,30 @@
 {% if not_notified_message_count %}
 <a href="/message" id="message_count">{{ not_notified_message_count }}件のメッセージがあります</a>
 {% endif %}
+
+
+<!-- awasome -->
+
+<li class="aw-msg"><a href= "{% url 'message' %}" ><i class="fas fa-comments  fa-3x fa-fw" style="background:DodgerBlue"></i></a></li>
+
+<li class="aw-home"><a href= "/profile/{{ user.student_id }}" ><i class="fas fa-home fa-3x fa-fw" style="background:SkyBlue"></i></a></li>
+
+<li class="aw-search"><a href= "{% url 'user_search' %}" ><i class="fas fa-users fa-3x fa-fw" style="background:DodgerBlue"></i></a></li>
+
+<li class="aw-home"><a href= "{% url 'shop_home' %}" ><i class="fas fa-shopping-cart fa-3x fa-fw" style="background:SkyBlue"></i></a></li>
+
+<li class="nav-link"><a href= "{% url 'logout' %}" ><i class="fas fa-sign-out-alt fa-3x fa-fw" style="background:DodgerBlue"></i></a></li>
+
+
+<!-- <i class="fas fa-comments  fa-3x fa-fw" href="{% url 'message' %}" style="background:DodgerBlue"></i> -->
+<!-- <i class="fas fa-home fa-3x fa-fw" style="background:SkyBlue"></i> -->
+<!-- <i class="fas fa-users fa-3x fa-fw" style="background:DodgerBlue"></i> -->
+<!-- <i class="fas fa-ruble-sign fa-3x fa-fw"  style="background:SkyBlue"></i> -->
+<!-- <i class="fas fa-shopping-cart fa-3x fa-fw" style="background:DodgerBlue"></i> -->
+
+
+
+
 {% if not user.login_flag %}
 <a href="/change" id="changePW">パスワードを変更してください</a>
 {% endif %}

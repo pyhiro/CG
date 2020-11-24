@@ -35,7 +35,7 @@
 <body>
     
 
-
+    
 
 
 
@@ -58,6 +58,7 @@
 
 
                 {% if user.is_authenticated %}
+                
                 <div class="box_area">
                     <ul class="menu">
                         <li><a href="">プロフィール</a>
@@ -69,6 +70,7 @@
                                 </li>
                             </ul>
                         </li>
+                        
                         <li><a href="{% url 'message' %}">メッセージ</a></li>
                         <li><a href="{% url 'point' %}">ポイント</a>
                             <ul>
