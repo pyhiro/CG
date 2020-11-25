@@ -2,7 +2,7 @@
 	float: right;
 	position: relative;
 	z-index: 5000;
-	top: -100px;
+	top: -300px;
 }
 
 
@@ -98,7 +98,7 @@ div#content {
 	/*テキストの配置を左揃えにする*/
 	background-repeat: repeat-y;
 	/*背景画像を縦方向に繰り返す*/
-	background-color : #ffffff;
+	background-color : #aff2f5;
 	/*内容全体の背景色*/
 }
 
@@ -163,7 +163,7 @@ div#footer {
 	/*フッタ部分の背景画像*/
 	background-repeat: no-repeat;
 	/*背景画像を繰り返さない*/
-	background-color : #9da8e7;
+	background-color : #fcfcfc;
 	/*フッタ部分の背景色*/
 }
 

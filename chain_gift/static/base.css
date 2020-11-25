@@ -1,3 +1,30 @@
+body{
+  background:#38ecbf;
+  -webkit-animation:colour 10s linear infinite;
+-moz-animation:colour 10s linear infinite;
+  
+}
+@-webkit-keyframes colour{
+0%{
+background:#e9e6e6
+}
+
+40%{
+background:#e9e6e6
+}
+
+80%{
+background:#e9e6e6
+}
+
+100%{
+background:#e9e6e6
+}
+
+}
+
+
+
 
 
   @media screen and (max-width: 640px) {
