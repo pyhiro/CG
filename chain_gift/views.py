@@ -268,7 +268,7 @@ def message(request):
     try:
         Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
     except:
-        return HttpResponse('no message')
+        pass
     try:
         received_messages = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
     except:
@@ -277,18 +277,19 @@ def message(request):
         send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
     except:
         send_messages = None
-    for obj in received_messages:
-        sender_id = obj.sender
-        sender_obj = User.objects.get(student_id=sender_id)
-        if sender_obj.is_superuser:
-            obj.sender = 'Chain Gift'
-        else:
-            obj.sender = sender_obj.username
-
-    for obj in send_messages:
-        recipient_id = obj.recipient
-        recipient_name = User.objects.get(student_id=recipient_id)
-        obj.recipient = recipient_name.username
+    if received_messages:
+        for obj in received_messages:
+            sender_id = obj.sender
+            sender_obj = User.objects.get(student_id=sender_id)
+            if sender_obj.is_superuser:
+                obj.sender = 'Chain Gift'
+            else:
+                obj.sender = sender_obj.username
+    if send_messages:
+        for obj in send_messages:
+            recipient_id = obj.recipient
+            recipient_name = User.objects.get(student_id=recipient_id)
+            obj.recipient = recipient_name.username
 
     params = {'receive': received_messages,
               'send': send_messages}
