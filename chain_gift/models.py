@@ -99,3 +99,11 @@ class Grades(models.Model):
     social = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     science = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     it = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+
+class MessageCount(models.Model):
+    from_grade_id = models.IntegerField()
+    from_class_id = models.IntegerField()
+    to_grade_id = models.IntegerField()
+    to_class_id = models.IntegerField()
+    time_of_message = models.DateTimeField(default=timezone.now())

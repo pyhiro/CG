@@ -6,7 +6,7 @@ from django.http.response import JsonResponse
 from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm, SuperPointForm
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from .models import User, Secret, Message, Goods, Grades
+from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import logout
@@ -22,6 +22,7 @@ import string
 from email.mime.text import MIMEText
 import urllib
 
+import base58
 import requests
 import yaml
 
@@ -189,9 +190,12 @@ def quick_send(request, pk):
         json=json_data_send, timeout=10)
 
     if response.status_code == 201:
-        msg = Message(contents=msg , sender=user.student_id,
+        msg = Message(contents=msg, sender=user.student_id,
                       recipient=to_user.student_id, point=point)
         msg.save()
+        msg_count = MessageCount(from_grade_id=user.grade_id, from_class_id=user.class_id,
+                                 to_grade_id=to_user.grade_id, to_class_id=to_user.class_id)
+        msg_count.save()
         return redirect(f'/profile/{pk}')
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
@@ -439,9 +443,9 @@ def point(request):
 
 
 def profile(request, pk):
-    user = request.user
-    if not user.is_superuser:
-        user = get_object_or_404(User, student_id=str(pk))
+    user = get_object_or_404(User, student_id=str(pk))
+    if user.is_superuser and not request.user.is_superuser:
+        return redirect('/home')
     if request.method == 'POST':
         to_send = user.blockchain_address
         my_blockchain_address = request.user.blockchain_address
@@ -485,6 +489,9 @@ def profile(request, pk):
                 message_obj = Message(contents=message, sender=request.user.student_id,
                                       recipient=user.student_id, point=value)
                 message_obj.save()
+                msg_count = MessageCount(from_grade_id=user.grade_id, from_class_id=user.class_id,
+                                         to_grade_id=user.grade_id, to_class_id=user.class_id)
+                msg_count.save()
             return redirect(f'/profile/{pk}')
         else:
             return redirect('/home/')
@@ -554,6 +561,9 @@ def signup(request):
         password_by_list = [random.choice(string.ascii_letters + string.digits) for _ in range(8)]
         password = ''.join(password_by_list)
 
+        b58str = base58.b58encode(password.encode()).decode('utf-8')
+        password = b58str[:8]
+
         user = User(
             username=data['username'],
             email=data['email'],
@@ -578,8 +588,8 @@ def signup(request):
 
 
 def goods_db(request):
-    m = Message(contents='good morning', sender='1902050', recipient=request.user.student_id)
-    m.save()
+    # m = Message(contents='good morning', sender='1902050', recipient=request.user.student_id)
+    # m.save()
     category = request.GET.get('category', None)
     if category:
         goods = Goods.objects.filter(category=category)
@@ -712,6 +722,10 @@ def forget_change_password(request):
         logout(request)
     password_list = [random.choice(string.ascii_letters + string.digits) for _ in range(8)]
     password = ''.join(password_list)
+
+    b58str = base58.b58encode(password.encode()).decode('utf-8')
+    password = b58str[:8]
+
     user.set_password(password)
     user.password_change_query = None
     user.login_flag = False
