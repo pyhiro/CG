@@ -1,6 +1,8 @@
 /*枠デザイン*/
 .profile_box {
     font-size: 14px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
     margin: 2em 0;
     background: #dcefff; /*内容の背景色*/
 }
@@ -41,9 +43,12 @@
 .profile_box p {
     position: relative;
     background-color: #FFF;
-    padding: 5.0rem 2.5rem;
+    padding: 3.0rem 1.5rem;
     border: 6px double #000;
+    word-wrap: break-word;
 }
+
+
 
     /*リスト*/
 .profile_box ul {
@@ -129,16 +134,12 @@ button.btn {
   box-sizing: inherit;
 }
 
-html {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 62.5%;
-}
+
 
 .btn,
 a.btn,
 button.btn {
-  font-size: 1.6rem;
+  font-size: 100%;
   font-weight: 700;
   line-height: 1.5;
   position: relative;
@@ -155,7 +156,7 @@ button.btn {
   vertical-align: middle;
   text-decoration: none;
   letter-spacing: 0.1em;
-  color: #212529;
+  color:white;
   border-radius: 0.5rem;
 }
 
