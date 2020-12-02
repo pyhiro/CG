@@ -59,3 +59,8 @@ class ImageForm(forms.ModelForm):
         model = User
         fields = ('profile_img',)
 
+
+class PasswordForgetForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email',)
