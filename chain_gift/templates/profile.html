@@ -23,7 +23,7 @@
         {% endif %}
             <div class="box-title">プロフィール</div>
             <div class="profile_center">
-                {% if user.profile_img and self_user %}
+                {% if img_url %}
                 <img src="/media/{{ img_url }}" alt="" class="profile_figure">
                 {% else %}
                 <img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">

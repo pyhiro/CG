@@ -3,9 +3,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
-from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm, SuperPointForm
+from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm, SuperPointForm, PasswordForgetForm
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
 from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -67,9 +66,11 @@ class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'password_change_done.html'
 
 
+@login_required
 def index(request):
-    if not request.user.is_authenticated:
-        return redirect(f'/login?next=/index')
+    user = request.user
+    if not user.login_flag:
+        return redirect('/change?next=/index')
     return render(request, 'index.html')
 
 
@@ -197,11 +198,14 @@ def quick_send(request, pk):
                                  to_grade_id=to_user.grade_id, to_class_id=to_user.class_id)
         msg_count.save()
         return redirect(f'/profile/{pk}')
+    ################todo
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
 @login_required
 def user_search(request):
+    if not request.user.login_flag:
+        return redirect('/change?next=/user_search')
     if request.method == 'POST':
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
@@ -228,46 +232,39 @@ def user_search(request):
 
     form = UserSearchForm()
     users = User.objects.all()
-    params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
+    params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'user_search.html', params)
 
 
+@login_required
 def home(request):
-    if not request.user.is_authenticated:
-        return redirect('/login')
-    not_notified_messages = Message.objects.filter(notify_flag=0, recipient=request.user.student_id)
+    user = request.user
+    if not user.login_flag:
+        return redirect('/change?next=/home')
+    not_notified_messages = Message.objects.filter(notify_flag=0, recipient=user.student_id)
     not_notified_message_count = len(not_notified_messages)
-    params = {'not_notified_message_count': not_notified_message_count}
+    my_blockchain_address = user.blockchain_address
+    try:
+        response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=1)
+        if response.status_code == 200:
+            total = response.json()['amount']
+        else:
+            total = 'error'
+    except:
+        total = 0
+    params = {'not_notified_message_count': not_notified_message_count,
+              'total': total}
     return render(request, 'home.html', params)
-# def calculate_amount(request):
-#     if request.method == 'GET':
-#         my_blockchain_address = request.GET.get('blockchain_address', None)
-#
-#         # json_data = json.loads(request.body)
-#         # if not all(k in json_data for k in required):
-#
-#         if my_blockchain_address is None:
-#             return HttpResponse('Missing values', status=400)
-#
-#         # my_blockchain_address = request.args.get('blockchain_address')
-#         response = requests.get(
-#             urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
-#             {'blockchain_address': my_blockchain_address},
-#             timeout=10)
-#         if response.status_code == 200:
-#             total = response.json()['amount']
-#             return JsonResponse({'message': 'success', 'amount': total}, status=200)
-#         return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
-#
 
 
 @login_required
 def message(request):
-    if not request.user.is_authenticated:
-        return redirect('/login?next=/message')
-    # m = Message(contents='hello', sender='1902005', recipient='1902005')
-    # m.save()
     user = request.user
+    if not user.login_flag:
+        return redirect('/change?next=/message')
     student_id = user.student_id
     try:
         Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
@@ -300,11 +297,12 @@ def message(request):
     return render(request, 'message.html', params)
 
 
+@login_required
 def message_detail(request, pk):
-    if not request.user.is_authenticated:
-        return redirect(f'/login?next=/message_detail/{pk}')
     msg = Message.objects.get(id=pk)
     user = request.user
+    if not user.login_flag:
+        return redirect(f'/change?next=/message_detail/{pk}')
 
     if msg.sender != user.student_id and msg.recipient != user.student_id:
         return redirect('/message')
@@ -333,6 +331,7 @@ def message_detail(request, pk):
         msg.recipient = 'Chain Gift'
     return render(request, 'message_detail.html', {'message': msg})
 
+
 @login_required
 def super_point(request):
     user = request.user
@@ -358,7 +357,6 @@ def super_point(request):
             redirect('/super_point')
         point = int(point)
         msg = form.data['contents']
-        print("msg", msg)
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
         secret = Secret.objects.get(id_hash=hashed_id)
 
@@ -389,7 +387,6 @@ def super_point(request):
 
         if response.status_code == 201:
             for usr in users:
-                print(msg, usr.student_id, user.student_id, usr.student_id, point)
                 new_msg = Message(contents=msg, sender=user.student_id,
                                   recipient=usr.student_id, point=point)
                 new_msg.save()
@@ -398,12 +395,13 @@ def super_point(request):
     return render(request, 'super_point.html', {'form': form})
 
 
+@login_required
 def point(request):
-    if not request.user.is_authenticated:
-        return redirect('/login?next=/point')
     user = request.user
-    my_blockchain_address = user.blockchain_address
+    if not user.login_flag:
+        return redirect('/change?next=/point')
 
+    my_blockchain_address = user.blockchain_address
     response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
         {'blockchain_address': my_blockchain_address},
@@ -442,7 +440,13 @@ def point(request):
     return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
 
+@login_required
 def profile(request, pk):
+    user = request.user
+    img_url = user.profile_img
+    if not user.login_flag:
+        return redirect(f'/change?next=profile/{pk}')
+
     user = get_object_or_404(User, student_id=str(pk))
     if user.is_superuser and not request.user.is_superuser:
         return redirect('/home')
@@ -515,12 +519,16 @@ def profile(request, pk):
                 params['self_user'] = True
         else:
             params['self_user'] = False
+    params['user_img'] = img_url
     return render(request, 'profile.html', params)
 
 
 @login_required
 def edit_profile(request, pk):
     user = request.user
+    if not user.login_flag:
+        return redirect(f'/change?next=/profile/edit/{pk}')
+
     if user.pk != str(pk):
         return redirect('/home/')
     if request.method == 'POST':
@@ -662,7 +670,10 @@ def super_delete(request, pk):
     return render(request, 'super_delete.html')
 
 
+@login_required
 def get_ranking(request):
+    if not request.user.login_flag:
+        return redirect('/change?next=/ranking')
     now = datetime.datetime.now()
     month_first = now.replace(hour=0, minute=0, second=0, microsecond=0)
     month_last = now.replace(hour=23, minute=59, second=59, microsecond=999999)
@@ -695,13 +706,16 @@ def get_ranking(request):
 @login_required
 def grades(request):
     user = request.user
+    if not user.login_flag:
+        return redirect('/change?next=/grades')
     my_grades = Grades.objects.filter(student_id=user.student_id).order_by('-year', '-semester')
     return render(request, 'grades.html', {'my_grades': my_grades})
 
 
 def forget_password(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        form = PasswordForgetForm(request.POST)
+        email = form.data['email']
         user = get_object_or_404(User, email=email)
         random_query = [random.choice(string.ascii_letters + string.digits) for _ in range(30)]
         random_query_str = ''.join(random_query)
@@ -709,7 +723,8 @@ def forget_password(request):
         user.save()
         send_gmail(email=user.email, query=random_query_str)
         return redirect('/login')
-    return render(request, 'forget.html')
+    form = PasswordForgetForm()
+    return render(request, 'forget.html', {'form': form})
 
 
 def forget_change_password(request):

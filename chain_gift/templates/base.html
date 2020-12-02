@@ -1,5 +1,4 @@
 {% load static %}
-
 <!doctype html>
 <html>
 
@@ -25,85 +24,28 @@
         });
     </script>
 
-    <li>
-        <a class="nav-link">ユーザ名：{{ user.username }}</a>
-
-    </li>
-
 </head>
 
 <body>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/chain2.png' %url 'home' %}" width="160" height="50" alt="Parrots">
+        </a>
+        <ul style="list-style:none" class="header-icon">
+            <li class="aw-msg aw-head"><a href= "{% url 'message' %}" ><i class="fas fa-comments  fa-2x fa-fw" style="color:rgb(38, 38, 38)"></i></a></li>
+            <li class="aw-search aw-head"><a href= "{% url 'user_search' %}" ><i class="fas fa-search fa-2x fa-fw" style="color:rgb(38, 38, 38)"></i></a></li>
+            <li class="aw-home aw-head"><a href= "{% url 'shop_home' %}" ><i class="fas fa-shopping-cart fa-2x fa-fw" style="color:rgb(38, 38, 38)"></i></a></li>
+            <li class="aw-head aw-head"><a href= "{% url 'grades' %}" ><i class="fas fa-chart-bar fa-2x fa-fw" style="color:rgb(38, 38, 38)"></i></a></li>
+            {% if user.profile_img %}
+            <li class="aw-home aw-head"><a href= "/profile/{{ user.student_id }}" ><img src="/media/{{ user.profile_img }}" alt="" class="profile_figure_bar"></a></li>
+            {% else %}
+            <li class="aw-home aw-head"><a href= "/profile/{{ user.student_id }}" ><img src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure_bar"></a></li>
+            {% endif %}
+            <li class="aw-head aw-head"><a href= "{% url 'logout' %}" ><i class="fas fa-sign-out-alt fa-2x fa-fw" style="color:rgb(38, 38, 38)"></i></a></li>
 
-    
-
-
-
-
-
-
-            <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
-            <div id="pagebody">
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'images/chain2.png' %url 'home' %}" width="160" height="50" alt="Parrots">
-                </a>
-
-
-                <button mat-icon-button>
-
-                    <mat-icon class="icon">新しい通知</mat-icon>
-                    <span class="badge"></span>
-                    <i class="fas fa-bell badge"></i>
-                </button>
-
-
-                {% if user.is_authenticated %}
-                
-                <div class="box_area">
-                    <ul class="menu">
-                        <li><a href="">プロフィール</a>
-                            <ul>
-                                <li><a href="/profile/{{ user.student_id }}">MYプロフィール</a></li>
-                                <li>
-                                    <a class="nav-link" href="{% url 'logout' %}">
-                                        <i class="fa fa-fw fa-sign-out"></i>ログアウト</a>
-                                </li>
-                            </ul>
-                        </li>
-                        
-                        <li><a href="{% url 'message' %}">メッセージ</a></li>
-                        <li><a href="{% url 'point' %}">ポイント</a>
-                            <ul>
-                                <li><a href="{% url 'shop_home' %}">ショップ</a></li>
-                                <li><a href="">ポイント確認</a></li>
-                            </ul>
-                        </li>
-                        <li> <a href="{% url 'user_search' %}">ユーザー検索</a></li>
-
-                    </ul>
-                    {% endif %}
-                </div>
-                <br><br>
-                <div class="area">
-                    <ul class="circles">
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-            
-                    </ul>
-                </div>
-            
-            </div>
-
-            {% block content %} {% endblock %}
-
+        </ul>
+        <br><br>
+        {% block content %}
+        {% endblock %}
 </body>
-
 </html>

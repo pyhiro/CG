@@ -6,35 +6,9 @@
 <a href="/message" id="message_count">{{ not_notified_message_count }}件のメッセージがあります</a>
 {% endif %}
 
-
-<!-- awasome -->
-
-<li class="aw-msg"><a href= "{% url 'message' %}" ><i class="fas fa-comments  fa-3x fa-fw" style="background:DodgerBlue"></i></a></li>
-
-<li class="aw-home"><a href= "/profile/{{ user.student_id }}" ><i class="fas fa-home fa-3x fa-fw" style="background:SkyBlue"></i></a></li>
-
-<li class="aw-search"><a href= "{% url 'user_search' %}" ><i class="fas fa-users fa-3x fa-fw" style="background:DodgerBlue"></i></a></li>
-
-<li class="aw-home"><a href= "{% url 'shop_home' %}" ><i class="fas fa-shopping-cart fa-3x fa-fw" style="background:SkyBlue"></i></a></li>
-
-<li class="nav-link"><a href= "{% url 'logout' %}" ><i class="fas fa-sign-out-alt fa-3x fa-fw" style="background:DodgerBlue"></i></a></li>
-
-
-<!-- <i class="fas fa-comments  fa-3x fa-fw" href="{% url 'message' %}" style="background:DodgerBlue"></i> -->
-<!-- <i class="fas fa-home fa-3x fa-fw" style="background:SkyBlue"></i> -->
-<!-- <i class="fas fa-users fa-3x fa-fw" style="background:DodgerBlue"></i> -->
-<!-- <i class="fas fa-ruble-sign fa-3x fa-fw"  style="background:SkyBlue"></i> -->
-<!-- <i class="fas fa-shopping-cart fa-3x fa-fw" style="background:DodgerBlue"></i> -->
-
-
-
-
-{% if not user.login_flag %}
-<a href="/change" id="changePW">パスワードを変更してください</a>
-{% endif %}
 <div id="slide-wrapper">
   <div class="slider">
-    <div class="shop1">
+    <div class="slide">
       <a href="{% url 'point' %}">
         <img src="{% static 'images/borupen.jpg' %}" width="1200" height="300" alt="please">
       </a>
@@ -48,79 +22,7 @@
   </div>
 </div>
 
+<div>保有ポイント</div>
+<p>{{total}}</p>
 
-<div id="content">
-  <div id="quickpoint">
-    <h2>クイックポイント</h2>
-  </div>
-  <div id="news">
-    <div id="teikeibun">
-      <li>定型文選択</li>
-    </div>
-    <label for="sentence selection_checkbox">
-      <input type="radio" name="message" value="thank" />ありがとう
-    </label>
-    <label for="sentence selection_checkbox">
-      <input type="radio" name="message" value="good" />良かったよ
-    </label>
-    <label for="sentence selection_checkbox">
-      <input type="radio" name="message" value="please" />よろしく
-    </label>
-    <div id="point">
-      <li>ポイント選択</li>
-    </div>
-    <label for="sentence selection_checkbox">
-      <input type="radio" name="point" value="5pt" />5pt
-    </label>
-    <label for="sentence selection_checkbox">
-      <input type="radio" name="point" value="10pt" />10pt
-    </label>
-    <label for="sentence selection_checkbox">
-      <input type="radio" name="point" value="100pt" />100pt
-    </label>
-  </div>
-  <div id="submenu">
-    <div id="submenu_header">メニュー欄</div>
-    <ul id="submenu_body">
-      <li>学年・クラス選択</li>
-      <select name="address">
-        <optgroup label="学年１">
-          <option value="one">1組</option>
-          <option value="two">2組</option>
-          <option value="three">3組</option>
-        </optgroup>
-        <optgroup label="学年２">
-          <option value="fhour">1組</option>
-          <option value="five">2組</option>
-          <option value="six">3組</option>
-        </optgroup>
-        <optgroup label="学年3">
-          <option value="seven">1組</option>
-          <option value="eight">2組</option>
-          <option value="nine">3組</option>
-        </optgroup>
-      </select>
-      <li>送信相手選択</li>
-      <select name="picture_messenger">
-        <optgroup label="選択">
-          <option value="name_one">名前</option>
-          <option value="name_two">名前</option>
-          <option value="name_three">名前</option>
-        </optgroup>
-      </select>
-
-
-      <!-- フッタ -->
-    </ul>
-
-  </div>
-  <div id="footer">
-    
-    <address>
-      <button mat-icon-button>
-        <a href class="btn--orange">これやで</a>
-    </button>
-    </address>
-  </div>
-</div>
 {% endblock content %}
