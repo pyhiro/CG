@@ -189,11 +189,9 @@ def quick_send(request, pk):
     response = requests.post(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
         json=json_data_send, timeout=10)
-
     if response.status_code == 201:
-        msg = Message(contents=msg, sender=user.student_id,
-                      recipient=to_user.student_id, point=point)
-        msg.save()
+        Message(contents=msg, sender=user.student_id,
+                recipient=to_user.student_id, point=point).save()
         msg_count = MessageCount(from_grade_id=user.grade_id, from_class_id=user.class_id,
                                  to_grade_id=to_user.grade_id, to_class_id=to_user.class_id)
         msg_count.save()
@@ -210,27 +208,27 @@ def user_search(request):
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
         if grade_id and not class_id:
-            users = User.objects.filter(grade_id=grade_id)
+            users = User.objects.filter(grade_id=grade_id).order_by('grade_id', 'class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         elif grade_id and class_id:
-            users = User.objects.filter(grade_id=grade_id, class_id=class_id)
+            users = User.objects.filter(grade_id=grade_id, class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         elif not grade_id and class_id:
-            users = User.objects.filter(class_id=class_id)
+            users = User.objects.filter(class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         else:
             form = UserSearchForm()
-            users = User.objects.all()
+            users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
             params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
             return render(request, 'user_search.html', params)
 
-    form = UserSearchForm()
+    form = UserSearchForm(initial={'grade_id':''})
     users = User.objects.all()
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'user_search.html', params)
@@ -271,7 +269,7 @@ def message(request):
     except:
         pass
     try:
-        received_messages = Message.objects.filter(recipient=student_id).order_by('-time_of_message')
+        received_messages = Message.objects.filter(recipient=student_id).order_by('-id')
     except:
         received_messages = None
     try:
@@ -285,12 +283,12 @@ def message(request):
             if sender_obj.is_superuser:
                 obj.sender = 'Chain Gift'
             else:
-                obj.sender = sender_obj.username
+                obj.sender = (sender_obj.username, sender_id)
     if send_messages:
         for obj in send_messages:
             recipient_id = obj.recipient
             recipient_name = User.objects.get(student_id=recipient_id)
-            obj.recipient = recipient_name.username
+            obj.recipient = (recipient_name.username, recipient_id)
 
     params = {'receive': received_messages,
               'send': send_messages}
@@ -441,7 +439,7 @@ def point(request):
 
 
 @login_required
-def profile(request, pk):
+def profile(request, pk=None):
     user = request.user
     img_url = user.profile_img
     if not user.login_flag:
@@ -450,6 +448,8 @@ def profile(request, pk):
     user = get_object_or_404(User, student_id=str(pk))
     if user.is_superuser and not request.user.is_superuser:
         return redirect('/home')
+
+
     if request.method == 'POST':
         to_send = user.blockchain_address
         my_blockchain_address = request.user.blockchain_address
@@ -458,6 +458,7 @@ def profile(request, pk):
             return redirect(f'/profile/{pk}')
         message = request.POST.get('message')
         value = str(request.POST.get('amount'))
+
         if not value.isdigit() or int(value) <= 0:
             return redirect(f'/profile/{pk}')
 
@@ -487,7 +488,6 @@ def profile(request, pk):
         response = requests.post(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
             json=json_data_return, timeout=10)
-
         if response.status_code == 201:
             if message:
                 message_obj = Message(contents=message, sender=request.user.student_id,
