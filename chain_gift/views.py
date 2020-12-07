@@ -333,8 +333,9 @@ def message_detail(request, pk):
         msg.sender = 'Chain Gift'
     if receive_user.is_superuser:
         msg.recipient = 'Chain Gift'
-    return render(request, 'message_detail.html', {'message': msg})
+    # return render(request, 'message_detail.html', {'message': msg})
 
+    return JsonResponse({'sender': msg.sender, 'recipient': msg.recipient, 'contents': msg.contents, 'point': msg.point})
 
 @login_required
 def super_point(request):
