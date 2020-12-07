@@ -246,7 +246,7 @@ def home(request):
         response = requests.get(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
             {'blockchain_address': my_blockchain_address},
-            timeout=1)
+            timeout=10)
         if response.status_code == 200:
             total = response.json()['amount']
         else:
@@ -279,7 +279,10 @@ def message(request):
     if received_messages:
         for obj in received_messages:
             sender_id = obj.sender
-            sender_obj = User.objects.get(student_id=sender_id)
+            try:
+                sender_obj = User.objects.get(student_id=sender_id)
+            except:
+                continue
             if sender_obj.is_superuser:
                 obj.sender = 'Chain Gift'
             else:
@@ -287,7 +290,10 @@ def message(request):
     if send_messages:
         for obj in send_messages:
             recipient_id = obj.recipient
-            recipient_name = User.objects.get(student_id=recipient_id)
+            try:
+                recipient_name = User.objects.get(student_id=recipient_id)
+            except:
+                continue
             obj.recipient = (recipient_name.username, recipient_id)
 
     params = {'receive': received_messages,
