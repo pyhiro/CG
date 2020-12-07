@@ -7,7 +7,6 @@ from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperU
 from django.views.decorators.csrf import csrf_exempt
 from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from django.contrib.auth import logout
 
 import datetime
@@ -22,6 +21,7 @@ from email.mime.text import MIMEText
 import urllib
 
 import base58
+import qrcode
 import requests
 import yaml
 
@@ -152,6 +152,7 @@ def quick_send(request, pk):
     if not request.user.is_authenticated:
         return redirect(f'/login?next=/quick_send/{pk}')
     user = request.user
+    print(user.blockchain_address)
     if user.student_id == str(pk):
         return redirect(f'/profile/{pk}')
     to_user = User.objects.get(student_id=str(pk))
@@ -284,7 +285,7 @@ def message(request):
             except:
                 continue
             if sender_obj.is_superuser:
-                obj.sender = 'Chain Gift'
+                obj.sender = ('Chain Gift', sender_obj.student_id)
             else:
                 obj.sender = (sender_obj.username, sender_id)
     if send_messages:
@@ -341,10 +342,11 @@ def message_detail(request, pk):
 def super_point(request):
     user = request.user
     if not user.is_superuser:
-        redirect('/home')
+        return redirect('/home')
 
     if not user.blockchain_address:
         w = wallet.Wallet()
+
         user.blockchain_address = 'Chain Gift'
         user.save()
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
@@ -392,9 +394,8 @@ def super_point(request):
 
         if response.status_code == 201:
             for usr in users:
-                new_msg = Message(contents=msg, sender=user.student_id,
-                                  recipient=usr.student_id, point=point)
-                new_msg.save()
+                Message(contents=msg, sender=user.student_id,
+                        recipient=usr.student_id, point=point).save()
         return redirect('/home')
     form = SuperPointForm()
     return render(request, 'super_point.html', {'form': form})
@@ -423,10 +424,13 @@ def point(request):
                 except:
                     continue
                 try:
-                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                    usr = User.objects.filter(blockchain_address=transacted_blockchain_address)[0]
+                    if usr.is_superuser:
+                        transaction['name'] = 'Chain Gift'
+                    else:
+                        transaction['name'] = usr
                 except:
-                    continue
-                transaction['name'] = usr
+                    transaction['name'] = 'Miner'
                 transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
         if params['send']:
             for transaction in params['send']:
@@ -436,10 +440,15 @@ def point(request):
                     continue
                 try:
                     usr = User.objects.get(blockchain_address=transacted_blockchain_address)
+                    if usr.is_superuser:
+                        transaction['name'] = 'Chain Gift'
+                    else:
+                        transaction['name'] = usr
                 except:
-                    continue
-                transaction['name'] = usr
+                    transaction['name'] = 'Miner'
                 transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
+                if user.is_superuser:
+                    params['receive'][-1]['name'] = 'first point'
 
         return render(request, 'point.html', params, status=200)
     return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
@@ -589,6 +598,8 @@ def signup(request):
         user.grade_id = 1
         w = wallet.Wallet()
         user.blockchain_address = w.blockchain_address
+        qr_img_name = make_qr(user.student_id)
+        user.qr_img = qr_img_name
         user.save()
 
         send_gmail(password, data['email'])
@@ -681,11 +692,10 @@ def super_delete(request, pk):
 def get_ranking(request):
     if not request.user.login_flag:
         return redirect('/change?next=/ranking')
+
     now = datetime.datetime.now()
-    month_first = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    month_last = now.replace(hour=23, minute=59, second=59, microsecond=999999)
+    month_first = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     first_time_stamp = month_first.timestamp()
-    last_time_stamp = month_last.timestamp()
 
     response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'ranking'),
@@ -781,3 +791,11 @@ def send_gmail(password=None, email=None, query=None, subject='初回ログイ�
     server.login(gmail_account, gmail_password)
     server.send_message(msg)  # メールの送信
 
+
+def make_qr(student_id):
+    qr = f'http://127.0.0.1:8000/quick_send/{student_id}'
+    file_name = f"media/{student_id}.png"
+
+    img = qrcode.make(qr)
+    img.save(file_name)
+    return f'{student_id}.png'
