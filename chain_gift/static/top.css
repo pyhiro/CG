@@ -1,0 +1,429 @@
+@charset "utf-8";
+
+/*
+Theme Name: ONZE-DEMO
+Theme URI: http://on-ze.com/
+Author: ONZE - Issei Hara
+Author URI: http:/on-ze.com
+Description: Design by <a href="http://on-ze.com" title="ONZE">ONZE</a>.
+Version: 0.9
+*/
+
+/******************/
+/******************/
+/* reset **********/
+
+* {
+-webkit-box-sizing:border-box;
+-moz-box-sizing:border-box;
+-ms-box-sizing:border-box;
+-o-box-sizing:border-box;
+box-sizing:border-box;
+}
+
+/* not selected : script, noscript, template */
+html, body, article, section, nav, aside, h1, h2, h3, h4, h5, h6, header, footer, address, p, hr, pre, blockquote, ol, ul, li, dl, dt, dd, figure, figcaption, div, main, a, em, strong, small, s, cite, q, dfn, abbr, data, time, code, var, samp, kbd, sub, sup, i, b, u, mark, ruby, rb, rt, rtc, rp, bdi, bdo, span, br, wbr, ins, del, img, iframe, embed, object, param, video, audio, source, track, map, area, table, caption, colgroup, col, tbody, thead, tfoot, tr, td, th, form, label, input, button, select, datalist, optgroup, option, textarea, keygen, output, progress, meter, fieldset, legend, canvas {
+border:0;
+margin:0;
+outline:0;
+padding:0;
+background:transparent;
+font:inherit;
+font-family:inherit;
+font-size:100%;
+font-style:inherit;
+font-weight:inherit;
+text-decoration:none;
+vertical-align:baseline;
+}
+
+html {font-size:62.5%; width:100%; height:100%;}
+
+body {
+background:transparent;
+color:#1a1a1a;
+font-family:'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'Meiryo', 'メイリオ', 'MS PGothic', 'ＭＳ Ｐゴシック', Helvetica, Arial, sans-serif;
+font-size:14px;
+font-size:1.4rem;
+line-height:1;
+position:relative;
+text-align:center;
+	-webkit-text-size-adjust:100%;
+	-moz-text-size-adjust:100%;
+	-ms-text-size-adjust:100%;
+	-o-text-size-adjust:100%;
+	text-size-adjust:100%;
+width:100%;
+height:100%;
+-webkit-font-smoothing:antialiased;
+/*-moz-font-smoothing:antialiased;
+-ms-font-smoothing:antialiased;
+-o-font-smoothing:antialiased;*/
+font-smoothing:antialiased;
+/* text-rendering:optimizeLegibility; まだ使わないほうが無難 */
+}
+
+article, aside, dialog, figure, footer, header, main, menu, nav, section {display:block;}
+audio, canvas, video {display:inline-block;}
+
+br,
+hr {display:block;}
+
+ol,
+ul {list-style:none;}
+
+input,
+select {vertical-align:middle;}
+
+ins {text-align:center;}
+
+/******************/
+/* html5 format ***/
+
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section {display:block;}
+
+audio,
+canvas,
+video {display:inline-block;}
+
+
+
+/******************/
+/******************/
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+	-webkit-transition:0.2s ease-in-out;
+	-moz-transition:0.2s ease-in-out;
+	-ms-transition:0.2s ease-in-out;
+	-o-transition:0.2s ease-in-out;
+	transition:0.2s ease-in-out;
+}
+
+a:hover {color:#1aa;}
+
+hr {
+border-top:1px solid #ccc;
+margin:30px 0;
+clear:both;
+display:block;
+}
+
+b,
+i,
+em,
+strong {color:#1aa;}
+
+#main img {max-width:100%; height:auto;}
+
+.hide,
+.none {display:none;}
+.center {text-align:center;}
+
+/******************/
+/******************/
+
+#to,
+#bo {
+height:0;
+overflow:hidden;
+display:block;
+clear:both;
+}
+
+.site {position:relative; width:100%; height:100%;}
+
+#header,
+#footer,
+#main {clear:both; display:block; position:relative; width:100%;}
+
+
+#main {display:block; text-align:left; font-size:14px; font-size:1.4rem; padding:120px 0 60px 0; line-height:1.6;}
+#footer {padding:20px 0; clear:both; line-height:1.6; z-index:98;}
+
+#demo {clear:both;}
+
+.inner {max-width:760px; width:100%; padding:0 20px; margin:0 auto;}
+
+
+#main:after {content:""; height:0; display:block; clear:both;}
+
+.ads {width:100%; padding:20px; overflow:hidden; display:block; clear:both;}
+
+/******************/
+
+#header {width:100%; height:80px; position:fixed; top:0; left:0; color:#fff; padding:0; margin:0; padding:15px 0; z-index:99;}
+#header h1 {display:block; position:relative; width:90px; height:30px; overflow:hidden; z-index:99; margin:0 auto 20px auto;}
+#header h1 a {background-image:url(../images/logo-g.png); background-position:0 0; background-repeat:no-repeat;
+	-webkit-background-size:90px 30px;
+	-moz-background-size:90px 30px;
+	-ms-background-size:90px 30px;
+	-o-background-size:90px 30px;
+	background-size:90px 30px;
+display:block; padding:50px 0 0 0;
+}
+
+#header h2 {display:none;}
+
+/******************/
+
+#footer {font-size:12px; font-size:1.2rem;}
+#footer a {color:#1ebeb4;}
+#footer a.btn:hover {color:#fff;}
+
+/******************/
+
+h1 {margin-bottom:40px; font-size:20px; font-size: 8.0rem ;text-align:center;}
+h2 {margin-bottom:40px; font-size:20px; font-size:2.0rem; text-align:center;}
+h3 {margin-bottom:40px; font-size:20px; font-size:2.0rem; text-align:center;}
+h3 span {font-size:0.8em; color:#666; display:block;}
+
+h4 {margin-bottom:1em; font-size:18px; font-size:1.8rem;}
+
+p {margin-bottom:30px;}
+
+
+ul {margin-bottom:30px;}
+
+ul li:last-child,
+ol li:last-child {margin-bottom:0}
+
+ul li {display:block;}
+
+ul li a {display:block;}
+
+ul li a:hover {}
+
+dl {margin-bottom:20px;}
+dl dt {margin-bottom:5px; font-size:1.1em; font-weight:bold;}
+dl dd {margin-bottom:20px;}
+
+
+pre {
+margin-bottom:30px;
+font-family:"Deja-vu Sans Mono", Monaco, "Consolas", "Courier New", "Osaka-mono", "MS Gothic", monospace;
+color: #ddd;
+background: #333;
+border-radius:4px;
+font-size:13px;
+font-size:1.3rem;
+margin:0 0 30px 0;
+padding:0.8em 1em;
+white-space:pre-wrap;
+word-break:break-all;
+word-wrap:break-word;
+}
+
+pre code {
+font-family:Consolas, Courier, sans-serif;
+word-break:normal;
+word-wrap:normal;
+white-space:pre;
+padding:0;
+margin:0;
+}
+
+/******************/
+/******************/
+
+form {
+clear:both;
+display:block;
+margin-bottom:30px;
+}
+
+fieldset {
+margin-bottom:10px;
+clear:both;
+display:block;
+}
+
+label {
+display:block;
+margin-bottom:5px;
+}
+
+input {
+background:#eee;
+padding:2px 10px;
+}
+
+input[type=radio] {
+display:inline;
+margin-right:10px;
+}
+
+input[type=text],
+textarea {
+padding:0 10px;
+width:100%;
+margin:0 auto;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+input[type=button] {
+font-weight:bold;
+padding:10px 30px;
+cursor:pointer;
+}
+
+input[type=submit] {background-color:#f6f6f6; border:1px solid #ccc; color:#666;}
+input[type=submit]:hover {background-color:#1aa; border:1px solid #1aa; color:#fff;}
+
+
+/******************/
+/******************/
+
+.btn {
+padding:4px 12px;
+margin-bottom:0;
+line-height:2;
+text-align:center;
+white-space:nowrap;
+vertical-align:middle;
+cursor:pointer;
+-webkit-user-select:none;
+   -moz-user-select:none;
+    -ms-user-select:none;
+     -o-user-select:none;
+        user-select:none;
+border:1px solid transparent;
+border-radius:4px;
+}
+
+.btn {display:inline-block; min-width:120px; padding:8px 24px; margin-bottom:16px; border-radius:4px;
+text-align:center; background:transparent; border-color:#1ebeb4; border-style:solid; border-width:1px;
+color:#1ebeb4;
+}
+
+.btn:hover {background-color:#1ebeb4; color:#fff; cursor:pointer;}
+
+.btn.btn-small {padding:4px 12px; min-width:30px; font-size:0.8em;}
+.btn.btn-large {padding:8px 36px; min-width:200px; font-size:1.2em;}
+
+.btn.btn-success {border-color:#2e6392; color:#2e6392;}
+.btn.btn-success:hover {background-color:#2e6392; color:#fff;}
+
+.btn.btn-error {border-color:#E74C3C; color:#E74C3C;}
+.btn.btn-error:hover {background-color:#E74C3C; color:#fff;}
+
+.btn.btn-warning {border-color:#F1C000; color:#F1C000;}
+.btn.btn-warning:hover {background-color:#F1C000; color:#fff;}
+
+
+/******************/
+/* column System **/
+
+.col {width:100%;}
+.col:after {content:""; clear:both; display:block; height:0; visibility:hidden;}
+
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6 {float:left; padding:0; margin:0 2% 2% 0;}
+
+.col-2 {width:49%; /*47.5% - 49%*/}
+.col-3 {width:32%; /*30% - 32%*/}
+.col-4 {width:23.5%; /*20% - 23.5%*/}
+.col-5 {width:18.4%; /*15% - 18.4%*/}
+.col-6 {width:15%; /*12.5% - 15%*/}
+
+.col-2:nth-child(even),
+.col-3:nth-child(3), .col-3:nth-child(6),
+.col-4:nth-child(4), .col-4:nth-child(8),
+.col-5:nth-child(5), .col-5:nth-child(10),
+.col-6:last-child {float:right; margin:0 0 2% 0;}
+
+.col-2:nth-child(odd),
+.col-3:nth-child(2), .col-3:nth-child(5),
+.col-4:nth-child(3), .col-4:nth-child(7),
+.col-5:nth-child(4), .col-5:nth-child(9),
+.col-6:nth-child(5),
+.col-7:nth-last-child(2) {margin:0 0 2% 0;}
+
+.col-2:nth-child(3),
+.col-3:nth-child(4),
+.col-4:nth-child(5),
+.col-5:nth-child(6),
+.col-6:nth-child(7) {clear:both;}
+
+
+/******************/
+/******************/
+
+@-webkit-keyframes rotateh {
+0% {-webkit-transform:rotate(0deg);}
+100% {-webkit-transform:rotate(360deg);}
+}
+@-moz-keyframes rotateh {
+0% {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}
+@-ms-keyframes rotateh {
+0% {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}
+@-o-keyframes rotateh {
+0% {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}
+@keyframes rotateh {
+0% {transform:rotate(0deg);}
+100% {transform:rotate(360deg);}
+}
+
+
+/* end ************/
+/******************/
+/******************/
+
+
+/******************/
+/******************/
+
+#demo,
+#footer {z-index:9; position:relative;}
+
+canvas{
+display:block;
+vertical-align:bottom;
+}
+
+
+#particles-js {
+width:100%;
+height:100%;
+background-color: #ccc;/*
+background-size: cover;
+background-position: 50% 50%;
+background-repeat: no-repeat;*/
+position:absolute;
+top:0;
+left:0;
+right:0;
+bottom:0;
+display:block;
+z-index:0;
+}
+
+
+
+/******************/
+/******************/
