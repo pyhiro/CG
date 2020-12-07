@@ -375,9 +375,23 @@ figure figcaption {
   font-weight: 100;
   font-family: "Roboto", Arial, sans-serif;
 }
+#fh5co-hero .flexslider .slider-text > .slider-text-inner h3 {
+  font-size: 35px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  font-weight: 300;
+  color: white;
+}
 @media screen and (max-width: 768px) {
   #fh5co-hero .flexslider .slider-text > .slider-text-inner h1 {
     font-size: 28px;
+  }
+  #fh5co-hero .flexslider .slider-text > .slider-text-inner h3 {
+    font-size: 24px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    font-weight: 300;
+    color: white;
   }
 }
 #fh5co-hero .flexslider .slider-text > .slider-text-inner h2 {
@@ -386,6 +400,14 @@ figure figcaption {
   margin-bottom: 30px;
   font-weight: 300;
 }
+/* #fh5co-hero .flexslider .slider-text > .slider-text-inner h3 {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  font-weight: 300;
+  color: white;
+} */
+
 #fh5co-hero .flexslider .slider-text > .slider-text-inner h2 a {
   color: rgba(34, 136, 150, 0.8);
   border-bottom: 1px solid rgba(34, 136, 150, 0.7);

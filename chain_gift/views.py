@@ -229,7 +229,7 @@ def user_search(request):
             return render(request, 'user_search.html', params)
 
     form = UserSearchForm(initial={'grade_id':''})
-    users = User.objects.all()
+    users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'user_search.html', params)
 
