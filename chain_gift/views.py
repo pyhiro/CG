@@ -62,6 +62,13 @@ class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
         user = self.request.user
         user.login_flag = True
         user.save()
+        if user.is_superuser and not user.blockchain_address:
+            w = wallet.Wallet()
+            user.blockchain_address = 'Chain Gift'
+            user.save()
+            hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+            s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
+            s.save()
         return render(request, 'password_change_done.html')
     template_name = 'password_change_done.html'
 
@@ -344,14 +351,14 @@ def super_point(request):
     if not user.is_superuser:
         return redirect('/home')
 
-    if not user.blockchain_address:
-        w = wallet.Wallet()
-
-        user.blockchain_address = 'Chain Gift'
-        user.save()
-        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-        s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
-        s.save()
+    # if not user.blockchain_address:
+    #     w = wallet.Wallet()
+    #
+    #     user.blockchain_address = 'Chain Gift'
+    #     user.save()
+    #     hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+    #     s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
+    #     s.save()
 
     if request.method == 'POST':
         users = User.objects.all()

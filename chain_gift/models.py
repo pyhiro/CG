@@ -12,7 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('staff status'), default=False)
 
     student_id = models.CharField(_('学籍番号'), max_length=10, primary_key=True)
-    email = models.EmailField(_('メールアドレス'), unique=True, blank=False)
+    email = models.EmailField(_('email'), unique=True, blank=False)
     blockchain_address = models.CharField(max_length=150, blank=False)
     username = models.CharField(_('名前'), max_length=150, validators=[user_vali])
     furigana = models.CharField(_('ふりがな'), max_length=30)
@@ -67,7 +67,7 @@ class Message(models.Model):
     contents = models.TextField(max_length=200, blank=True)
     sender = models.CharField(max_length=10, blank=False)
     recipient = models.CharField(max_length=10, blank=False)
-    time_of_message = models.DateTimeField(default=timezone.now())
+    time_of_message = models.DateTimeField(default=timezone.now)
     read_flag = models.BooleanField(default=False, null=True)
     notify_flag = models.BooleanField(default=False, null=True)
     point = models.IntegerField(default=10, null=True, blank=False)
@@ -106,4 +106,4 @@ class MessageCount(models.Model):
     from_class_id = models.IntegerField()
     to_grade_id = models.IntegerField()
     to_class_id = models.IntegerField()
-    time_of_message = models.DateTimeField(default=timezone.now())
+    time_of_message = models.DateTimeField(default=timezone.now)
