@@ -711,11 +711,9 @@ def super_delete(request, pk):
     # if not user.is_superuser:
     #     return redirect('/home')
     user = get_object_or_404(User, student_id=str(pk))
-    if request.method == 'POST':
-        user.delete_flag = True
-        user.save()
-        return redirect('/all_users')
-    return render(request, 'super_delete.html')
+    user.delete_flag = True
+    user.save()
+    return redirect('/all_users')
 
 
 @login_required
