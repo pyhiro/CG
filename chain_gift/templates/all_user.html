@@ -12,6 +12,19 @@
 <li><h4>{{total}} pt</h4></li>
 {% endblock %}
 {% block content %}
+<script>
+function to_delete(student_id){
+
+	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+	if(window.confirm('削除してよろしいですか')){
+
+		location.href = "/super_delete/" + student_id; // example_confirm.html へジャンプ
+
+	}
+
+
+}
+</script>
 <div id="fh5co-main">
     <div class="fh5co-narrow-content">
         <h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft">User Search</h2>
@@ -43,20 +56,23 @@
         <div class="row row-bottom-padded-md">
             {% for user in users %}
             <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
-                <a href="/profile/{{ user.student_id }}">
                     <div class="blog-entry">
                         {% if user.delete_flag %}
                         <div class="desc" style="background: rgb(230, 230, 230);">
                         {% else %}
                         <div class="desc">
                         {% endif %}
+                        <a href="/profile/{{ user.student_id }}">
                             <h3>{{user.username}}</h3>
+                        </a>
                             <span><small>{{user.grade_id}} </small> 年 <small> {{user.class_id}} </small> 組 <small></small></span>
                             <object><a href="/super_edit/{{ user.student_id }}"><button>編集</button></a></object>
-                            <object><a href="/super_delete/{{ user.student_id }}"><button>削除</button></a></object>
+                        {% if user.delete_flag %}
+                        {% else %}
+                            <object><button  onClick="to_delete({{user.student_id}})">削除</button></object>
+                        {% endif %}
                         </div>
                     </div>
-                </a>
             </div>
             {% endfor %}
         </div>
