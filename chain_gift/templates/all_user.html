@@ -1,12 +1,65 @@
-{% for usr in all_user %}
-<a href="">
-{{ usr.student_id }}
-{{ usr.username }}
-{{ usr.email }}
-{{ usr.grade_id }}
-{{ usr.class_id }}
-</a>
-<a href="/super_edit/{{ usr.student_id }}"><button>編集</button></a>
-<a href="/super_delete/{{ usr.student_id }}"><button>削除</button></a>
-<br>
-{% endfor %}
+{% extends 'base.html' %}
+{% load static %}
+{% block nav %}
+<link rel="stylesheet" href="{% static 'user_search.css' %}">
+<li><a href="/home">Home</a></li>
+<li><a href="/message">Message</a></li>
+<li><a href="/point">Point</a></li>
+<li><a href="/profile/{{ user.student_id }}">Profile</a></li>
+<li class="fh5co-active"><a href="/all_users">All Users</a></li>
+<li><a href="/shop">Shop</a></li>
+<li><a href="/logout">Logout</a></li>
+<li><h4>{{total}} pt</h4></li>
+{% endblock %}
+{% block content %}
+<div id="fh5co-main">
+    <div class="fh5co-narrow-content">
+        <h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft">User Search</h2>
+        <form method="POST" class="animate-box" data-animate-effect="fadeInLeft">
+            {% csrf_token %}
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>学年</th>
+                    <td>
+                        {{ form.grade_id }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>クラス</th>
+                    <td>
+                        {{ form.class_id }}
+                    </td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td>
+                        <button type="submit">検索</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+        <div class="row row-bottom-padded-md">
+            {% for user in users %}
+            <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
+                <a href="/profile/{{ user.student_id }}">
+                    <div class="blog-entry">
+                        {% if user.delete_flag %}
+                        <div class="desc" style="background: rgb(230, 230, 230);">
+                        {% else %}
+                        <div class="desc">
+                        {% endif %}
+                            <h3>{{user.username}}</h3>
+                            <span><small>{{user.grade_id}} </small> 年 <small> {{user.class_id}} </small> 組 <small></small></span>
+                            <object><a href="/super_edit/{{ user.student_id }}"><button>編集</button></a></object>
+                            <object><a href="/super_delete/{{ user.student_id }}"><button>削除</button></a></object>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

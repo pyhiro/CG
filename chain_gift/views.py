@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.http import HttpResponse
+from django.db.models import Q
 
 import datetime
 import hashlib
@@ -159,10 +161,12 @@ def quick_send(request, pk):
     if not request.user.is_authenticated:
         return redirect(f'/login?next=/quick_send/{pk}')
     user = request.user
-    print(user.blockchain_address)
     if user.student_id == str(pk):
         return redirect(f'/profile/{pk}')
-    to_user = User.objects.get(student_id=str(pk))
+    try:
+        to_user = User.objects.get(student_id=str(pk), delete_flag=False)
+    except:
+        return HttpResponse('user not found')
 
     if request.method == 'GET':
         name = to_user.username
@@ -216,28 +220,29 @@ def user_search(request):
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
         if grade_id and not class_id:
-            users = User.objects.filter(grade_id=grade_id).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(grade_id=grade_id, delete_flag=False).exclude(is_superuser=True).order_by(
+                'grade_id', 'class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         elif grade_id and class_id:
-            users = User.objects.filter(grade_id=grade_id, class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(grade_id=grade_id, class_id=class_id, delete_flag=False).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         elif not grade_id and class_id:
-            users = User.objects.filter(class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(class_id=class_id, delete_flag=False).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         else:
             form = UserSearchForm()
-            users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
             params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
             return render(request, 'user_search.html', params)
 
-    form = UserSearchForm(initial={'grade_id':''})
-    users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+    form = UserSearchForm(initial={'grade_id': ''})
+    users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'user_search.html', params)
 
@@ -351,17 +356,8 @@ def super_point(request):
     if not user.is_superuser:
         return redirect('/home')
 
-    # if not user.blockchain_address:
-    #     w = wallet.Wallet()
-    #
-    #     user.blockchain_address = 'Chain Gift'
-    #     user.save()
-    #     hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-    #     s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
-    #     s.save()
-
     if request.method == 'POST':
-        users = User.objects.all()
+        users = User.objects.exclude(delete_flag=True)
         user_address = list(map(lambda u: u.blockchain_address, users))
         form = SuperPointForm(request.POST)
         point = form.data['point']
@@ -468,7 +464,7 @@ def profile(request, pk=None):
     if not user.login_flag:
         return redirect(f'/change?next=profile/{pk}')
 
-    user = get_object_or_404(User, student_id=str(pk))
+    user = get_object_or_404(User, student_id=str(pk), delete_flag=False)
     if user.is_superuser and not request.user.is_superuser:
         return redirect('/home')
 
@@ -652,8 +648,35 @@ def all_users(request):
     # user = request.user
     # if not user.is_superuser:
     #     return redirect('/home')
-    users = User.objects.all().order_by('student_id')
-    params = {'all_user': users}
+    if not request.user.login_flag:
+        return redirect('/change?next=/user_search')
+    if request.method == 'POST':
+        grade_id = request.POST.get('grade_id', None)
+        class_id = request.POST.get('class_id', None)
+        if grade_id and not class_id:
+            users = User.objects.filter(grade_id=grade_id).order_by('grade_id', 'class_id', 'furigana')
+            form = UserSearchForm(request.POST)
+            params = {'users': users, 'form': form}
+            return render(request, 'all_user.html', params)
+        elif grade_id and class_id:
+            users = User.objects.filter(grade_id=grade_id, class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
+            form = UserSearchForm(request.POST)
+            params = {'users': users, 'form': form}
+            return render(request, 'all_user.html', params)
+        elif not grade_id and class_id:
+            users = User.objects.filter(class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
+            form = UserSearchForm(request.POST)
+            params = {'users': users, 'form': form}
+            return render(request, 'all_user.html', params)
+        else:
+            form = UserSearchForm()
+            users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+            params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
+            return render(request, 'all_user.html', params)
+
+    form = UserSearchForm(initial={'grade_id':''})
+    users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+    params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'all_user.html', params)
 
 
