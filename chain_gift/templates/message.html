@@ -13,6 +13,8 @@
 	<meta name="keywords" content="free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FreeHTML5.co" />
 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+
   	<!--
 	//////////////////////////////////////////////////////
 
@@ -53,6 +55,8 @@
 	<link rel="stylesheet" href="{% static 'flexslider.css' %}">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="{% static 'style.css' %}">
+	<!--message_modal.css-->
+	<link rel="stylesheet" href="{% static 'message_modal.css' %}">
 
 	<!-- Modernizr JS -->
 	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
@@ -111,9 +115,9 @@
 								{% for value in receive %}
 								<div class="col-md-3 col-sm-6 col-padding text-center animate-box">
 									{% if value.read_flag == 0 %}
-									<a href="/message_detail/{{ value.pk }}" class="work image-popup" style="background: rgb(255, 236, 234); height:130px;">
+									<a href="#" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(255, 236, 234); height:130px;">
 										{% else %}
-										<a href="/message_detail/{{ value.pk }}" class="work image-popup" style="background: rgb(230, 230, 230); height:130px;">
+										<a href="#" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;">
 											{% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
 												<h5><object><a href="/profile/{{ value.sender.1 }}" style="color: #000">{{ value.sender.0 }}<br></a></object></h5>
@@ -151,9 +155,34 @@
                     </div>
                   </div>
 			</div>
+		</div>
 
+
+<!--モーダル-->
+<div id="layer_board_area">
+	<div class="layer_board_bg"></div>
+	<section class="layer_board">
+		<h2 class="layer_borad_title" id="sender"></h2>
+		<div class="layer_borad_content" id="message">
 
 		</div>
+		<p class="layer_borad_point" id="point"></p>
+		<a class="mdl_btn_close square_btn" href="#">閉じる</a>
+		<div class="mdl_btn_close circle_btn"></div>
+	</section>
+</div> 
+<script>
+	//モーダル起動用
+	$(function(){
+		$('#layer_board_area').layerBoard({
+		});
+	})
+</script>
+
+
+
+
+
 	<!-- jQuery -->
 	<script src="{% static 'js/jquery.min.js' %}"></script>
 	<!-- jQuery Easing -->
@@ -168,6 +197,8 @@
 
 	<!-- MAIN JS -->
 	<script src="{% static 'js/main.js' %}"></script>
+	<!--Modal JS-->
+	<script src="{% static 'js/message_modal.js' %}"></script>
 
 	</body>
 </html>
