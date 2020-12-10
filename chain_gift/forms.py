@@ -3,6 +3,20 @@ from django import forms
 from .models import User, Message
 
 
+class PointForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ('contents', 'point')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Contents':
+                field.widget.attrs['placeholder'] = 'Message'
+
+
 class SuperPointForm(forms.ModelForm):
     class Meta:
         model = Message
@@ -53,6 +67,12 @@ class UserUpdateForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Image':
+                field.widget.attrs['class'] = None
+            if field.label == '誕生日':
+                field.widget.attrs['id'] = 'datepicker'
+        # if field.label == 'Contents':
+        #     field.widget.attrs['placeholder'] = 'Message'
 
 
 class SuperUserUpdateForm(forms.ModelForm):

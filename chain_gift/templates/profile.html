@@ -18,62 +18,55 @@
 {% block content %}
     <div id="fh5co-main">
          <div class="fh5co-narrow-content animate-box" data-animate-effect="fadeInLeft">
+             <div class="row" style="padding:20px 0 0 0; margin:0">
+                 <div class="" style="text-align: center; padding:0 0 0; margin: 0 0 0">
+                     <h3 style="">プロフィール</h3>
+                 </div>
+             </div>
 
-             <div class="fh5co-narrow-content">
+             <div class="fh5co-narrow-content" style="margin-top: 10px; padding-top: 0;">
                  <div class="row row-bottom-padded-md">
                       <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
                         {% if img_url %}
-                        <img class="img-responsive" src="/media/{{ img_url }}" alt="" class="profile_figure" style="max-width: 250px; max-height: 250px; padding-left: 20px;">
+                        <img class="img-responsive" src="/media/{{ img_url }}" alt="" class="profile_figure" style="max-width: 250px; max-height: 250px; margin: 0 auto;">
                         {% else %}
-                        <img class="img-responsive" src="{% static 'images/power.jpeg' %}" alt="なかやまのプロフィール画像" class="profile_figure">
+                        <img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img" class="profile_figure" style="max-width: 250px; max-height: 250px; margin: 0 auto;">
                         {% endif %}
                       </div>
                       <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
                       <h2 class="fh5co-heading" style="margin:10px 0 5px">{{ username }}</h2>
-                          <p>{{grade_id}} 年 {{class_id}} 組</p>
-                               {% if birth_day %}
-                               <p>誕生日: {{ birth_day|date:"n/j" }}</p>
-                               {% endif %}
-                      <h6 style="padding: 3px; margin:3px 0 ">一言コメント</h6>
+                          <p style="margin-bottom: 0.5ex">クラス: {{grade_id}} 年 {{class_id}} 組</p>
+                               <p style="margin-bottom: 0.5em;">誕生日: {{ birth_day|date:"n/j" }}</p>
+                      <h6 style="padding:0 3px 3px 3px; margin-bottom:3px ; ">一言コメント</h6>
                       <p>{{ profile }}</p>
                       </div>
                  </div>
              </div>
-             <div class="row">
-                 <div class="col-md-4">
-                      <h2>Get In Touch</h2>
-                 </div>
+             {% if self_user %}
+             <div class="" style="text-align:center">
+                 <a href="/profile/edit" class="btn btn-primary btn-md">プロフィール編集</a>
              </div>
-             <form action="">
-                 <div class="row">
-                      <div class="col-md-12">
-                          <div class="row">
-                               <div class="col-md-6">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Phone">
-                                    </div>
-                               </div>
-                               <div class="col-md-6">
-                                    <div class="form-group">
-                                        <textarea name="" id="message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="submit" class="btn btn-primary btn-md" value="Send Message">
-                                    </div>
-                               </div>
-
-                          </div>
-                      </div>
-
+             {% else %}
+             <div class="">
+                 <h3 style="text-align: center">ポイント</h3>
+             </div>
+             <div class="row">
+             </div>
+             <form action="" method="POST">
+                 {% csrf_token %}
+                 {% for error in form.non_field_errors %}
+                 <p style="text-align: center; color: red;">emailまたはパスワードが間違っています。</p>
+                 {% endfor %}
+                 {% for field in form %}
+                 <div class="form-group has-feedback" style="width: 300px; margin: 10px auto">
+                     {{ field }}
+                 </div>
+                 {% endfor %}
+                 <div class="" style="text-align:center">
+                     <button type="submit" class="btn btn-primary btn-md">送信</button>
                  </div>
              </form>
              </div>
+            {% endif %}
         </div>
-    </div>
 {% endblock %}

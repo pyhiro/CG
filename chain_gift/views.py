@@ -3,7 +3,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
-from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperUserUpdateForm, SuperPointForm, PasswordForgetForm
+from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
+                    SuperUserUpdateForm, SuperPointForm, PasswordForgetForm, PointForm)
 from django.views.decorators.csrf import csrf_exempt
 from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
@@ -348,7 +349,11 @@ def message_detail(request, pk):
         msg.recipient = 'Chain Gift'
     # return render(request, 'message_detail.html', {'message': msg})
 
-    return JsonResponse({'sender': msg.sender, 'recipient': msg.recipient, 'contents': msg.contents, 'point': msg.point})
+    return JsonResponse({'sender': msg.sender,
+                         'recipient': msg.recipient,
+                         'contents': msg.contents,
+                         'point': msg.point,
+                         'time': msg.time_of_message})
 
 @login_required
 def super_point(request):
@@ -460,14 +465,12 @@ def point(request):
 @login_required
 def profile(request, pk=None):
     user = request.user
-    img_url = user.profile_img
     if not user.login_flag:
         return redirect(f'/change?next=profile/{pk}')
-
+    img_url = user.profile_img
     user = get_object_or_404(User, student_id=str(pk), delete_flag=False)
     if user.is_superuser and not request.user.is_superuser:
         return redirect('/home')
-
 
     if request.method == 'POST':
         to_send = user.blockchain_address
@@ -475,11 +478,17 @@ def profile(request, pk=None):
 
         if not to_send:
             return redirect(f'/profile/{pk}')
-        message = request.POST.get('message')
-        value = str(request.POST.get('amount'))
+        form_data = PointForm(request.POST)
+        if not form_data.is_valid():
+            return HttpResponse('error')
+        message = form_data.data['contents']
+
+        if not message:
+            return HttpResponse('message none')
+        value = str(form_data.data['point'])
 
         if not value.isdigit() or int(value) <= 0:
-            return redirect(f'/profile/{pk}')
+            return redirect(f'/super_point')
 
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
         secret = Secret.objects.get(id_hash=hashed_id)
@@ -539,19 +548,15 @@ def profile(request, pk=None):
         else:
             params['self_user'] = False
     params['user_img'] = img_url
+    form = PointForm()
+    params['form'] = form
     return render(request, 'profile.html', params)
 
 
 @login_required
-def edit_profile(request, pk):
+def edit_profile(request):
     user = request.user
-    if not user.login_flag:
-        return redirect(f'/change?next=/profile/edit/{pk}')
-
-    if user.pk != str(pk):
-        return redirect('/home/')
     if request.method == 'POST':
-        user = User.objects.get(student_id=user.student_id)
         before = user.profile_img
         form = UserUpdateForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
