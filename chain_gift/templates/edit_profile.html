@@ -37,13 +37,11 @@
     <meta name="twitter:image" content="" />
     <meta name="twitter:url" content="" />
     <meta name="twitter:card" content="" />
-    <!--Date picker    -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-
     <link rel="shortcut icon" href="favicon.ico">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
     <!-- Animate.css -->
     <link rel="stylesheet" href="{% static 'animate.css' %}">
@@ -67,7 +65,7 @@
 <body>
 <div style="display: block; height: 5rem;"></div>
 <h3 class="login-box-msg" style="text-align:center"><b>プロフィール編集</b></h3>
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="" method="POST">
     {% csrf_token %}
     {% for field in form %}
     <div class="form-group has-feedback" style="width: 300px; margin: 10px auto">
@@ -91,12 +89,37 @@
 <!-- Flexslider -->
 <script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
 
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- MAIN JS -->
 <script src="{% static 'js/main.js' %}"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script>$("#datepicker").datepicker();</script>
-<link rel="stylesheet" href="{% static 'login.css' %}">
+<script>$('#datepicker').datepicker({
+              changeYear: true,
+              changeMonth: true
+          })
+           $.datepicker.regional['ja'] = {
+    closeText: '閉じる',
+    prevText: '<前',
+    nextText: '次>',
+    currentText: '今日',
+    monthNames: ['1月','2月','3月','4月','5月','6月',
+    '7月','8月','9月','10月','11月','12月'],
+    monthNamesShort: ['1月','2月','3月','4月','5月','6月',
+    '7月','8月','9月','10月','11月','12月'],
+    dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
+    dayNamesShort: ['日','月','火','水','木','金','土'],
+    dayNamesMin: ['日','月','火','水','木','金','土'],
+    weekHeader: '週',
+    dateFormat: 'yy-mm-dd',
+    firstDay: 0,
+    isRTL: false,
+    showMonthAfterYear: true,
+    yearSuffix: '年',
+    yearRange: '-120:+0',};
+  $.datepicker.setDefaults($.datepicker.regional['ja']);
+</script>
 </body>
 </html>
 <!--<form enctype="multipart/form-data" method="POST">-->

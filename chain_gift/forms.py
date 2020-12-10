@@ -71,8 +71,7 @@ class UserUpdateForm(forms.ModelForm):
                 field.widget.attrs['class'] = None
             if field.label == '誕生日':
                 field.widget.attrs['id'] = 'datepicker'
-        # if field.label == 'Contents':
-        #     field.widget.attrs['placeholder'] = 'Message'
+                field.widget.attrs['autocomplete'] = 'off'
 
 
 class SuperUserUpdateForm(forms.ModelForm):
