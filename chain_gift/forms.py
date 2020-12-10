@@ -23,6 +23,12 @@ class SignUpForm(forms.ModelForm):
         model = User
         fields = ('student_id', 'class_id', 'username', 'furigana', 'email')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
 
 class UserSearchForm(forms.ModelForm):
     class Meta:
@@ -40,6 +46,7 @@ class UserUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
 
 
 class SuperUserUpdateForm(forms.ModelForm):
@@ -53,17 +60,21 @@ class SuperUserUpdateForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
 
-
 class ImageForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('profile_img',)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
 
 
 class PasswordForgetForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email',)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
