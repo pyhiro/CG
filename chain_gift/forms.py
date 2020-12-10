@@ -8,6 +8,12 @@ class SuperPointForm(forms.ModelForm):
         model = Message
         fields = ('contents', 'point')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
 
 class LoginForm(AuthenticationForm):
     """ログオンフォーム"""
