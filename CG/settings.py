@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chain_gift',
+    'axes',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'CG.urls'
@@ -66,6 +68,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesBackend', # ←これを追加
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 WSGI_APPLICATION = 'CG.wsgi.application'
@@ -132,4 +139,7 @@ AUTH_USER_MODEL = 'chain_gift.User'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
+AXES_RESET_ON_SUCCESS = True
+AXES_ONLY_USER_FAILURES = True
+AXES_FAILURE_LIMIT = 6
+AXES_LOCKOUT_TEMPLATE = 'lockout.html'

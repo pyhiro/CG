@@ -6,10 +6,15 @@
     <li><a href="/message">Message</a></li>
     <li><a href="/point">Point</a></li>
     <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
-    <li><a href="/user_search" class="fh5co-active">Search</a></li>
+    <li class="fh5co-active"><a href="/user_search">Search</a></li>
     <li><a href="/shop">Shop</a></li>
     <li><a href="/logout">Logout</a></li>
-	<li><h4>{{total}} pt</h4></li>
+    {% if not user.is_superuser %}
+    <li><h4>{{total}} pt</h4></li>
+    {% endif %}
+    {% if user.is_superuser %}
+    <li><a href="/management">management</a></li>
+    {% endif %}
 {% endblock %}
 {% block content %}
 		<div id="fh5co-main">

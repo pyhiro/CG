@@ -66,12 +66,14 @@ Facebook: 		https://www.facebook.com/fh5co
     <h3 class="login-box-msg" style="text-align:center"><b>ログイン</b></h3>
     <form action="" method="POST">
       {% csrf_token %}
+      {% for error in form.non_field_errors %}
+      <p style="text-align: center; color: red;">emailまたはパスワードが間違っています。</p>
+      {% endfor %}
       {% for field in form %}
       <div class="form-group has-feedback" style="width: 300px; margin: 10px auto">
         {{ field }}
       </div>
       {% endfor %}
-
       <div class="" style="text-align:center">
         <button type="submit" class="btn btn-primary btn-md">ログイン</button>
       </div>

@@ -7,7 +7,7 @@ from .forms import LoginForm, SignUpForm, UserSearchForm, UserUpdateForm, SuperU
 from django.views.decorators.csrf import csrf_exempt
 from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
+from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse
 from django.db.models import Q
 
@@ -637,17 +637,17 @@ def goods_db(request):
 
 @login_required
 def management(request):
-    # user = request.user
-    # if not user.is_superuser:
-    #     return redirect('/home')
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
     return render(request, 'management.html')
 
 
 @login_required
 def all_users(request):
-    # user = request.user
-    # if not user.is_superuser:
-    #     return redirect('/home')
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
     if not request.user.login_flag:
         return redirect('/change?next=/user_search')
     if request.method == 'POST':
@@ -682,9 +682,9 @@ def all_users(request):
 
 @login_required()
 def super_edit(request, pk):
-    # user = request.user
-    # if not user.is_superuser:
-    #     return redirect('/home')
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
     user = get_object_or_404(User, student_id=str(pk))
     
     if request.method == 'POST':
@@ -707,9 +707,9 @@ def super_edit(request, pk):
 
 @login_required
 def super_delete(request, pk):
-    # user = request.user
-    # if not user.is_superuser:
-    #     return redirect('/home')
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
     user = get_object_or_404(User, student_id=str(pk))
     user.delete_flag = True
     user.save()
@@ -791,6 +791,8 @@ def forget_change_password(request):
     user.login_flag = False
     user.save()
     send_gmail(password=password, email=user.email, subject='パスワード更新')
+    user = authenticate(request=request, email=email, password=password)
+    login(request, user)
     return redirect('/')
 
 
