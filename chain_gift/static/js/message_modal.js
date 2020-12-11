@@ -22,12 +22,14 @@
 					success: function(data) {
 					  var datum = data
                         var contents = datum.contents
+                        console.log(contents)
                         var sender = datum.sender
                         var point = datum.point
+                        var time = datum.time
                         $("#message").text(contents)
                         $("#sender").text(sender)
-                        $("#point").text(point)
-                        $("#").text(point)
+                        $("#point").text(point+"ポイント")
+                        $("#time").text(time)
 					},
 					error: function(){
 						alert('失敗');
@@ -49,7 +51,8 @@
 				$('.layer_board_bg', elements).fadeOut(option.fadeTime);
 				$('#layer_board_area').css('display', 'none');
 				//非表示にした際背景のスクロール許可
-				$('html, body').css('overflow', 'auto');
+                $('html, body').css('overflow', 'auto');
+                $('#style_modal').css('background','rgb(230, 230, 230)')
 			});
 
 			// 見た目処理(コンテンツが短い場合中央表示) --------------------
