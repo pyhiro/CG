@@ -14,7 +14,7 @@
     box-sizing: border-box; /*スクロールバーを非表示*/
     -ms-overflow-style: none; /*スクロールバーを非表示*/
     scrollbar-width: none; /*スクロールバーを非表示*/
-    z-index: 2;
+    z-index: 1005;
 }
 #layer_board_area::-webkit-scrollbar {
 	display:none; /*スクロールバーを非表示*/
@@ -69,21 +69,32 @@
 	transition: .15s;
 }
 .layer_board .mdl_btn_close.circle_btn:hover {
-	background-color: #FDB53F;
-	border: 1px solid #FDB53F;
+	background-color: #afadad;
+	border: 1px solid #afadad;
 }
 
 /* --↑必須なのはここまで↑-- */
 
 /* --modalWindow タイトル部分-- */
 .layer_borad_title {
-	font-size: 200%;
+	font-size: 250%;
 	font-weight: 200;
 	color: #000000;
 }
 /* --modalWindow コンテンツ部分-- */
 .layer_borad_content {
-	margin: 1em auto 1.5em;
+    margin: 1em auto 1.5em;
+    font-size: 20px;
+}
+/*--ポイント--*/
+.layer_borad_point{
+    font-size: 15px;
+    text-align: left;
+}
+/*--時間--*/
+.layer_borad_time {
+    font-size: 15px;
+    text-align: right;
 }
 /* --modalWindow 四角ボタン-- */
 .layer_board .square_btn {
@@ -92,18 +103,18 @@
     width:160px;
     margin: 0 auto;
     padding: 10px;
-    border:2px solid #111;
     border-radius: 2px;
     font-size: 1.2em;
     font-weight: 300;
-    color: #111;
     text-align: center;
     letter-spacing: 1px;
     text-decoration: none;
     transition: .15s;
+    background:  #37beb0;
+    color: #fff ;
 }
 .layer_board .square_btn:hover {
-	background: #111;
+	background:  #6acec4;
 	color: #fff;
 }
 
@@ -119,4 +130,5 @@
 		background-size: 14px;
 	}
 }
+
 
