@@ -71,7 +71,9 @@ class Message(models.Model):
     read_flag = models.BooleanField(default=False, null=True)
     notify_flag = models.BooleanField(default=False, null=True)
     point = models.IntegerField(default=10, null=True, blank=False)
-    delete_flag = models.BooleanField(default=False, null=True)
+    recipient_delete_flag = models.BooleanField(default=False, null=True)
+    sender_delete_flag = models.BooleanField(default=False, null=True)
+
 
     def __str__(self):
         return self.contents
