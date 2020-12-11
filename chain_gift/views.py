@@ -447,10 +447,10 @@ def point(request):
                 except:
                     continue
                 try:
-                    usr = User.objects.get(blockchain_address=transacted_blockchain_address)
-                    if usr.is_superuser:
+                    if transacted_blockchain_address == 'Chain Gift':
                         transaction['name'] = 'Chain Gift'
                     else:
+                        usr = User.objects.get(blockchain_address=transacted_blockchain_address)
                         transaction['name'] = usr
                 except:
                     transaction['name'] = 'Miner'
@@ -475,11 +475,9 @@ def profile(request, pk=None):
     if request.method == 'POST':
         to_send = user.blockchain_address
         my_blockchain_address = request.user.blockchain_address
-        print("debug1")
         if not to_send:
             return redirect(f'/profile/{pk}')
         form_data = PointForm(request.POST)
-        print("debug2 isvalid", form_data.is_valid())
         if not form_data.is_valid():
             return HttpResponse('error')
         message = form_data.data['contents']
@@ -488,7 +486,6 @@ def profile(request, pk=None):
             return HttpResponse('message none')
         value = str(form_data.data['point'])
 
-        print("debug3")
         if not value.isdigit() or int(value) <= 0:
             return redirect(f'/super_point')
 
@@ -518,9 +515,7 @@ def profile(request, pk=None):
         response = requests.post(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
             json=json_data_return, timeout=10)
-        print("debug4")
         if response.status_code == 201:
-            print("debug5")
             if message:
                 message_obj = Message(contents=message, sender=request.user.student_id,
                                       recipient=user.student_id, point=value)
@@ -626,8 +621,8 @@ def signup(request):
 
 
 def goods_db(request):
-    m = Message(contents='good morning', sender=request.user.student_id, recipient=request.user.student_id)
-    m.save()
+    # m = Message(contents='good morning', sender=request.user.student_id, recipient=request.user.student_id)
+    # m.save()
     category = request.GET.get('category', None)
     if category:
         goods = Goods.objects.filter(category=category)

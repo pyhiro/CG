@@ -6,9 +6,10 @@
 <li><a href="/message">Message</a></li>
 <li><a href="/point">Point</a></li>
 <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
-<li class="fh5co-active"><a href="/all_users">All Users</a></li>
+<li><a href="/user_search">Search</a></li>
 <li><a href="/shop">Shop</a></li>
 <li><a href="/logout">Logout</a></li>
+<li  class="fh5co-active"><a href="/management">Management</a></li>
 <li><h4>{{total}} pt</h4></li>
 {% endblock %}
 {% block content %}
@@ -33,19 +34,19 @@ function to_delete(student_id){
             <table class="form-table">
                 <tbody>
                 <tr>
-                    <th>学年</th>
+                    <th style="background:#e6faeb">学年</th>
                     <td>
                         {{ form.grade_id }}
                     </td>
                 </tr>
                 <tr>
-                    <th>クラス</th>
+                    <th style="background:#e6faeb">クラス</th>
                     <td>
                         {{ form.class_id }}
                     </td>
                 </tr>
                 <tr>
-                    <th></th>
+                    <th style="background:#e6faeb"></th>
                     <td>
                         <button type="submit">検索</button>
                     </td>
