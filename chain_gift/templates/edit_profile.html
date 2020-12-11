@@ -65,7 +65,7 @@
 <body>
 <div style="display: block; height: 5rem;"></div>
 <h3 class="login-box-msg" style="text-align:center"><b>プロフィール編集</b></h3>
-<form action="" method="POST">
+<form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
     <div class="form-group has-feedback" style="width: 300px; margin: 10px auto">
@@ -122,7 +122,7 @@
 </script>
 </body>
 </html>
-<!--<form enctype="multipart/form-data" method="POST">-->
+<!--<formmethod="POST">-->
 <!--    {{ message }}-->
 <!--    {{ form.non_field_errors }}-->
 <!--    <table class="table">-->
