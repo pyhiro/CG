@@ -14,6 +14,7 @@
 			// モーダル表示用ボタンの表示処理 --------------------
 			$('.image-popup').click(function() {
                 var url = $(this).attr('name');
+                $(this).css('background', 'rgb(230, 230, 230)')
 				//Ajaxを開始
 				$.ajax({
 					url: url,
@@ -30,6 +31,7 @@
                         $("#sender").text(sender)
                         $("#point").text(point+"ポイント")
                         $("#time").text(time)
+                        
 					},
 					error: function(){
 						alert('失敗');
@@ -52,7 +54,6 @@
 				$('#layer_board_area').css('display', 'none');
 				//非表示にした際背景のスクロール許可
                 $('html, body').css('overflow', 'auto');
-                $('#style_modal').css('background','rgb(230, 230, 230)')
 			});
 
 			// 見た目処理(コンテンツが短い場合中央表示) --------------------
