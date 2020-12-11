@@ -283,11 +283,11 @@ def message(request):
     except:
         pass
     try:
-        received_messages = Message.objects.filter(recipient=student_id).order_by('-id')
+        received_messages = Message.objects.filter(recipient=student_id, recipient_delete_flag=False).order_by('-id')
     except:
         received_messages = None
     try:
-        send_messages = Message.objects.filter(sender=student_id).order_by('-time_of_message')
+        send_messages = Message.objects.filter(sender=student_id, sender_delete_flag=False).order_by('-time_of_message')
     except:
         send_messages = None
     if received_messages:
@@ -324,9 +324,15 @@ def message_detail(request, pk):
 
     if msg.sender != user.student_id and msg.recipient != user.student_id:
         return redirect('/message')
-    if msg.recipient == user.student_id:
+    if msg.recipient == user.student_id and not msg.read_flag:
         msg.read_flag = True
         msg.save()
+
+    if msg.recipient == user.student_id and msg.recipient_delete_flag:
+        return HttpResponse('none')
+    if msg.sender == user.student_id and msg.sender_delete_flag:
+        return HttpResponse('none')
+
     my_user = User.objects.get(student_id=user.student_id)
     sender_id = msg.sender
     recipient_id = msg.recipient
@@ -342,7 +348,7 @@ def message_detail(request, pk):
         msg.sender = sender.username
         msg.recipient = my_user.username
     send_user = User.objects.get(student_id=sender_id)
-    receive_user = User.objects.get(student_id=sender_id)
+    receive_user = User.objects.get(student_id=recipient_id)
     if send_user.is_superuser:
         msg.sender = 'Chain Gift'
     if receive_user.is_superuser:
