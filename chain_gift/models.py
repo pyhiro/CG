@@ -31,6 +31,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     login_missed = models.IntegerField(default=0)
     login_flag = models.BooleanField(default=False)
     delete_flag = models.BooleanField(default=False)
+    dark_mode = models.BooleanField(default=False)
 
     password_change_query = models.CharField(max_length=150, null=True)
 

@@ -121,7 +121,7 @@ figure figcaption {
   text-align: center;
   font-family: "Roboto", Arial, sans-serif;
   font-weight: 700;
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
   text-transform: uppercase;
   font-size: 38px;
 }
@@ -1201,4 +1201,79 @@ display: block;
 z-index: 0;
 }
 
+.desc-p {
+    color: rgba(0, 0, 0, 0.4);
+}
 
+.work span {
+    color: #333
+}
+
+.work {
+    height:130px;
+}
+
+
+
+
+/*
+darkmode_button
+*/
+
+.toggle_button:focus:hover{
+	outline: none;
+}
+
+.toggle_button{
+	appearance: none;
+	-webkit-appearance: none;
+	-ms-appearance: none;
+	-moz-appearance: none;
+
+	display: inline-block;
+	vertical-align: top;
+	width: 64px;
+	height: 32px;
+	margin: 0;
+
+	border-radius: 8px;
+	border: 1px solid #aaa;
+	background-color: #333;
+
+	text-align: center;
+	line-height: 60px;
+	font-size: 20px;
+
+	cursor: pointer;
+
+	transition: 200ms;
+}
+
+.toggle_button:active{
+	height: 32px;
+	margin-top: 2px;
+
+	transition: none;
+}
+
+.toggle_button:not(:checked)::after{
+	display: inline;
+	content: attr(data-off-label);
+	color: #888;
+
+	transition: none;
+}
+.toggle_button:checked::after{
+	display: inline;
+	content: attr(data-on-label);
+	color: #cfc;
+
+	text-shadow:
+		0px 0px 10px #cfc,
+		0px 0px 20px #cfc,
+		0px 0px 30px #cfc;
+	transition: 400ms;
+}
+.toggle_button:active::after{
+	transition: none;
+}

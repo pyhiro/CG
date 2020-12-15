@@ -4,13 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
 from django.http.response import JsonResponse
 from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
-                    SuperUserUpdateForm, SuperPointForm, PasswordForgetForm, PointForm)
+                    SuperUserUpdateForm, SuperPointForm, PasswordForgetForm, PointForm, UserSettingsForm)
 from django.views.decorators.csrf import csrf_exempt
 from .models import User, Secret, Message, Goods, Grades, MessageCount
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse
 from django.db.models import Q
+from django.utils.datastructures import MultiValueDictKeyError
 
 import datetime
 import hashlib
@@ -356,7 +357,7 @@ def message_detail(request, pk):
     # return render(request, 'message_detail.html', {'message': msg})
     time_lug = datetime.timedelta(hours=9)
     now = msg.time_of_message + time_lug
-    now_str = now.strftime('%Y-%m-%d %H:%M:%S')
+    now_str = now.strftime('%Y-%m-%d %H:%M')
     return JsonResponse({'sender': msg.sender,
                          'recipient': msg.recipient,
                          'contents': msg.contents,
@@ -806,6 +807,33 @@ def forget_change_password(request):
     user = authenticate(request=request, email=email, password=password)
     login(request, user)
     return redirect('/')
+
+
+@login_required
+def change_css(request):
+    user = request.user
+    before_dark_mode = user.dark_mode
+    after_dark_mode = not bool(before_dark_mode)
+
+
+@login_required
+def settings(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserSettingsForm(request.POST)
+        try:
+            if form.data['dark_mode'] == 'on':
+                user.dark_mode = True
+        except MultiValueDictKeyError:
+            user.dark_mode = False
+        user.save()
+
+    if user.dark_mode:
+        form = UserSettingsForm(initial={'dark_mode': True})
+    else:
+        form = UserSettingsForm(initial={'dark_mode': False})
+    params = {"form": form}
+    return render(request, 'settings.html', params)
 
 
 def send_gmail(password=None, email=None, query=None, subject='初回ログイン'):

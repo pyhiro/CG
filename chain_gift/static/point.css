@@ -38,4 +38,9 @@ input[name="tab_item"] {
   background-color: #37beb0 ;
   color: #fff;
 }
-
+.work {
+    background: rgb(255, 236, 234); height:130px;
+}
+.message-link {
+    color: #000;
+}

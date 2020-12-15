@@ -1,0 +1,61 @@
+input[type="text"],
+textarea {
+  display: block;
+  font-size: 16px;
+  padding: 12px 15px;
+  width: 480px;
+  transition: 0.8s;
+  border-radius: 0;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  background: #e9f5fb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #ccc;
+}
+::-webkit-input-placeholder {
+  color: rgba(240, 246, 252, 0.4);
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  color: rgba(240, 246, 252, 0.4);
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: rgba(240, 246, 252, 0.4);
+  opacity: 1;
+}
+
+.form-table th,
+.form-table td {
+  border-top: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
+  padding: 20px;
+}
+
+.form-table th {
+  background: #182636;
+  padding-left: 50px;
+  position: relative;
+  text-align: left;
+  width: 300px;
+}
+
+#id_grade_id, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id{
+    border: 1px solid gray;
+    background: #182636;
+}
+
+button {
+ background: rgba(6, 9, 20, 0.8);
+}
+.desc a {
+    color: #F0F6FC;
+}

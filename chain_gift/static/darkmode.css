@@ -1,0 +1,135 @@
+body {
+    background: #0d1117;
+    color: #F0F6FC;
+    /*border: 1px solid #30363D;*/
+    /*color: #c9d1d9;*/
+    /*background:#161b22*/
+}
+* {
+    color: #F0F6FC;
+}
+
+#id_contents, #id_point {
+    border: 1px solid gray;
+    background: #182636;
+}
+
+.desc {
+    background: #182636;
+}
+.desc small {
+    color: rgba(240, 246, 252, 0.4);
+}
+
+
+.desc-p {
+    color: rgba(240, 246, 252, 0.4);
+}
+
+#fh5co-aside #fh5co-main-menu ul li a:after {
+    background: gray;
+}
+
+a:hover, a:active, a:focus {
+    color: #F0F6FC;
+}
+
+p {
+    color: #F0F6FC;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #F0F6FC;
+}
+
+figure figcaption {
+    color: #F0F6FC;
+}
+
+::-webkit-selection {
+    color: #F0F6FC;
+}
+
+::-moz-selection {
+    color: #F0F6FC;
+}
+
+::selection {
+    color: #F0F6FC;
+}
+
+
+#fh5co-aside #fh5co-logo a {
+    color: #d9d9d9;
+}
+#fh5co-aside #fh5co-logo a span {
+  color: rgba(0, 0, 0, 0.5);
+}
+#fh5co-aside #fh5co-main-menu ul li a {
+  color: rgba(240, 246, 252, 0.9);
+}
+#fh5co-aside #fh5co-main-menu ul li a:hover {
+  text-decoration: none;
+  color: white;
+}
+#fh5co-aside #fh5co-main-menu ul li.fh5co-active a {
+  color: #F0F6FC;
+}
+#fh5co-aside .fh5co-footer {
+  color: rgba(0, 0, 0, 0.6);
+}
+#fh5co-aside .fh5co-footer ul li a {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.form-control {
+    border: 1px solid gray;
+}
+body.offcanvas #fh5co-aside {
+    background: #0d1117;
+}
+
+.fh5co-nav-toggle i {
+    background: white;
+}
+.fh5co-nav-toggle i::before, .fh5co-nav-toggle i::after {
+    background: white;
+}
+
+/*
+
+
+message
+*/
+
+.tab_container {
+  background:#161b22;
+  border-top: 1.5px solid #134a1e;
+  border-left: 1.5px solid #134a1e;
+  margin: 0 auto;
+}
+
+.tab_item {
+  background-color: #d9d9d9;
+  color: #134a1e;
+  border-bottom: 3px solid #134a1e;
+  border-bottom: 3px solid #134a1e;
+}
+.tab_container input:checked + .tab_item {
+  background-color: #134a1e;
+  color: #fff;
+}
+
+.work {
+    background: #182636;
+}
+.work span {
+    color: rgba(240, 246, 252, 0.4);
+}
+.message-link {
+    color: #F0F6FC;
+}
+
+th {
+   background: #182636;
+}

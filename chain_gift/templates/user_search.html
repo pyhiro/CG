@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'user_search.css' %}">
+{% endblock %}
 {% block nav %}
-	<link rel="stylesheet" href="{% static 'user_search.css' %}">
     <li><a href="/home">Home</a></li>
     <li><a href="/message">Message</a></li>
     <li><a href="/point">Point</a></li>
     <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
     <li class="fh5co-active"><a href="/user_search">Search</a></li>
-    <li><a href="/shop">Shop</a></li>
+    <li><a href="/settings">Settings</a></li>
+    {% if user.is_superuser %}
+    <li><a href="/management">management</a></li>
+    {% endif %}
     <li><a href="/logout">Logout</a></li>
     {% if not user.is_superuser %}
     <li><h4>{{total}} pt</h4></li>
-    {% endif %}
-    {% if user.is_superuser %}
-    <li><a href="/management">management</a></li>
     {% endif %}
 {% endblock %}
 {% block content %}
@@ -36,14 +38,9 @@
 						   {{ form.class_id }}
                        </td>
                      </tr>
-					 <tr>
-						 <th></th>
-						 <td>
-							 <button type="submit">検索</button>
-						 </td>
-					 </tr>
                    </tbody>
                  </table>
+				<p style="margin: 20px"><button type="submit" style="text-align: center;">検索</button></p>
 				</form>
 				<div class="row row-bottom-padded-md">
 					{% for user in users %}
@@ -52,7 +49,7 @@
 						<div class="blog-entry">
 							<div class="desc">
 								<h3>{{user.username}}</h3>
-								<span><small>{{user.grade_id}} </small> 年 <small> {{user.class_id}} </small> 組 <small></span>
+								<span><small>{{user.grade_id}} 年 {{user.class_id}}組 </small></span>
 							</div>
 						</div>
 						</a>

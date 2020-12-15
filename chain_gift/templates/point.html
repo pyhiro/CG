@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'point.css' %}">
+{% endblock %}
 {% block nav %}
-    <link rel="stylesheet" href="{% static 'point.css' %}">
     <li><a href="/home">Home</a></li>
     <li><a href="/message">Message</a></li>
     <li class="fh5co-active"><a href="/point">Point</a></li>
     <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
     <li><a href="/user_search">Search</a></li>
-    <li><a href="/shop">Shop</a></li>
+    <li><a href="/settings">Settings</a></li>
+    {% if user.is_superuser %}
+    <li><a href="/management">management</a></li>
+    {% endif %}
     <li><a href="/logout">Logout</a></li>
     {% if not user.is_superuser %}
     <li><h4>{{total}} pt</h4></li>
-    {% endif %}
-    {% if user.is_superuser %}
-    <li><a href="/management">management</a></li>
     {% endif %}
 {% endblock %}
 {% block content %}
@@ -28,18 +30,15 @@
               <label class="tab_item" for="tab2">送信</label>
               <div class="tab_content" id="tab1_content">
                    <div class="tab_content_description">
-                        <p class="c-txtsp">
-
-
-                        <div class="fh5co-narrow-content">
+                       <div class="fh5co-narrow-content" style="padding-top: 0px">
                              <div class="row row-bottom-padded-md">
                                   {% for value in receive %}
                                   <div class="col-md-3 col-sm-6 col-padding text-center animate-box">
-                                       <div class="work image-popup" style="background: rgb(255, 236, 234); height:130px;">
+                                       <div class="work image-popup" style="height: 130px">
                                                  <div class="" style="height: 100%;padding:15px 0 0;">
-                                                      <h5><object><a href="/profile/{{ value.name.student_id }}" style="color: #000">{{ value.name }}<br></a></object></h5>
+                                                      <h5><object><a href="/profile/{{ value.name.student_id }}" class="message-link">{{ value.name }}<br></a></object></h5>
                                                       <h6 style="">{{ value.transacted_value }} pt</h6>
-                                                      <span style="color: #333">{{ value.transacted_time|date:"n/j H:i"}}</span>
+                                                      <span>{{ value.transacted_time|date:"n/j H:i"}}</span>
                                                  </div>
                                        </div>
                                   </div>
@@ -51,17 +50,16 @@
               </div>
               <div class="tab_content" id="tab2_content">
                    <div class="tab_content_description">
-                        <p class="c-txtsp">
 
-                        <div class="fh5co-narrow-content">
+                        <div class="fh5co-narrow-content" style="padding-top: 0px">
                              <div class="row row-bottom-padded-md">
                                   {% for value in send %}
                                   <div class="col-md-3 col-sm-6 col-padding text-center animate-box">
-                                       <div class="work image-popup" style="background: rgb(255, 236, 234); height:130px;">
+                                       <div class="work image-popup" style="height: 130px">
                                             <div class="" style="height: 100%;padding:15px 0 0;">
-                                                 <h5><object><a href="/profile/{{ value.name.student_id }}" style="color: #000">{{ value.name }}<br></a></object></h5>
+                                                 <h5><object><a href="/profile/{{ value.name.student_id }}" class="message-link">{{ value.name }}<br></a></object></h5>
                                                  <h6 style="">{{ value.transacted_value }} pt</h6>
-                                                 <span style="color: #333">{{ value.transacted_time|date:"n/j H:i"}}</span>
+                                                 <span>{{ value.transacted_time|date:"n/j H:i"}}</span>
                                             </div>
                                        </div>
                                   </div>

@@ -5,14 +5,14 @@
     <li><a href="/point">Point</a></li>
     <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
     <li><a href="/user_search">Search</a></li>
-    <li><a href="/shop">Shop</a></li>
+    <li><a href="/settings">Settings</a></li>
+    {% if user.is_superuser %}
+    <li><a href="/management">management</a></li>
+    {% endif %}
     <li><a href="/logout">Logout</a></li>
 	{% if not user.is_superuser %}
     <li><h4>{{total}} pt</h4></li>
 	{% endif %}
-    {% if user.is_superuser %}
-    <li><a href="/management">management</a></li>
-    {% endif %}
 {% endblock %}
 
 {% block content %}

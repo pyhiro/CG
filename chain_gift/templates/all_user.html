@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block nav %}
+{% block custom_css %}
 <link rel="stylesheet" href="{% static 'user_search.css' %}">
+<link rel="stylesheet" href="{% static 'all_users.css' %}">
+{% endblock %}
+{% block nav %}
 <li><a href="/home">Home</a></li>
 <li><a href="/message">Message</a></li>
 <li><a href="/point">Point</a></li>
 <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
 <li><a href="/user_search">Search</a></li>
-<li><a href="/shop">Shop</a></li>
-<li><a href="/logout">Logout</a></li>
+<li><a href="/settings">Settings</a></li>
 <li  class="fh5co-active"><a href="/management">Management</a></li>
+<li><a href="/logout">Logout</a></li>
 <li><h4>{{total}} pt</h4></li>
 {% endblock %}
 {% block content %}
@@ -30,39 +33,38 @@ function to_delete(student_id){
             <table class="form-table">
                 <tbody>
                 <tr>
-                    <th style="background:#e6faeb">学年</th>
+                    <th>学年</th>
                     <td>
                         {{ form.grade_id }}
                     </td>
                 </tr>
                 <tr>
-                    <th style="background:#e6faeb">クラス</th>
+                    <th>クラス</th>
                     <td>
                         {{ form.class_id }}
                     </td>
                 </tr>
-                <tr>
-                    <th style="background:#e6faeb"></th>
-                    <td>
-                        <button type="submit">検索</button>
-                    </td>
-                </tr>
                 </tbody>
             </table>
+            <p style="margin: 20px"><button type="submit" style="text-align: center;">検索</button></p>
         </form>
         <div class="row row-bottom-padded-md">
             {% for user in users %}
             <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
                     <div class="blog-entry">
                         {% if user.delete_flag %}
-                        <div class="desc" style="background: rgb(230, 230, 230);">
+                            {% if user.darkmode %}
+                                <div class="desc" style="background: black;">
+                            {% else %}
+                                <div class="desc" style="background: rgb(230, 230, 230);">
+                            {% endif %}
                         {% else %}
                         <div class="desc">
                         {% endif %}
                         <a href="/profile/{{ user.student_id }}">
                             <h3>{{user.username}}</h3>
                         </a>
-                            <span><small>{{user.grade_id}} </small> 年 <small> {{user.class_id}} </small> 組 <small></small></span>
+                            <span><small>{{user.grade_id}} 年 {{user.class_id}} 組 </small></span>
                             <object><a href="/super_edit/{{ user.student_id }}"><button>編集</button></a></object>
                         {% if user.delete_flag %}
                         {% else %}

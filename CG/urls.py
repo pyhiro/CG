@@ -49,5 +49,6 @@ urlpatterns = [
     path('forget/', views.forget_password, name='forget'),
     path('forget_change/', views.forget_change_password, name='forget_change'),
     path('grades/', views.grades, name='grades'),
+    path('settings/', views.settings, name='settings'),
     path('super_point/', views.super_point, name='super_point')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

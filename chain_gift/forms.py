@@ -74,6 +74,23 @@ class UserUpdateForm(forms.ModelForm):
                 field.widget.attrs['autocomplete'] = 'off'
 
 
+class UserSettingsForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('dark_mode',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Dark mode':
+                field.widget.attrs['class'] = 'toggle_button'
+                field.widget.attrs['data-off-label'] = 'OFF'
+                field.widget.attrs['data-on-label'] = 'ON'
+
+
 class SuperUserUpdateForm(forms.ModelForm):
 
     class Meta:
@@ -106,4 +123,4 @@ class PasswordForgetForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
-            field.widget.attrs['placeholder'] = field.label   
+            field.widget.attrs['placeholder'] = field.label
