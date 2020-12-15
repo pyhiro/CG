@@ -354,12 +354,14 @@ def message_detail(request, pk):
     if receive_user.is_superuser:
         msg.recipient = 'Chain Gift'
     # return render(request, 'message_detail.html', {'message': msg})
-
+    time_lug = datetime.timedelta(hours=9)
+    now = msg.time_of_message + time_lug
+    now_str = now.strftime('%Y-%m-%d %H:%M:%S')
     return JsonResponse({'sender': msg.sender,
                          'recipient': msg.recipient,
                          'contents': msg.contents,
                          'point': msg.point,
-                         'time': msg.time_of_message})
+                         'time': now_str})
 
 @login_required
 def super_point(request):
