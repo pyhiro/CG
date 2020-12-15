@@ -74,10 +74,8 @@ class Message(models.Model):
     recipient_delete_flag = models.BooleanField(default=False, null=True)
     sender_delete_flag = models.BooleanField(default=False, null=True)
 
-
     def __str__(self):
         return self.contents
-
 
 class Goods(models.Model):
     price = models.IntegerField()
