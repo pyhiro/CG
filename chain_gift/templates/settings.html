@@ -55,9 +55,13 @@
     {% block custom_css %}
     {% endblock %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'super_edit.css' %}">
     <link rel="stylesheet" href="{% static 'darkmode.css' %}">
+    <link rel="stylesheet" href="{% static 'user_search_dark.css' %}">
+    <link rel="stylesheet" href="{% static 'super_edit_width.css' %}">
     {% if not user.dark_mode %}
-    <script>document.styleSheets[6].disabled = true;</script>
+    <script>document.styleSheets[7].disabled = true;</script>
+    <script>document.styleSheets[8].disabled = true;</script>
     {% endif %}
     <!-- Modernizr JS -->
     <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
@@ -95,20 +99,37 @@
     </aside>
     {% block content %}
     <div id="fh5co-main">
-        <form action="" method="POST">
+        <h4 class="login-box-msg animate-box" data-animate-effect="fadeInLeft" style="text-align:center; margin-top: 5rem;">設定</h4>
+        <form method="POST" class="animate-box" data-animate-effect="fadeInLeft">
             {% csrf_token %}
-            <div class="form-group has-feedback" style="width: 300px; margin: 10px auto" onclick="change_dark()">
-                {{ form.dark_mode }}
-            </div>
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>{{ form.dark_mode.label }}</th>
+                    <td>
+                        <div class="form-group has-feedback dark-toggle" style="width: 300px; margin: 10px" onclick="change_dark()">
+                            {{ form.dark_mode }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ form.template_middle.label }}</th>
+                    <td>
+                            {{ form.template_middle }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             <div class="" style="text-align:center">
-                <button type="submit" class="btn btn-primary btn-md">送信</button>
+                <button type="submit" class="btn btn-primary btn-md" style="margin-top: 1em">確定</button>
             </div>
         </form>
     </div>
 </div>
 <script>
     function change_dark () {
-           document.styleSheets[6].disabled = !document.styleSheets[6].disabled;
+           document.styleSheets[7].disabled = !document.styleSheets[7].disabled;
+           document.styleSheets[8].disabled = !document.styleSheets[8].disabled;
     }
 </script>
 {% endblock %}
