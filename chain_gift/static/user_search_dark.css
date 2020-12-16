@@ -48,13 +48,15 @@ textarea::placeholder {
   width: 300px;
 }
 
-#id_grade_id, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id{
+#id_grade_id, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id, #id_template_min, #id_template_middle, #id_template_max{
     border: 1px solid gray;
     background: #182636;
 }
 
 button {
  background: rgba(6, 9, 20, 0.8);
+ border: 0.5px solid rgba(200, 200, 200, 0.3);
+ color: rgba(244, 240, 240, 0.7);
 }
 .desc a {
     color: #F0F6FC;

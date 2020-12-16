@@ -69,6 +69,7 @@ class UserUpdateForm(forms.ModelForm):
             field.widget.attrs['placeholder'] = field.label
             if field.label == 'Image':
                 field.widget.attrs['class'] = None
+
             if field.label == '誕生日':
                 field.widget.attrs['id'] = 'datepicker'
                 field.widget.attrs['autocomplete'] = 'off'
@@ -78,7 +79,7 @@ class UserSettingsForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('dark_mode',)
+        fields = ('dark_mode', 'template_middle')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -87,8 +88,11 @@ class UserSettingsForm(forms.ModelForm):
             field.widget.attrs['placeholder'] = field.label
             if field.label == 'Dark mode':
                 field.widget.attrs['class'] = 'toggle_button'
+                field.widget.attrs['style'] = 'margin: 0;'
                 field.widget.attrs['data-off-label'] = 'OFF'
                 field.widget.attrs['data-on-label'] = 'ON'
+            if field.label == 'Template middle':
+                field.label = 'ポイント設定'
 
 
 class SuperUserUpdateForm(forms.ModelForm):
@@ -101,6 +105,8 @@ class SuperUserUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Delete flag':
+                field.label = '削除フラグ'
 
 
 class ImageForm(forms.ModelForm):

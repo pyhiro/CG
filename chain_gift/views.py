@@ -171,11 +171,17 @@ def quick_send(request, pk):
         return HttpResponse('user not found')
 
     if request.method == 'GET':
+        form = PointForm(initial={'point': user.template_middle,
+                                  'contents': 'ありがとう'})
         name = to_user.username
-        params = {'name': name}
-        return render(request, 'submit.html', params)
-    point = request.POST.get('point')
-    msg = request.POST.get('msg')
+        params = {'name': name,
+                  'form': form}
+        return render(request, 'send.html', params)
+    form = PointForm(request.POST)
+    if not form.data['point'].isdigit() or int(form.data['point']) <= 0:
+        return redirect(f'/quick_send/{pk}')
+    point = int(form.data['point'])
+    msg = form.data['contents']
     hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
     secret = Secret.objects.get(id_hash=hashed_id)
 
@@ -826,12 +832,13 @@ def settings(request):
                 user.dark_mode = True
         except MultiValueDictKeyError:
             user.dark_mode = False
+        user.template_middle = form.data['template_middle']
         user.save()
 
     if user.dark_mode:
-        form = UserSettingsForm(initial={'dark_mode': True})
+        form = UserSettingsForm(initial={'dark_mode': True, 'template_middle': user.template_middle})
     else:
-        form = UserSettingsForm(initial={'dark_mode': False})
+        form = UserSettingsForm(initial={'dark_mode': False, 'template_middle': user.template_middle})
     params = {"form": form}
     return render(request, 'settings.html', params)
 

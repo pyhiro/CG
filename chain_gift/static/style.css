@@ -1277,3 +1277,9 @@ darkmode_button
 .toggle_button:active::after{
 	transition: none;
 }
+
+@media screen and (max-width: 430px) {
+    .responsive-center {
+        text-align: center;
+    }
+}

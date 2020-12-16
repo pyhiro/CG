@@ -131,5 +131,9 @@ message
 }
 
 th {
-   background: #182636;
+   background: #182636 !important;
+}
+
+.form-control {
+    color: white !important;
 }

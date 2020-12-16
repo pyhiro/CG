@@ -52,7 +52,9 @@ Facebook: 		https://www.facebook.com/fh5co
   <link rel="stylesheet" href="{% static 'flexslider.css' %}">
   <!-- Theme style  -->
   <link rel="stylesheet" href="{% static 'style.css' %}">
+  {% if user.dark_mode %}
   <link rel="stylesheet" href="{% static 'darkmode.css' %}">
+  {% endif %}
 
   <link rel="stylesheet" href="{% static 'forget.css' %}">
 

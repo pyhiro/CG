@@ -52,8 +52,10 @@ Facebook: 		https://www.facebook.com/fh5co
   <link rel="stylesheet" href="{% static 'flexslider.css' %}">
   <!-- Theme style  -->
   <link rel="stylesheet" href="{% static 'style.css' %}">
-  <link rel="stylesheet" href="{% static 'darkmode.css' %}">
 
+  {% if user.dark_mode %}
+  <link rel="stylesheet" href="{% static 'darkmode.css' %}">
+  {% endif %}
   <!-- Modernizr JS -->
   <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
   <!-- FOR IE9 below -->
