@@ -42,7 +42,6 @@
     <link rel="shortcut icon" href="favicon.ico">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
-
     <!-- Animate.css -->
     <link rel="stylesheet" href="{% static 'animate.css' %}">
     <!-- Icomoon Icon Fonts-->
@@ -52,16 +51,10 @@
     <!-- Flexslider  -->
     <link rel="stylesheet" href="{% static 'flexslider.css' %}">
     <!-- Theme style  -->
-    {% block custom_css %}
-    {% endblock %}
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'super_edit.css' %}">
+
+    {% if user.dark_mode %}
     <link rel="stylesheet" href="{% static 'darkmode.css' %}">
-    <link rel="stylesheet" href="{% static 'user_search_dark.css' %}">
-    <link rel="stylesheet" href="{% static 'super_edit_width.css' %}">
-    {% if not user.dark_mode %}
-    <script>document.styleSheets[7].disabled = true;</script>
-    <script>document.styleSheets[8].disabled = true;</script>
     {% endif %}
     <!-- Modernizr JS -->
     <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
@@ -72,69 +65,24 @@
 
 </head>
 <body>
-<div id="fh5co-page">
-    <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
-    <aside id="fh5co-aside" role="complementary" class="border js-fullheight">
-
-        <h1 id="fh5co-logo"><a href="/home">Chain Gift</a></h1>
-        <nav id="fh5co-main-menu" role="navigation">
-            <ul>
-                {% block nav %}
-                <li><a href="/home">Home</a></li>
-                <li><a href="/message">Message</a></li>
-                <li><a href="/point">Point</a></li>
-                <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
-                <li><a href="/user_search">Search</a></li>
-                <li class="fh5co-active"><a href="/settings">Settings</a></li>
-                {% if user.is_superuser %}
-                <li><a href="/management">management</a></li>
-                {% endif %}
-                <li><a href="/logout">Logout</a></li>
-                {% if not user.is_superuser %}
-                <li><h4>{{total}} pt</h4></li>
-                {% endif %}
-                {% endblock %}
-            </ul>
-        </nav>
-    </aside>
-    {% block content %}
-    <div id="fh5co-main">
-        <h4 class="login-box-msg animate-box" data-animate-effect="fadeInLeft" style="text-align:center; margin-top: 5rem;">設定</h4>
-        <form method="POST" class="animate-box" data-animate-effect="fadeInLeft">
-            {% csrf_token %}
-            <table class="form-table">
-                <tbody>
-                <tr>
-                    <th>{{ form.dark_mode.label }}</th>
-                    <td>
-                        <div class="form-group has-feedback dark-toggle" style="width: 300px; margin: 10px" onclick="change_dark()">
-                            {{ form.dark_mode }}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ form.template_point.label }}</th>
-                    <td>
-                            {{ form.template_point }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="" style="text-align:center">
-                <button type="submit" class="btn btn-primary btn-md" style="margin-top: 1em">確定</button>
-            </div>
-        </form>
+<div style="display: block; height: 5rem;"></div>
+<h3 class="login-box-msg" style="text-align:center"><b>ポイント一斉送信</b></h3>
+<form action="" method="POST">
+    {% csrf_token %}
+    <!-- {% for error in form.non_field_errors %}
+    <p style="text-align: center; color: red;">emailまたはパスワードが間違っています。</p>
+    {% endfor %} -->
+    {% for field in form %}
+    <div class="form-group has-feedback" style="width: 300px; margin: 10px auto">
+        {{ field }}
     </div>
-</div>
-<script>
-    function change_dark () {
-           document.styleSheets[7].disabled = !document.styleSheets[7].disabled;
-           document.styleSheets[8].disabled = !document.styleSheets[8].disabled;
-    }
-</script>
-{% endblock %}
+    {% endfor %}
+    <div class="" style="text-align:center">
+        <button type="submit" class="btn btn-primary btn-md">送信</button>
+    </div>
+</form>
+<p style="text-align: center"><a href="/management">管理画面</a>へ戻る</p>
 
-</div>
 <!-- jQuery -->
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <!-- jQuery Easing -->
@@ -150,8 +98,22 @@
 <!-- MAIN JS -->
 <script src="{% static 'js/main.js' %}"></script>
 
-
+<link rel="stylesheet" href="{% static 'login.css' %}">
 </body>
 </html>
 
 
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+<button type="submit">送信</button>
+</form>
+</body>
+</html> -->

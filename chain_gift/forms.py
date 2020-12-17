@@ -29,6 +29,20 @@ class SuperPointForm(forms.ModelForm):
             field.widget.attrs['placeholder'] = field.label
 
 
+class GradesPointForm(forms.Form):
+    point = forms.IntegerField()
+    message = forms.CharField()
+    grade_id = forms.CharField()
+    class_id = forms.CharField()
+    top_count = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
+
 class LoginForm(AuthenticationForm):
     """ログオンフォーム"""
     def __init__(self, *args, **kwargs):
@@ -60,7 +74,7 @@ class UserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('profile_img', 'birth_day', 'profile_message')
+        fields = ('profile_img', 'birthday', 'profile_message')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -79,7 +93,7 @@ class UserSettingsForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('dark_mode', 'template_middle')
+        fields = ('dark_mode', 'template_point')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -91,7 +105,7 @@ class UserSettingsForm(forms.ModelForm):
                 field.widget.attrs['style'] = 'margin: 0; outline: 0 !important;'
                 field.widget.attrs['data-off-label'] = 'OFF'
                 field.widget.attrs['data-on-label'] = 'ON'
-            if field.label == 'Template middle':
+            if field.label == 'Template point':
                 field.label = 'ポイント設定'
 
 
