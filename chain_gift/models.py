@@ -96,6 +96,8 @@ class Goods(models.Model):
 class Grades(models.Model):
     student_id = models.CharField(_('学籍番号'), max_length=10)
     year = models.IntegerField(blank=True, default=int(timezone.now().year))
+    grade_id = models.IntegerField(_('学年'), blank=True, null=False, default=1)
+    class_id = models.IntegerField(_('クラス'), blank=True, null=False)
     semester = models.IntegerField(default=1)
     type = models.IntegerField(default=1) #中間, 期末, other
     japanese = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
