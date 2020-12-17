@@ -88,7 +88,7 @@ class UserSettingsForm(forms.ModelForm):
             field.widget.attrs['placeholder'] = field.label
             if field.label == 'Dark mode':
                 field.widget.attrs['class'] = 'toggle_button'
-                field.widget.attrs['style'] = 'margin: 0;'
+                field.widget.attrs['style'] = 'margin: 0; outline: 0 !important;'
                 field.widget.attrs['data-off-label'] = 'OFF'
                 field.widget.attrs['data-on-label'] = 'ON'
             if field.label == 'Template middle':

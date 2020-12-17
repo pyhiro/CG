@@ -1238,7 +1238,7 @@ darkmode_button
 
 	border-radius: 8px;
 	border: 1px solid #aaa;
-	background-color: #333;
+	background-color: #e3e3e3;
 
 	text-align: center;
 	line-height: 60px;
@@ -1246,7 +1246,7 @@ darkmode_button
 
 	cursor: pointer;
 
-	transition: 200ms;
+	transition: 100ms;
 }
 
 .toggle_button:active{

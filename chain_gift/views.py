@@ -816,13 +816,6 @@ def forget_change_password(request):
 
 
 @login_required
-def change_css(request):
-    user = request.user
-    before_dark_mode = user.dark_mode
-    after_dark_mode = not bool(before_dark_mode)
-
-
-@login_required
 def settings(request):
     user = request.user
     if request.method == 'POST':

@@ -104,19 +104,18 @@ message
 
 .tab_container {
   background:#161b22;
-  border-top: 1.5px solid #134a1e;
-  border-left: 1.5px solid #134a1e;
+  border-top: 1.5px solid #228896;
+  border-left: 1.5px solid #228896;
   margin: 0 auto;
 }
 
 .tab_item {
   background-color: #d9d9d9;
   color: #134a1e;
-  border-bottom: 3px solid #134a1e;
-  border-bottom: 3px solid #134a1e;
+  border-bottom: 3px solid #228896;
 }
 .tab_container input:checked + .tab_item {
-  background-color: #134a1e;
+  background-color: #228896;
   color: #fff;
 }
 
@@ -136,4 +135,8 @@ th {
 
 .form-control {
     color: white !important;
+}
+
+.toggle_button {
+	background-color: #333;
 }

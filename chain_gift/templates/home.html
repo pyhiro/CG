@@ -21,7 +21,11 @@
 			<aside id="fh5co-hero" class="js-fullheight">
 				<div class="flexslider js-fullheight">
 					<ul class="slides">
-				   	<li style="background-image: url(images/img_bg_1.jpg);">
+					{% if user.dark_mode %}
+				   	<li style="background-image: url(/media/img_bg_3.jpg);">
+					{% else %}
+					<li style="background-image: url(/media/img_bg_1.jpg);">
+					{% endif %}
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
@@ -35,7 +39,11 @@
 					   		</div>
 				   		</div>
 				   	</li>
-				   	<li style="background-image: url(images/img_bg_2.jpg);">
+					{% if user.dark_mode %}
+                    <li style="background-image: url(/media/img_bg_3.jpg);">
+                  	{% else %}
+                  	<li style="background-image: url(/media/img_bg_1.jpg);">
+                    {% endif %}
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
@@ -49,7 +57,11 @@
 					   		</div>
 				   		</div>
 				   	</li>
-				   	<li style="background-image: url(images/img_bg_3.jpg);">
+					{% if user.dark_mode %}
+				   	<li style="background-image: url(/media/img_bg_3.jpg);">
+                  	{% else %}
+                  	<li style="background-image: url(/media/img_bg_1.jpg);">
+					{% endif %}
 				   		<div class="overlay"></div>
 				   		<div class="container-fluid">
 				   			<div class="row">
