@@ -48,7 +48,7 @@ textarea::placeholder {
   width: 300px;
 }
 
-#id_grade_id, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id, #id_template_min, #id_template_middle, #id_template_max{
+#id_grade_id, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id, #id_template_point {
     border: 1px solid gray;
     background: #182636;
 }

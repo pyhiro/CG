@@ -1,17 +1,18 @@
-from django.shortcuts import render, redirect, resolve_url, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.views import(LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView,
+                                       PasswordChangeDoneView)
 from django.http.response import JsonResponse
 from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
-                    SuperUserUpdateForm, SuperPointForm, PasswordForgetForm, PointForm, UserSettingsForm)
-from django.views.decorators.csrf import csrf_exempt
-from .models import User, Secret, Message, Goods, Grades, MessageCount
+                    SuperUserUpdateForm, SuperPointForm, PasswordForgetForm,
+                    PointForm, UserSettingsForm, GradesPointForm)
+from .models import User, Secret, Message, Goods, Grades, MessageCount, Test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse
-from django.db.models import Q
 from django.utils.datastructures import MultiValueDictKeyError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import datetime
 import hashlib
@@ -33,7 +34,6 @@ from . import wallet
 
 
 class Login(LoginView):
-    """ログインページ"""
     form_class = LoginForm
     template_name = 'login.html'
 
@@ -44,24 +44,20 @@ class Login(LoginView):
 
 
 class Logout(LoginRequiredMixin, LogoutView):
-    """ログアウトページ"""
     template_name = 'login.html'
 
 
 class PasswordChange(LoginRequiredMixin, PasswordChangeView):
-    """パスワード変更ビュー"""
     success_url = reverse_lazy('password_change_done')
     template_name = 'change.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs) # 継承元のメソッドCALL
+        context = super().get_context_data(**kwargs)
         context["form_name"] = "password_change"
         return context
 
 
 class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
-    """パスワード変更完了"""
-
     def get(self, request, *args, **kwargs):
         user = self.request.user
         user.login_flag = True
@@ -77,49 +73,12 @@ class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'password_change_done.html'
 
 
-@login_required
-def index(request):
-    user = request.user
-    if not user.login_flag:
-        return redirect('/change?next=/index')
-    return render(request, 'index.html')
-
-
 def top(request):
     return render(request, 'top.html')
 
 
-@csrf_exempt
-def create_wallet(request):
-    if request.method == 'POST':
-        my_wallet = wallet.Wallet()
-        response = {
-            'private_key': my_wallet.private_key,
-            'public_key': my_wallet.public_key,
-            'blockchain_address': my_wallet.blockchain_address,
-        }
-        return JsonResponse(response, status=200)
-
-
-@login_required
-@csrf_exempt
-def user_info(request):
-    if request.method == 'POST':
-        user = request.user
-        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-        secret = Secret.objects.get(id_hash=hashed_id)
-        response = {
-            'private_key': secret.private_key,
-            'public_key': secret.public_key,
-            'blockchain_address': user.blockchain_address
-        }
-        return JsonResponse(response, status=200)
-
-
-@csrf_exempt
 def create_transaction(request):
     json_data = json.loads(request.body)
-
     required = (
         'sender_private_key',
         'sender_blockchain_address',
@@ -127,51 +86,37 @@ def create_transaction(request):
         'sender_public_key',
         'value')
     if not all(k in json_data for k in required):
-        return 'missing values', 400
+        return HttpResponse('missing values', status=400)
 
     sender_private_key = json_data['sender_private_key']
+    sender_public_key = json_data['sender_public_key']
     sender_blockchain_address = json_data['sender_blockchain_address']
     recipient_blockchain_address = json_data['recipient_blockchain_address']
-    sender_public_key = json_data['sender_public_key']
     value = int(json_data['value'])
 
-    transaction = wallet.Transaction(
-        sender_private_key,
-        sender_public_key,
-        sender_blockchain_address,
-        recipient_blockchain_address,
-        value)
-
-    json_data_send = {
-        'sender_blockchain_address': sender_blockchain_address,
-        'recipient_blockchain_address': recipient_blockchain_address,
-        'sender_public_key': sender_public_key,
-        'value': value,
-        'signature': transaction.generate_signature(),
-    }
-
-    response = requests.post(
-        urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
-        json=json_data_send, timeout=10)
+    response = post_transaction(sender_private_key, sender_public_key,
+                                sender_blockchain_address, recipient_blockchain_address,
+                                value)
 
     if response.status_code == 201:
         return JsonResponse({'message': 'success'}, status=200)
+
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
-def quick_send(request, pk):
+def point_send(request, pk):
     if not request.user.is_authenticated:
-        return redirect(f'/login?next=/quick_send/{pk}')
+        return redirect(f'/login?next=/point_send/{pk}')
     user = request.user
-    if user.student_id == str(pk):
+    if user.student_id == pk:
         return redirect(f'/profile/{pk}')
     try:
-        to_user = User.objects.get(student_id=str(pk), delete_flag=False)
+        to_user = User.objects.get(student_id=pk, delete_flag=False)
     except:
         return HttpResponse('user not found')
 
     if request.method == 'GET':
-        form = PointForm(initial={'point': user.template_middle,
+        form = PointForm(initial={'point': user.template_point,
                                   'contents': 'ありがとう'})
         name = to_user.username
         params = {'name': name,
@@ -179,7 +124,7 @@ def quick_send(request, pk):
         return render(request, 'send.html', params)
     form = PointForm(request.POST)
     if not form.data['point'].isdigit() or int(form.data['point']) <= 0:
-        return redirect(f'/quick_send/{pk}')
+        return redirect(f'/point_send/{pk}')
     point = int(form.data['point'])
     msg = form.data['contents']
     hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
@@ -191,24 +136,9 @@ def quick_send(request, pk):
     sender_public_key = secret.public_key
     value = int(point)
 
-    transaction = wallet.Transaction(
-        sender_private_key,
-        sender_public_key,
-        sender_blockchain_address,
-        recipient_blockchain_address,
-        value)
-
-    json_data_send = {
-        'sender_blockchain_address': sender_blockchain_address,
-        'recipient_blockchain_address': recipient_blockchain_address,
-        'sender_public_key': sender_public_key,
-        'value': value,
-        'signature': transaction.generate_signature(),
-    }
-
-    response = requests.post(
-        urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
-        json=json_data_send, timeout=10)
+    response = post_transaction(sender_private_key, sender_public_key,
+                                sender_blockchain_address, recipient_blockchain_address,
+                                value)
     if response.status_code == 201:
         Message(contents=msg, sender=user.student_id,
                 recipient=to_user.student_id, point=point).save()
@@ -216,7 +146,6 @@ def quick_send(request, pk):
                                  to_grade_id=to_user.grade_id, to_class_id=to_user.class_id)
         msg_count.save()
         return redirect(f'/profile/{pk}')
-    ################todo
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
@@ -228,29 +157,39 @@ def user_search(request):
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
         if grade_id and not class_id:
-            users = User.objects.filter(grade_id=grade_id, delete_flag=False).exclude(is_superuser=True).order_by(
-                'grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(grade_id=grade_id, delete_flag=False).exclude(is_superuser=True) \
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         elif grade_id and class_id:
-            users = User.objects.filter(grade_id=grade_id, class_id=class_id, delete_flag=False).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(
+                grade_id=grade_id, class_id=class_id, delete_flag=False).exclude(is_superuser=True)\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         elif not grade_id and class_id:
-            users = User.objects.filter(class_id=class_id, delete_flag=False).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(class_id=class_id, delete_flag=False).exclude(is_superuser=True)\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'user_search.html', params)
         else:
-            form = UserSearchForm()
-            users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
-            params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
+            form = UserSearchForm(initial={'grade_id': ''})
+            users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True)\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
+            params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
             return render(request, 'user_search.html', params)
 
     form = UserSearchForm(initial={'grade_id': ''})
-    users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True).order_by('grade_id', 'class_id', 'furigana')
+    users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True)\
+        .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+        .order_by('my_grade_id', 'my_class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'user_search.html', params)
 
@@ -263,17 +202,14 @@ def home(request):
     not_notified_messages = Message.objects.filter(notify_flag=0, recipient=user.student_id)
     not_notified_message_count = len(not_notified_messages)
     my_blockchain_address = user.blockchain_address
-    try:
-        response = requests.get(
-            urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
-            {'blockchain_address': my_blockchain_address},
-            timeout=10)
-        if response.status_code == 200:
-            total = response.json()['amount']
-        else:
-            total = 'error'
-    except:
-        total = 0
+    response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        total = response.json()['amount']
+    else:
+        total = 'error'
     params = {'not_notified_message_count': not_notified_message_count,
               'total': total}
     return render(request, 'home.html', params)
@@ -369,6 +305,61 @@ def message_detail(request, pk):
                          'contents': msg.contents,
                          'point': msg.point,
                          'time': now_str})
+
+
+@login_required
+def grades_super_point(request):
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
+
+    if request.method == 'POST':
+        users = User.objects.exclude(delete_flag=True)
+        user_address = list(map(lambda u: u.blockchain_address, users))
+        form = SuperPointForm(request.POST)
+        point = form.data['point']
+        if not point.isdigit():
+            redirect('/super_point')
+        if int(point) < 0:
+            redirect('/super_point')
+        point = int(point)
+        msg = form.data['contents']
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        secret = Secret.objects.get(id_hash=hashed_id)
+
+        sender_private_key = secret.private_key
+        sender_blockchain_address = user.blockchain_address
+        recipient_blockchain_address = user_address
+        sender_public_key = secret.public_key
+        value = int(point)
+
+        transaction = wallet.Transaction(
+            sender_private_key,
+            sender_public_key,
+            sender_blockchain_address,
+            str(recipient_blockchain_address.sort()),
+            value)
+
+        json_data_send = {
+            'sender_blockchain_address': sender_blockchain_address,
+            'recipient_blockchain_address': recipient_blockchain_address,
+            'sender_public_key': sender_public_key,
+            'value': value,
+            'signature': transaction.generate_signature(),
+        }
+
+        response = requests.post(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
+            json=json_data_send, timeout=10)
+
+        if response.status_code == 201:
+            for usr in users:
+                Message(contents=msg, sender=user.student_id,
+                        recipient=usr.student_id, point=point).save()
+        return redirect('/home')
+    form = SuperPointForm()
+    return render(request, 'super_point.html', {'form': form})
+
 
 @login_required
 def super_point(request):
@@ -483,7 +474,7 @@ def profile(request, pk=None):
     if not user.login_flag:
         return redirect(f'/change?next=profile/{pk}')
     img_url = user.profile_img
-    user = get_object_or_404(User, student_id=str(pk), delete_flag=False)
+    user = get_object_or_404(User, student_id=pk, delete_flag=False)
     if user.is_superuser and not request.user.is_superuser:
         return redirect('/home')
 
@@ -547,9 +538,9 @@ def profile(request, pk=None):
         'class_id': user.class_id,
         'img_url': user.profile_img
     }
-    if user.birth_day:
-        birth_day = user.birth_day
-        params['birth_day'] = birth_day
+    if user.birthday:
+        birthday = user.birthday
+        params['birthday'] = birthday
     if user.profile_message:
         user_profile = user.profile_message
         params['profile'] = user_profile
@@ -557,7 +548,7 @@ def profile(request, pk=None):
     if request.method == 'GET':
         user = request.user
         if user.is_authenticated:
-            if user.student_id == str(pk):
+            if user.student_id == pk:
                 params['self_user'] = True
         else:
             params['self_user'] = False
@@ -586,7 +577,7 @@ def edit_profile(request):
         return render(request, 'edit_profile.html', params)
 
     form = UserUpdateForm(initial={'profile_img': user.profile_img,
-                                   'birth_day': user.birth_day,
+                                   'birthday': user.birthday,
                                    'profile_message': user.profile_message})
     return render(request, 'edit_profile.html', {'form': form})
 
@@ -673,28 +664,38 @@ def all_users(request):
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
         if grade_id and not class_id:
-            users = User.objects.filter(grade_id=grade_id).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(grade_id=grade_id, delete_flag=False)\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         elif grade_id and class_id:
-            users = User.objects.filter(grade_id=grade_id, class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(grade_id=grade_id, class_id=class_id)\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         elif not grade_id and class_id:
-            users = User.objects.filter(class_id=class_id).order_by('grade_id', 'class_id', 'furigana')
+            users = User.objects.filter(class_id=class_id)\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         else:
-            form = UserSearchForm()
-            users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+            form = UserSearchForm(initial={'grade_id': ''})
+            users = User.objects.all()\
+                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
             return render(request, 'all_user.html', params)
 
-    form = UserSearchForm(initial={'grade_id':''})
-    users = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+    form = UserSearchForm(initial={'grade_id': ''})
+    users = User.objects.all()\
+        .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'}) \
+        .order_by('my_grade_id', 'my_class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'all_user.html', params)
 
@@ -704,7 +705,7 @@ def super_edit(request, pk):
     user = request.user
     if not user.is_superuser:
         return redirect('/home')
-    user = get_object_or_404(User, student_id=str(pk))
+    user = get_object_or_404(User, student_id=pk)
     
     if request.method == 'POST':
         form = SuperUserUpdateForm(request.POST, instance=user)
@@ -729,7 +730,7 @@ def super_delete(request, pk):
     user = request.user
     if not user.is_superuser:
         return redirect('/home')
-    user = get_object_or_404(User, student_id=str(pk))
+    user = get_object_or_404(User, student_id=pk)
     user.delete_flag = True
     user.save()
     return redirect('/all_users')
@@ -825,15 +826,37 @@ def settings(request):
                 user.dark_mode = True
         except MultiValueDictKeyError:
             user.dark_mode = False
-        user.template_middle = form.data['template_middle']
+        user.template_point = form.data['template_point']
         user.save()
 
     if user.dark_mode:
-        form = UserSettingsForm(initial={'dark_mode': True, 'template_middle': user.template_middle})
+        form = UserSettingsForm(initial={'dark_mode': True, 'template_point': user.template_point})
     else:
-        form = UserSettingsForm(initial={'dark_mode': False, 'template_middle': user.template_middle})
+        form = UserSettingsForm(initial={'dark_mode': False, 'template_point': user.template_point})
     params = {"form": form}
     return render(request, 'settings.html', params)
+
+
+def grades_top(request):
+    test_list = Test.objects.all().order_by('-year', '-semester', '-id')
+    page_obj = paginate_queryset(request, test_list, 40)
+    params = {
+        'test_list': page_obj.object_list,
+        'page_obj': page_obj,
+    }
+    return render(request, 'grades_top.html', params)
+
+
+def paginate_queryset(request, queryset, count):
+    paginator = Paginator(queryset, count)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    return page_obj
 
 
 def send_gmail(password=None, email=None, query=None, subject='初回ログイン'):
@@ -841,10 +864,8 @@ def send_gmail(password=None, email=None, query=None, subject='初回ログイ�
         config = yaml.load(file, Loader=yaml.SafeLoader)
     gmail_account = config['account'][0]
     gmail_password = config['password'][0]
-    # メールの送信先★ --- (*2)
     mail_to = email
 
-    # メールデータ(MIME)の作成 --- (*3)
     body = password
     if query:
         subject = 'パスワード再発行'
@@ -855,17 +876,39 @@ def send_gmail(password=None, email=None, query=None, subject='初回ログイ�
     msg["To"] = mail_to
     msg["From"] = gmail_account
 
-    # Gmailに接続 --- (*4)
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465,
                               context=ssl.create_default_context())
     server.login(gmail_account, gmail_password)
-    server.send_message(msg)  # メールの送信
+    server.send_message(msg)
 
 
 def make_qr(student_id):
-    qr = f'http://127.0.0.1:8000/quick_send/{student_id}'
+    qr = f'http://127.0.0.1:8000/point_send/{student_id}'
     file_name = f"media/{student_id}.png"
 
     img = qrcode.make(qr)
     img.save(file_name)
     return f'{student_id}.png'
+
+
+def post_transaction(sender_private_key, sender_public_key, sender_blockchain_address,
+                     recipient_blockchain_address, value):
+    transaction = wallet.Transaction(
+        sender_private_key,
+        sender_public_key,
+        sender_blockchain_address,
+        recipient_blockchain_address,
+        value)
+
+    json_data_send = {
+        'sender_blockchain_address': sender_blockchain_address,
+        'recipient_blockchain_address': recipient_blockchain_address,
+        'sender_public_key': sender_public_key,
+        'value': value,
+        'signature': transaction.generate_signature(),
+    }
+
+    response = requests.post(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
+        json=json_data_send, timeout=10)
+    return response
