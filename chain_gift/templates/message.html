@@ -13,7 +13,7 @@
 	<meta name="keywords" content="free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
 	<meta name="author" content="FreeHTML5.co" />
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   	<!--
 	//////////////////////////////////////////////////////
@@ -55,8 +55,13 @@
 	<link rel="stylesheet" href="{% static 'flexslider.css' %}">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="{% static 'style.css' %}">
+
 	<!--message_modal.css-->
+	{% if user.dark_mode %}
+	<link rel="stylesheet" href="{% static 'message_modal_dark.css' %}">
+	{% else %}
 	<link rel="stylesheet" href="{% static 'message_modal.css' %}">
+	{% endif %}
 
 	<!-- Modernizr JS -->
 	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
@@ -64,7 +69,11 @@
 	<!--[if lt IE 9]>
 	<script src="{% static 'js/respond.min.js' %}"></script>
 	<![endif]-->
-
+	<link rel="stylesheet" href="{% static 'point.css' %}">
+    {% if user.dark_mode %}
+    <link rel="stylesheet" href="{% static 'darkmode.css' %}">
+    <link rel="stylesheet" href="{% static 'user_search_dark.css' %}">
+    {% endif %}
 	</head>
 	<body>
 	<div id="fh5co-page">
@@ -79,8 +88,14 @@
 					<li><a href="/point">Point</a></li>
 					<li><a href="/profile/{{ user.student_id }}">Profile</a></li>
 					<li><a href="/user_search">Search</a></li>
-					<li><a href="/shop">Shop</a></li>
+					<li><a href="/settings">Settings</a></li>
+					{% if user.is_superuser %}
+					<li><a href="/management">management</a></li>
+					{% endif %}
 					<li><a href="/logout">Logout</a></li>
+					{% if not user.is_superuser %}
+					<li><h4>{{total}} pt</h4></li>
+					{% endif %}
 				</ul>
 			</nav>
 
@@ -93,64 +108,64 @@
 			<div class="fh5co-narrow-content">
 			<h2 class="fh5co-heading animate-box" data-animate-effect="fadeInLeft" style="margin-bottom: 0; padding-bottom:0;">Message</h2>
 			</div>
-			<div class="tab_container">
+			<div class="tab_container animate-box" data-animate-effect="fadeInLeft">
                   <input id="tab1" type="radio" name="tab_item" checked>
                   <label class="tab_item" for="tab1">受信</label>
 				  <input id="tab2" type="radio" name="tab_item">
 				  <label class="tab_item" for="tab2">送信</label>
 				  <div class="tab_content" id="tab1_content">
 					<div class="tab_content_description">
-                      <p class="c-txtsp">
-
-
-						<div class="fh5co-narrow-content">
-
-
-
-
-
-
+						<div class="fh5co-narrow-content" style="padding-top: 0px">
 							<div class="row row-bottom-padded-md">
 								{% for value in receive %}
 								<div class="col-md-3 col-sm-6 col-padding text-center animate-box">
-									{% if value.read_flag == 0 %}
-									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="background: rgb(255, 236, 234); height:130px;" id="modal1" >
+									{% if user.dark_mode %}
+
+										{% if value.read_flag == 0 %}
+											<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="height:130px; background-color: #182636;" id="modal1" >
 										{% else %}
-										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;" id='modal2'>
-											{% endif %}
+											<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="height:130px; background-color: #000" id="modal1" >
+										{% endif %}
+									{% else %}
+									{% if value.read_flag == 0 %}
+									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="height:130px; background-color:rgb(255, 236, 234)" id="modal1" >
+										{% else %}
+										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style=" height:130px; background-color: rgb(230, 230, 230);" id='modal2'>
+                                    {% endif %}
+                                    {% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
-												<h5><object><a href="/profile/{{ value.sender.1 }}" style="color: #000">{{ value.sender.0 }}<br></a></object></h5>
+												<h5><object><a href="/profile/{{ value.sender.1 }}"  class="message-link">{{ value.sender.0 }}<br></a></object></h5>
 												<h6 style="">{{ value.contents|truncatechars:18 }}</h6>
-												<span style="color: #333">{{ value.time_of_message|date:"n/j H:i"}}</span>
+												<span>{{ value.time_of_message|date:"n/j H:i"}}</span>
 											</div>
 										</a>
 								</div>
 								{% endfor %}
 							</div>
 						</div>
-					  </p>
                     </div>
                   </div>
                   <div class="tab_content" id="tab2_content">
                     <div class="tab_content_description">
-                      <p class="c-txtsp">
-
-						<div class="fh5co-narrow-content">
+						<div class="fh5co-narrow-content" style="padding-top: 0px">
 							<div class="row row-bottom-padded-md">
 								{% for value in send %}
-								<div class="col-md-3 col-sm-6 col-padding text-center animate-box">
-										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;" id='modal3'>
+								<div class="col-md-3 col-sm-6 col-padding text-center animate-box" >
+                                    {% if user.dark_mode %}
+									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="height:130px; background-color: #000" id='modal3'>
+									{% else %}
+										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="height:130px; background-color: rgb(230, 230, 230)" id='modal3'>
+									{% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
-												<h5><object><a href="/profile/{{ value.recipient.1 }}" style="color: #000">{{ value.recipient.0 }}<br></a></object></h5>
+												<h5><object><a href="/profile/{{ value.recipient.1 }}" class="message-link">{{ value.recipient.0 }}<br></a></object></h5>
 												<h6 style="">{{ value.contents|truncatechars:18 }}</h6>
-												<span style="color: #333">{{ value.time_of_message|date:"n/j H:i"}}</span>
+												<span>{{ value.time_of_message|date:"n/j H:i"}}</span>
 											</div>
 										</a>
 								</div>
 								{% endfor %}
 							</div>
 						</div>
-					  </p>
                     </div>
                   </div>
 			</div>
@@ -163,7 +178,11 @@
 <div id="layer_board_area">
 	<div class="layer_board_bg"></div>
 	<section class="layer_board">
+		{% if user.dark_mode %}
+		<h2 class="layer_borad_title" id="sender_recipient" style="color: white;"></h2>
+		{% else %}
 		<h2 class="layer_borad_title" id="sender_recipient"></h2>
+		{% endif %}
 		<div class="layer_borad_content" id="message">
 
 		</div>
@@ -173,13 +192,20 @@
 		<a class="mdl_btn_close square_btn  " href="#">閉じる</a>
 		<div class="mdl_btn_close circle_btn"></div>
 	</section>
-</div> 
+</div>
 <script>
 	//モーダル起動用
+    {% if user.dark_mode %}
+	$(function(){
+		$('#layer_board_area').layerBoardDark({
+		});
+	})
+	{% else %}
 	$(function(){
 		$('#layer_board_area').layerBoard({
 		});
 	})
+	{% endif %}
 </script>
 
 
