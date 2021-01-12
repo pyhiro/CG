@@ -1,4 +1,20 @@
-{% extends "base.html" %}{% load static %}
+{% extends "base.html" %}
+{% load static %}
+{% block nav %}
+    <li><a href="/home">Home</a></li>
+    <li><a href="/message">Message</a></li>
+    <li><a href="/point">Point</a></li>
+    <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
+    <li><a href="/user_search">Search</a></li>
+    <li class="fh5co-active"><a href="/shop">Shop</a></li>
+    <li><a href="/logout">Logout</a></li>
+    {% if not user.is_superuser %}
+    <li><h4>{{total}} pt</h4></li>
+    {% endif %}
+    {% if user.is_superuser %}
+    <li><a href="/management">management</a></li>
+    {% endif %}
+{% endblock %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="ja">
@@ -8,30 +24,84 @@
     <script src="https://jp.vuejs.org/js/vue.js"></script>
     <link rel="stylesheet" href="{% static 'shop.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://jp.vuejs.org/js/vue.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
+
 </head>
 
-<body>
-    <div id="app">
-        <ul class="sidenav">
-            <li><button v-on:click ="allList">すべての商品</button></li>
-            <li><button v-on:click ="stampList">スタンプ</button></li>
-            <li><button v-on:click ="bookList">参考書</button></li>
-            <li><button v-on:click ="stationeryList">文房具</button></li>
-        </ul>
-
-
-        <div class="item" v-for="item in newlist" v-bind:key="item.id">
-            <ul>
-                <li>
-                    <p class="name">{{ item.name }}</p>
-                    <p class="price">{{ item.price }}</p>
-                    <p class="category">{{ item.category }}</p>
-                </li>
-            </ul>
+<div id="fh5co-main">
+    <body>
+        <div class="fh5co-narrow-content">
+            <div id="app">
+                <div class="container">
+                    <div class="menue">
+                        <a href="http:/..." onclick="return false;" v-on:click ="sortList(allList())" >すべての商品　</a>
+                        <a href="http:/..." onclick="return false;" v-on:click ="sortList(stampList())" >スタンプ　</a>
+                        <a href="http:/..." onclick="return false;" v-on:click ="sortList(bookList())" >参考書　</a>
+                        <a href="http:/..." onclick="return false;" v-on:click ="sortList(stationeryList())">文房具　</a>
+                        <!--<p style="display:none">[[ category ]]</p>-->
+                    </div>
+                    <h1 class="pageTitle">>>[[ category ]]</h1>
+                    <!--検索欄-->
+                    <div class="search">
+                        <div class="result">
+                            検索結果 <span class="count">[[ sortList().length ]]件</span>
+                        </div>
+                        <div class="condition">
+                            <div class="target">
+                                <!--<label><input type="checkbox" v-model="">テスト</label>-->
+                            </div>
+                            <div class="sort">
+                                <label for="sort">並び替え</label>
+                                <select id="sort" class="sprting" v-model.number="sortOrder">
+                                    <option value="1">標準</option>
+                                    <option value="2">ポイントが安い順</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--商品一覧-->
+                    
+                    <div v-if="isError" class="error">
+                        [[ message ]]
+                    </div>
+                    <div class="list">
+                        <div class="item" v-for="product in sortList()" v-bind:key="product.id">
+                            <ul class="contens-ul">
+                                <li class="contens-li" style="width: 207px;">
+                                    <span class="list-item">
+                                        <div class="list-item-list">
+                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;">
+                                                <div class="image">
+                                                    <img src="{% static 'images/ani.jpg' %}" alt="">
+                                                </div>
+                                                <div class="detail">
+                                                    <div class="price">
+                                                        <span>
+                                                            [[ product.goods_value | number_format ]]
+                                                        </span>ポイント
+                                                    </div>
+                                                    <div class="asin-title">
+                                                        <span>
+                                                            [[ product.goods_name ]]
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="{% static 'js/shop.js' %}"></script>
         </div>
-    </div>
-    <script src="{% static 'js/shop.js' %}"></script>
-</body>
-
+    </body>
+</div>
 </html>
 {% endblock content %}

@@ -84,7 +84,6 @@
 				</ul>
 			</nav>
 
-
 		</aside>
 
 	</div>
@@ -115,9 +114,9 @@
 								{% for value in receive %}
 								<div class="col-md-3 col-sm-6 col-padding text-center animate-box">
 									{% if value.read_flag == 0 %}
-									<a href="#" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(255, 236, 234); height:130px;" id="style_modal" >
+									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="background: rgb(255, 236, 234); height:130px;" id="modal1" >
 										{% else %}
-										<a href="#" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;">
+										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;" id='modal2'>
 											{% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
 												<h5><object><a href="/profile/{{ value.sender.1 }}" style="color: #000">{{ value.sender.0 }}<br></a></object></h5>
@@ -140,7 +139,7 @@
 							<div class="row row-bottom-padded-md">
 								{% for value in send %}
 								<div class="col-md-3 col-sm-6 col-padding text-center animate-box">
-										<a href="#" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;">
+										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="background: rgb(230, 230, 230); height:130px;" id='modal3'>
 											<div class="" style="height: 100%;padding:15px 0 0;">
 												<h5><object><a href="/profile/{{ value.recipient.1 }}" style="color: #000">{{ value.recipient.0 }}<br></a></object></h5>
 												<h6 style="">{{ value.contents|truncatechars:18 }}</h6>
@@ -158,11 +157,13 @@
 		</div>
 
 
+
+
 <!--モーダル-->
 <div id="layer_board_area">
 	<div class="layer_board_bg"></div>
 	<section class="layer_board">
-		<h2 class="layer_borad_title" id="sender"></h2>
+		<h2 class="layer_borad_title" id="sender_recipient"></h2>
 		<div class="layer_borad_content" id="message">
 
 		</div>
