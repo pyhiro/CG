@@ -2,6 +2,7 @@
 /* ---------------------------------- **
 		Modal Window
 ** ---------------------------------- */
+
 #layer_board_area {
 	display: none;
 	position: fixed;
@@ -131,4 +132,9 @@
 	}
 }
 
-
+body.fixed {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+}

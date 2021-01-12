@@ -1,57 +1,98 @@
-ul.sidenav {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	width: 200px;
-	background-color: #f1f1f1;
-  position: relative;
-		top: 60px;
-		left:40px;
-  overflow: auto;
-  border: 1px solid #000000;
-}
-ul.sidenav li a {
+  .container {
+	width: 1185px;
+	margin: 0 auto;
+  }
+  
+  .pageTitle {
+	font-weight: normal;
+	border-bottom: 2px solid;
+  }
+  
+  .search {
+	display: flex;
+	justify-content: space-between;
+  }
+  
+  .search .target {
+	display: inline-block;
+  }
+  
+  .search .target label {
+	margin-right: 15px;
+  }
+  
+  .search .sort {
+	display: inline-block;
+  }
+  
+  .list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: left;
+  }
+  
+  .list::after{
+	content: "";
 	display: block;
-	color: #000000;
-	padding: 8px 16px;
-	text-decoration: none;
-}
-ul.sidenav li a:hover:not(.active) {
-	background-color: #1b2538;
-	color: white;
-}
-div.content {
-	margin-left: 25%;
-	padding: 1px 16px;
-	height: 1000px;
-}
-@media screen and (max-width: 900px) {
-	ul.sidenav {
-		width: 100%;
-		height: auto;
-		position: relative;
-	}
-	ul.sidenav li a {
-		float: left;
-		padding: 15px;
-	}
-	div.content {
-		margin-left: 0;
-	}
-}
-@media screen and (max-width: 480px) {
-	ul.sidenav li a {
-		text-align: center;
-		float: none;
-	}
-}
-
-
-div.item li {
-	display: block;
-	float: left;
-	height: 100px;
-	list-style-type: none;
+	width: 250px;
+  }
+  
+  .item {
+	flex: 0 2 190px;
+	margin-bottom: 30px;
+  }
+  
+  .item .image {
+	position: relative;
 	text-align: center;
-	width: 25%;
-	}
+  }
+  
+  .item .image img {
+	width: 100%;
+	height: auto;
+  }
+  
+  
+  
+  .item .detail {
+	text-align: center;
+  }
+  
+  .item .price {
+	display: inline-block;
+  }
+  
+  .item .price span {
+	font-size: 180%;
+	
+  }
+  figure figcaption {
+	  font-size: 23px;
+	  margin: 20px auto -12px auto;
+	  color: currentcolor;
+	  text-align: center;
+  }
+  .image {
+	display:table;
+	outline:1px solid #ccc;
+	border:none;
+  }
+  .contens-li {
+	  list-style: none;
+	  display: table;
+  }
+  .contens {
+	  color: black;
+  }
+  .contens-ul {
+	width: 15%;
+	margin: 4px -4%;
+	padding-inline-start: 11px
+	
+  }
+  .asin-title {
+	display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
