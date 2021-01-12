@@ -1283,3 +1283,18 @@ darkmode_button
         text-align: center;
     }
 }
+
+@media screen and (max-width: 550px) {
+    .test-title {
+        text-align: center;
+        padding-bottom: 10px;
+    }
+    .test-responsive {
+        text-align: center !important;
+    }
+    .form-table th{
+        width: 200px !important;
+        }
+}
+
+

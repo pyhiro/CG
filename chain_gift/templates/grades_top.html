@@ -27,7 +27,7 @@ function to_delete(student_id){
 }
 </script>
 <div id="fh5co-main">
-    <div class="fh5co-narrow-content">
+    <div class="fh5co-narrow-content" style="padding-top:2em;">
         <h2 class="fh5co-heading responsive-center">テスト一覧</h2>
         <form method="POST">
             {% csrf_token %}
@@ -36,19 +36,14 @@ function to_delete(student_id){
                 <tr>
                     <th> 年度 </th>
                     <td>
-                        {{ form.grade_id }}
-                    </td>
-                </tr>
-                <tr>
-                    <th>フリーワード</th>
-                    <td>
-                        {{ form.class_id }}
+                        {{ form.year }}
                     </td>
                 </tr>
                 </tbody>
             </table>
             <p style="margin: 20px"><button type="submit" style="text-align: center;">検索</button></p>
         </form>
+        <p style="margin: 10px"><a href="/test/create">新規作成</a></p>
         <div class="row row-bottom-padded-md">
             {% for test in test_list %}
                 <div class="blog-entry dark-blog" style="border: 0.2px solid gray; margin-bottom: 0; padding-bottom:5px;">
@@ -57,10 +52,12 @@ function to_delete(student_id){
                     {% else %}
                     <div class="desc">
                     {% endif %}
-                            <h3 style="width: 100%; float: right; margin: 0 0 0 20px;float: left; ">{{test.year}}年度　{% if test.semester == '前' or test.semester == '後' %}{{test.semester}}期{% else %}{{test.semester}}学期{% endif %}　{{test.grade_id}}学年　{% if test.type == 1 %}中間テスト{% elif test.type == 2 %}期末テスト{% endif %}</h3>
+                            <h3 class="test-title" style="width: 100%; float: right; margin: 0 0 0 20px;float: left; ">{{test.year}}年度　{% if test.semester == '前' or test.semester == '中' or test.semester == '後' %}{{test.semester}}期 {% else %}{{test.semester}}学期{% endif %}　{{test.grade_id}}学年　{% if test.type == 1 %}中間テスト{% elif test.type == 2 %}期末テスト{% endif %}</h3>
+                            <div class="test-responsive">
                             <button  onClick="to_delete({{usr.student_id}})" style="float: right; margin-right: 30px;">削除</button>
-                            <a href="/super_edit/{{ usr.student_id }}" style="float: right; margin-right: 5px;"><button>入力</button></a>
+                            <a href="/grades/edit/{{test.id}}" style="float: right; margin-right: 5px;"><button>入力</button></a>
                             <a href="/super_edit/{{ usr.student_id }}" style="float: right; margin-right: 5px;"><button>閲覧</button></a>
+                            </div>
                     </div>
                 </div>
             {% endfor %}

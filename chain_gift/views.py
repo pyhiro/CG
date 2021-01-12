@@ -6,13 +6,14 @@ from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView
 from django.http.response import JsonResponse
 from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
                     SuperUserUpdateForm, SuperPointForm, PasswordForgetForm,
-                    PointForm, UserSettingsForm, GradesPointForm)
+                    PointForm, UserSettingsForm, GradesPointForm, CreateTestForm, TestSearchForm)
 from .models import User, Secret, Message, Goods, Grades, MessageCount, Test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 import datetime
 import hashlib
@@ -626,7 +627,46 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
+def create_test(request):
+    if request.method == 'POST':
+        form = CreateTestForm(request.POST)
+        data = form.data
+        semester_choice = ((0, '学期'),
+                           (1, '前'),
+                           (2, '中'),
+                           (3, '後'),
+                           (4, '1'),
+                           (5, '2'),
+                           (6, '3'))
+        type_choice = ((0, '種別'),
+                       (1, '中間'),
+                       (2, '期末'),
+                       (3, 'その他'))
+        year = data['year']
+        semester = semester_choice[int(data['semester'])][1]
+        test_type = type_choice[int(data['type'])][0]
+        grade_id = data['grade_id']
+        if not year.isdigit() or semester == '学期' or test_type == 0 or grade_id == '0':
+            return render(request, 'create_test.html', {'form': form})
+        grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
+        if grade_id_list:
+            grade_choice = [(k + 1, str(v)) for k, v in enumerate(grade_id_list)]
+        grade_id = grade_choice[int(grade_id)-1][1]
+        test = Test(year=year, semester=semester, type=test_type, grade_id=grade_id)
+        test.save()
+        users = User.objects.filter(grade_id=grade_id)
+        for usr in users:
+            Grades(test_id=test, student_id=usr.student_id).save()
+        return redirect('/grades/top')
+
+    form = CreateTestForm()
+    return render(request, 'create_test.html', {'form': form})
+
+
+
 def goods_db(request):
+    grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
+    print(grade_id_list)
     # m = Message(contents='good morning', sender=request.user.student_id, recipient=request.user.student_id)
     # m.save()
     category = request.GET.get('category', None)
@@ -837,10 +877,31 @@ def settings(request):
     return render(request, 'settings.html', params)
 
 
+def grades_edit(request, pk: int):
+    if request.method == 'POST':
+        pass
+    grades = Grades.objects.filter(test_id=pk).order_by()
+    name_and_grades = []
+    for g in grades:
+        username = User.objects.get(student_id=g.student_id)
+        name_and_grades.append((username, g))
+        print(name_and_grades)
+    return render(request, 'grades_edit.html', {'name_and_grades': name_and_grades})
+
+
 def grades_top(request):
     test_list = Test.objects.all().order_by('-year', '-semester', '-id')
+    if request.method == 'POST':
+        form = TestSearchForm(request.POST)
+        year = form.data['year']
+        if year:
+            test_list = Test.objects.filter(year=int(year)).order_by('-year', '-semester', '-id')
+            form = TestSearchForm(initial={'year': year})
+    else:
+        form = TestSearchForm()
     page_obj = paginate_queryset(request, test_list, 40)
     params = {
+        'form': form,
         'test_list': page_obj.object_list,
         'page_obj': page_obj,
     }

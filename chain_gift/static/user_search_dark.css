@@ -3,7 +3,6 @@ textarea {
   display: block;
   font-size: 16px;
   padding: 12px 15px;
-  width: 480px;
   transition: 0.8s;
   border-radius: 0;
 }
@@ -48,7 +47,7 @@ textarea::placeholder {
   width: 300px;
 }
 
-#id_grade_id, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id, #id_template_point {
+#id_grade_id,#id_year, #id_class_id, #id_email, #id_furigana, #id_username, #id_student_id, #id_template_point, #id_free_word {
     border: 1px solid gray;
     background: #182636;
 }

@@ -17,6 +17,46 @@ class PointForm(forms.ModelForm):
                 field.widget.attrs['placeholder'] = 'Message'
 
 
+class TestSearchForm(forms.Form):
+    year = forms.IntegerField(label='年度', required=False)
+
+
+class TestClassSearchForm(forms.Form):
+    year = forms.CharField(label='クラス', required=False)
+
+
+class CreateTestForm(forms.Form):
+    year = forms.IntegerField(label='年度')
+    grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
+
+    SEMESTER_CHOICE = ((0, '学期'),
+                       (1, '前期'),
+                       (2, '中期'),
+                       (3, '後期'),
+                       (4, '1学期'),
+                       (5, '2学期'),
+                       (6, '3学期'))
+    TYPE_CHOICE = ((0, '種別'),
+                   (1, '中間'),
+                   (2, '期末'),
+                   (3, 'その他'))
+    semester = forms.ChoiceField(widget=forms.Select, choices=SEMESTER_CHOICE, label='学期')
+    type = forms.ChoiceField(widget=forms.Select, choices=TYPE_CHOICE, label='テスト種別')
+
+    GRADE_CHOICE = ((0, '1'),)
+    if grade_id_list:
+        GRADE_CHOICE = [(k + 1, str(v)) for k, v in enumerate(grade_id_list)]
+        GRADE_CHOICE.insert(0, (0, "学年"))
+    grade_id = forms.ChoiceField(widget=forms.Select, choices=GRADE_CHOICE, label='学年')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+
+
+
 class SuperPointForm(forms.ModelForm):
     class Meta:
         model = Message
@@ -144,3 +184,4 @@ class PasswordForgetForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
+

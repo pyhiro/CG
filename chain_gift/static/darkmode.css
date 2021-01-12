@@ -156,3 +156,8 @@ th {
 .dark-blog {
     background: #000;
 }
+
+option {
+    color: white;
+    background: black;
+}

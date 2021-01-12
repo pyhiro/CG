@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block custom_css %}
+<link rel="stylesheet" href="{% static 'user_search.css' %}">
+<link rel="stylesheet" href="{% static 'all_users.css' %}">
+<link rel="stylesheet" href="{% static 'pagination.css' %}">
+{% endblock %}
+{% block nav %}
+<li><a href="/home">Home</a></li>
+<li><a href="/message">Message</a></li>
+<li><a href="/point">Point</a></li>
+<li><a href="/profile/{{ user.student_id }}">Profile</a></li>
+<li><a href="/user_search">Search</a></li>
+<li><a href="/settings">Settings</a></li>
+<li  class="fh5co-active"><a href="/management">Management</a></li>
+<li><a href="/logout">Logout</a></li>
+<li><h4>{{total}} pt</h4></li>
+{% endblock %}
+{% block content %}
+<script>
+function to_delete(student_id){
+
+	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+	if(window.confirm('削除してよろしいですか')){
+		location.href = "/super_delete/" + student_id; // example_confirm.html へジャンプ
+	}
+}
+</script>
+<div id="fh5co-main">
+    <div class="fh5co-narrow-content" style="padding-top:2em;">
+        <h2 class="fh5co-heading responsive-center">年生</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <table class="form-table">
+                <tbody>
+                {% for usr in name_and_grades %}
+                <tr>
+                    <th> {{usr.0}}</th>
+                    <td></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <p style="margin: 20px"><button type="submit" style="text-align: center;">検索</button></p>
+        </form>
+        <div class="row row-bottom-padded-md">
+            {% for test in test_list %}
+            <div class="blog-entry dark-blog" style="border: 0.2px solid gray; margin-bottom: 0; padding-bottom:5px;">
+                {% if user.dark_mode %}
+                <div class="desc" style="background: black;">
+                    {% else %}
+                    <div class="desc">
+                        {% endif %}
+                        <h3 class="test-title" style="width: 100%; float: right; margin: 0 0 0 20px;float: left; ">{{test.year}}年度　{% if test.semester == '前' or test.semester == '中' or test.semester == '後' %}{{test.semester}}期 {% else %}{{test.semester}}学期{% endif %}　{{test.grade_id}}学年　{% if test.type == 1 %}中間テスト{% elif test.type == 2 %}期末テスト{% endif %}</h3>
+                        <div class="test-responsive">
+                            <button  onClick="to_delete({{usr.student_id}})" style="float: right; margin-right: 30px;">削除</button>
+                            <a href="/super_edit/{{ usr.student_id }}" style="float: right; margin-right: 5px;"><button>入力</button></a>
+                            <a href="/super_edit/{{ usr.student_id }}" style="float: right; margin-right: 5px;"><button>閲覧</button></a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <ul class="pagination" style="text-align: center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                <!-- 数字の部分 -->
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><a class="page-link" href="#!">{{ num }}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                <!-- 次へ の部分 -->
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}
+

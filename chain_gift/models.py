@@ -97,6 +97,7 @@ class Test(models.Model):
 
 class Grades(models.Model):
     student_id = models.CharField(_('学籍番号'), max_length=10)
+    test_id = models.ForeignKey(Test, to_field='id', on_delete=models.PROTECT, default=None)
     japanese = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     math = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
     english = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
