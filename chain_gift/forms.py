@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django import forms
 from .models import User, Message
 
@@ -54,7 +54,6 @@ class CreateTestForm(forms.Form):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
-
 
 
 class SuperPointForm(forms.ModelForm):
@@ -186,3 +185,17 @@ class PasswordForgetForm(forms.ModelForm):
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
 
+class MyPasswordChangeForm(PasswordChangeForm):
+    """パスワード変更フォーム"""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Old password':
+                field.widget.attrs['placeholder'] = "現在のパスワード"
+            if field.label == 'New password':
+                field.widget.attrs['placeholder'] = "新しいパスワード"
+            if field.label == 'New password confirmation':
+                field.widget.attrs['placeholder'] = "新しいパスワード(確認)"

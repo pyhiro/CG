@@ -6,7 +6,7 @@ from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView
 from django.http.response import JsonResponse
 from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
                     SuperUserUpdateForm, SuperPointForm, PasswordForgetForm,
-                    PointForm, UserSettingsForm, GradesPointForm, CreateTestForm, TestSearchForm)
+                    PointForm, UserSettingsForm, GradesPointForm, CreateTestForm, TestSearchForm, MyPasswordChangeForm)
 from .models import User, Secret, Message, Goods, Grades, MessageCount, Test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
@@ -51,6 +51,7 @@ class Logout(LoginRequiredMixin, LogoutView):
 class PasswordChange(LoginRequiredMixin, PasswordChangeView):
     success_url = reverse_lazy('password_change_done')
     template_name = 'change.html'
+    form_class = MyPasswordChangeForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
