@@ -1,32 +1,104 @@
-{% block title %}パスワード変更{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Marble &mdash; Free HTML5 Bootstrap Website Template by FreeHTML5.co</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
+  <meta name="keywords" content="free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
+  <meta name="author" content="FreeHTML5.co" />
 
-{% block styles %}
-{% endblock %}
+  <!--
+//////////////////////////////////////////////////////
 
-{% block headertitle %}パスワード変更{% endblock %}
+FREE HTML5 TEMPLATE
+DESIGNED & DEVELOPED by FreeHTML5.co
 
-{% block content %}
-<div class="row justify-content-md-center">
-<div  class="col-6">
-<form action="" method="POST">
-    {{ form.non_field_errors }}
-    {% for field in form %}
-    <div class="form-group">
-        <label class="col-6" for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+Website: 		http://freehtml5.co/
+Email: 			info@freehtml5.co
+Twitter: 		http://twitter.com/fh5co
+Facebook: 		https://www.facebook.com/fh5co
+
+//////////////////////////////////////////////////////
+-->
+
+  <!-- Facebook and Twitter integration -->
+  <meta property="og:title" content=""/>
+  <meta property="og:image" content=""/>
+  <meta property="og:url" content=""/>
+  <meta property="og:site_name" content=""/>
+  <meta property="og:description" content=""/>
+  <meta name="twitter:title" content="" />
+  <meta name="twitter:image" content="" />
+  <meta name="twitter:url" content="" />
+  <meta name="twitter:card" content="" />
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="{% static 'animate.css' %}">
+  <!-- Icomoon Icon Fonts-->
+  <link rel="stylesheet" href="{% static 'icomoon.css' %}">
+  <!-- Bootstrap  -->
+  <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
+  <!-- Flexslider  -->
+  <link rel="stylesheet" href="{% static 'flexslider.css' %}">
+  <!-- Theme style  -->
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+  {% if user.dark_mode %}
+    <link rel="stylesheet" href="{% static 'darkmode.css' %}">
+    {% endif %}
+
+  <!-- Modernizr JS -->
+  <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+  <!-- FOR IE9 below -->
+  <!--[if lt IE 9]>
+  <script src="{% static 'js/respond.min.js' %}"></script>
+  <![endif]-->
+
+</head>
+<body>
+    <div style="display: block; height: 15rem;"></div>
+    <h3 class="login-box-msg" style="text-align:center"><b>パスワード変更</b></h3>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {% for error in form.non_field_errors %}
+      <p style="text-align: center; color: red;">emailまたはパスワードが間違っています。</p>
+      {% endfor %}
+      {% for field in form %}
+      <div class="form-group has-feedback" style="width: 300px; margin: 10px auto">
         {{ field }}
-        {{ field.errors }}
-    </div>
-    {% endfor %}
-    {% csrf_token %}
-    <div class="form-group row">
-      <div class="col-sm">
-        <button type="submit" class="btn btn-primary btn-block">送信</button>
       </div>
-      <div class="col-sm">
-        <button type="submit" class="btn btn-primary btn-block" onClick="javascript:history.go(-1);">戻る</button>
+      {% endfor %}
+      <div class="" style="text-align:center">
+        <button type="submit" class="btn btn-primary btn-md">変更</button>
       </div>
-    </div>
-</form>
-</div>
-</div>
-{% endblock %}
+    </form>
+
+    <p style="text-align: center"><a href="/">戻る</a></p>
+
+<!-- jQuery -->
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<!-- jQuery Easing -->
+<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Waypoints -->
+<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+<!-- Flexslider -->
+<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+
+
+<!-- MAIN JS -->
+<script src="{% static 'js/main.js' %}"></script>
+
+<link rel="stylesheet" href="{% static 'login.css' %}">
+</body>
+</html>
