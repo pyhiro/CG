@@ -6,8 +6,9 @@ from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView
 from django.http.response import JsonResponse
 from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
                     SuperUserUpdateForm, SuperPointForm, PasswordForgetForm,
-                    PointForm, UserSettingsForm, GradesPointForm, CreateTestForm, TestSearchForm, MyPasswordChangeForm)
-from .models import User, Secret, Message, Goods, Grades, MessageCount, Test
+                    PointForm, UserSettingsForm, GradesPointForm, CreateTestForm, TestSearchForm, MyPasswordChangeForm,
+                    AddSubjectForm)
+from .models import User, Secret, Message, Goods, Grades, MessageCount, Test, TestSubject
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.http import HttpResponse
@@ -655,6 +656,9 @@ def create_test(request):
         grade_id = grade_choice[int(grade_id)-1][1]
         test = Test(year=year, semester=semester, type=test_type, grade_id=grade_id)
         test.save()
+        subjects = ['国語', '数学', '英語']
+        for s in subjects:
+            TestSubject(test_id=test.id, subject=s).save()
         users = User.objects.filter(grade_id=grade_id)
         for usr in users:
             Grades(test_id=test, student_id=usr.student_id).save()
@@ -760,7 +764,6 @@ def super_edit(request, pk):
                                         'email': user.email,
                                         'username': user.username,
                                         'furigana': user.furigana,
-                                        'student_id': user.student_id,
                                         'delete_flag': user.delete_flag})
 
     return render(request, 'super_edit.html', {'form': form})
@@ -879,15 +882,34 @@ def settings(request):
 
 
 def grades_edit(request, pk: int):
+    form = AddSubjectForm()
+    subjects = TestSubject.objects.filter(test_id=pk)
     if request.method == 'POST':
-        pass
+        for v in request.POST:
+            if v == "csrfmiddlewaretoken":
+                continue
+            id_and_sub = v.split('___')
+            try:
+                Grades.objects.get(student_id=id_and_sub[0],
+                                   subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
+            except:
+                Grades(student_id=id_and_sub[0], subject=subjects[int(id_and_sub[1])].subject, test_id=pk).save()
+    #####################todo            
     grades = Grades.objects.filter(test_id=pk).order_by()
-    name_and_grades = []
+    name_and_grades = set()
     for g in grades:
         username = User.objects.get(student_id=g.student_id)
-        name_and_grades.append((username, g))
-        print(name_and_grades)
-    return render(request, 'grades_edit.html', {'name_and_grades': name_and_grades})
+        name_and_grades.add((username, g, g.student_id))
+    name_and_grades = list(name_and_grades)
+    return render(request, 'grades_edit.html', {'name_and_grades': name_and_grades, 'form': form, 'self_pk': pk,
+                                                'subjects': subjects})
+
+
+def add_subject(request, pk: int):
+    form = AddSubjectForm(request.POST)
+    subject = form.data['subject']
+    TestSubject(test_id=pk, subject=subject).save()
+    return redirect(f'/grades/edit/{pk}')
 
 
 def grades_top(request):

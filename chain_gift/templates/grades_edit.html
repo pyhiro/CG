@@ -29,14 +29,37 @@ function to_delete(student_id){
 <div id="fh5co-main">
     <div class="fh5co-narrow-content" style="padding-top:2em;">
         <h2 class="fh5co-heading responsive-center">年生</h2>
+        <form method="POST" class=""  action="/add_subject/{{self_pk}}">
+            {% csrf_token %}
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>科目の追加</th>
+                    <td>
+                        {{ form.subject }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p style="margin: 20px"><button type="submit" style="text-align: center;">追加</button></p>
+        </form>
+
         <form method="POST">
             {% csrf_token %}
             <table class="form-table">
                 <tbody>
+                <tr>
+                    <th style="border: 1px solid #d7d7d7; padding: 10px text-align: center;">名前</th>
+                    {% for s in subjects %}
+                    <th style="border: 1px solid #d7d7d7; text-align: center; padding: 10px;">{{ s.subject }}</th>
+                    {% endfor %}
+                </tr>
                 {% for usr in name_and_grades %}
                 <tr>
-                    <th> {{usr.0}}</th>
-                    <td></td>
+                    <th style="border: 1px solid #d7d7d7; padding: 20px"> {{usr.0}}</th>
+                    {% for s in subjects %}
+                    <td style="border: 1px solid #d7d7d7; padding: 10px; text-align: center"><input style="max-width: 50px;" name="{{ usr.2 }}___{{forloop.counter0}}"></td>
+                    {% endfor %}
                 </tr>
                 {% endfor %}
                 </tbody>

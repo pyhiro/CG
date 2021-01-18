@@ -95,14 +95,16 @@ class Test(models.Model):
     grade_id = models.CharField(_('学年'), max_length=50, blank=True, null=False)
 
 
+class TestSubject(models.Model):
+    test_id = models.IntegerField()
+    subject = models.CharField(max_length=30)
+
+
 class Grades(models.Model):
     student_id = models.CharField(_('学籍番号'), max_length=10)
-    test_id = models.ForeignKey(Test, to_field='id', on_delete=models.PROTECT, default=None)
-    japanese = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    math = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    english = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    science = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    social = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    test_id = models.IntegerField()
+    subject = models.CharField(max_length=30)
+    score = models.IntegerField(null=True, blank=True)
 
 
 class MessageCount(models.Model):

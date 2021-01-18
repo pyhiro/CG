@@ -21,6 +21,10 @@ class TestSearchForm(forms.Form):
     year = forms.IntegerField(label='年度', required=False)
 
 
+class AddSubjectForm(forms.Form):
+    subject = forms.CharField(max_length=30)
+
+
 class TestClassSearchForm(forms.Form):
     year = forms.CharField(label='クラス', required=False)
 

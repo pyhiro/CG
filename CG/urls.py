@@ -53,4 +53,5 @@ urlpatterns = [
     path('test/create/', views.create_test, name='create_test'),
     path('settings/', views.settings, name='settings'),
     path('super_point/', views.super_point, name='super_point'),
+    path('add_subject/<int:pk>', views.add_subject, name='super_point'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
