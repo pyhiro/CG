@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.template.defaulttags import register
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (LoginView, LogoutView, PasswordChangeView,
@@ -28,6 +29,7 @@ from email.mime.text import MIMEText
 import urllib
 
 import base58
+import numpy as np
 import qrcode
 import requests
 import yaml
@@ -656,12 +658,6 @@ def create_test(request):
         grade_id = grade_choice[int(grade_id)-1][1]
         test = Test(year=year, semester=semester, type=test_type, grade_id=grade_id)
         test.save()
-        subjects = ['国語', '数学', '英語']
-        for s in subjects:
-            TestSubject(test_id=test.id, subject=s).save()
-        users = User.objects.filter(grade_id=grade_id)
-        for usr in users:
-            Grades(test_id=test, student_id=usr.student_id).save()
         return redirect('/grades/top')
 
     form = CreateTestForm()
@@ -884,6 +880,17 @@ def settings(request):
 def grades_edit(request, pk: int):
     form = AddSubjectForm()
     subjects = TestSubject.objects.filter(test_id=pk)
+    t = Test.objects.get(id=pk)
+    semester = t.semester
+    if t.semester not in ['前', '中', '後']:
+        semester = t.semester + '学'
+    if t.type == 1:
+        test_type = '中間テスト'
+    elif t.type == 2:
+        test_type = '期末テスト'
+    else:
+        test_type = ''
+    test_title = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
     if request.method == 'POST':
         for v in request.POST:
             if v == "csrfmiddlewaretoken":
@@ -891,24 +898,58 @@ def grades_edit(request, pk: int):
             id_and_sub = v.split('___')
             try:
                 Grades.objects.get(student_id=id_and_sub[0],
-                                   subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
+                                   subject=subjects[int(id_and_sub[1])].subject, test_id=pk)
+                if request.POST.get(v):
+                    Grades.objects.filter(student_id=id_and_sub[0],
+                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
             except:
                 Grades(student_id=id_and_sub[0], subject=subjects[int(id_and_sub[1])].subject, test_id=pk).save()
-    #####################todo            
-    grades = Grades.objects.filter(test_id=pk).order_by()
-    name_and_grades = set()
-    for g in grades:
-        username = User.objects.get(student_id=g.student_id)
-        name_and_grades.add((username, g, g.student_id))
-    name_and_grades = list(name_and_grades)
-    return render(request, 'grades_edit.html', {'name_and_grades': name_and_grades, 'form': form, 'self_pk': pk,
-                                                'subjects': subjects})
+                if request.POST.get(v):
+                    Grades.objects.filter(student_id=id_and_sub[0],
+                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
+    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
+    name_and_grades = dict()
+    try:
+        for user in users:
+            usr = User.objects.get(student_id=user['student_id'])
+            name_and_grades[usr.username] = dict()
+            name_and_grades[usr.username]['furigana'] = usr.furigana
+            name_and_grades[usr.username]['class_id'] = usr.class_id
+            name_and_grades[usr.username]['student_id'] = user['student_id']
+            grades = Grades.objects.filter(test_id=pk, student_id=user['student_id'])
+            for g in grades:
+                name_and_grades[usr.username][g.subject] = g.score
+        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+    except:
+        sorted_user_list = {}
+    if sorted_user_list:
+        sorted_user_list_by_class = []
+        sorted_user_list_by_class_tmp = []
+        tmp_class_id = sorted_user_list[0][1]['class_id']
+        for sorted_user in sorted_user_list:
+            if tmp_class_id != sorted_user[1]['class_id']:
+                tmp_class_id = sorted_user[1]['class_id']
+                sorted_user_list_by_class.append(sorted_user_list_by_class_tmp.copy())
+                sorted_user_list_by_class_tmp = [sorted_user]
+                continue
+            sorted_user_list_by_class_tmp.append(sorted_user)
+        else:
+            if sorted_user_list_by_class_tmp:
+                sorted_user_list_by_class.append(sorted_user_list_by_class_tmp)
+        sorted_user_list = sorted_user_list_by_class
+        print(sorted_user_list)
+    return render(request, 'grades_edit.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
+                                                'user_list': sorted_user_list, 'test_title': test_title})
 
 
 def add_subject(request, pk: int):
     form = AddSubjectForm(request.POST)
     subject = form.data['subject']
     TestSubject(test_id=pk, subject=subject).save()
+    grade = Test.objects.get(id=pk).grade_id
+    users = User.objects.filter(grade_id=grade)
+    for user in users:
+        Grades(test_id=pk, subject=subject, student_id=user.student_id).save()
     return redirect(f'/grades/edit/{pk}')
 
 
@@ -929,6 +970,80 @@ def grades_top(request):
         'page_obj': page_obj,
     }
     return render(request, 'grades_top.html', params)
+
+
+def test_result_super(request, pk: int):
+    form = AddSubjectForm()
+    subjects = TestSubject.objects.filter(test_id=pk)
+    t = Test.objects.get(id=pk)
+    semester = t.semester
+    if t.semester not in ['前', '中', '後']:
+        semester = t.semester + '学'
+    if t.type == 1:
+        test_type = '中間テスト'
+    elif t.type == 2:
+        test_type = '期末テスト'
+    else:
+        test_type = ''
+    test_title = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
+    if request.method == 'POST':
+        for v in request.POST:
+            if v == "csrfmiddlewaretoken":
+                continue
+            id_and_sub = v.split('___')
+            try:
+                Grades.objects.get(student_id=id_and_sub[0],
+                                   subject=subjects[int(id_and_sub[1])].subject, test_id=pk)
+                if request.POST.get(v):
+                    Grades.objects.filter(student_id=id_and_sub[0],
+                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
+            except:
+                Grades(student_id=id_and_sub[0], subject=subjects[int(id_and_sub[1])].subject, test_id=pk).save()
+                if request.POST.get(v):
+                    Grades.objects.filter(student_id=id_and_sub[0],
+                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
+    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
+    name_and_grades = dict()
+    try:
+        for user in users:
+            usr = User.objects.get(student_id=user['student_id'])
+            name_and_grades[usr.username] = dict()
+            name_and_grades[usr.username]['furigana'] = usr.furigana
+            name_and_grades[usr.username]['class_id'] = usr.class_id
+            name_and_grades[usr.username]['student_id'] = user['student_id']
+            grades = Grades.objects.filter(test_id=pk, student_id=user['student_id'])
+            total = 0
+            subject_count = 0
+            for g in grades:
+                name_and_grades[usr.username][g.subject] = g.score
+                if type(g.score) is int or type(g.score) is float:
+                    total += g.score
+                    subject_count += 1
+            if subject_count >= 1:
+                name_and_grades[usr.username]['total'] = total
+                name_and_grades[usr.username]['average'] = total / subject_count
+
+        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+    except:
+        sorted_user_list = {}
+    if sorted_user_list:
+        sorted_user_list_by_class = []
+        sorted_user_list_by_class_tmp = []
+        tmp_class_id = sorted_user_list[0][1]['class_id']
+        for sorted_user in sorted_user_list:
+            if tmp_class_id != sorted_user[1]['class_id']:
+                tmp_class_id = sorted_user[1]['class_id']
+                sorted_user_list_by_class.append(sorted_user_list_by_class_tmp.copy())
+                sorted_user_list_by_class_tmp = [sorted_user]
+                continue
+            sorted_user_list_by_class_tmp.append(sorted_user)
+        else:
+            if sorted_user_list_by_class_tmp:
+                sorted_user_list_by_class.append(sorted_user_list_by_class_tmp)
+        sorted_user_list = sorted_user_list_by_class
+        print(sorted_user_list)
+    return render(request, 'test_result.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
+                                                'user_list': sorted_user_list, 'test_title': test_title})
 
 
 def paginate_queryset(request, queryset, count):
@@ -996,3 +1111,9 @@ def post_transaction(sender_private_key, sender_public_key, sender_blockchain_ad
         urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
         json=json_data_send, timeout=10)
     return response
+
+@register.filter
+def get_item(dictionary, key):
+    if dictionary.get(key) is None:
+        return ''
+    return dictionary.get(key)
