@@ -902,6 +902,9 @@ def grades_edit(request, pk: int):
                 if request.POST.get(v):
                     Grades.objects.filter(student_id=id_and_sub[0],
                                           subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
+                else:
+                    Grades.objects.filter(student_id=id_and_sub[0],
+                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).delete()
             except:
                 Grades(student_id=id_and_sub[0], subject=subjects[int(id_and_sub[1])].subject, test_id=pk).save()
                 if request.POST.get(v):
@@ -937,7 +940,32 @@ def grades_edit(request, pk: int):
             if sorted_user_list_by_class_tmp:
                 sorted_user_list_by_class.append(sorted_user_list_by_class_tmp)
         sorted_user_list = sorted_user_list_by_class
-        print(sorted_user_list)
+    if request.method == 'POST':
+        for subject in subjects:
+            scores = Grades.objects.filter(subject=subject.subject, test_id=pk)
+            np_list = np.array([])
+            for score in scores:
+                if score.score in [None, '']:
+                    np_list = np.append(np_list, np.nan)
+                else:
+                    np_list = np.append(np_list, score.score)
+            test = TestSubject.objects.get(test_id=pk, subject=subject.subject)
+            test.std_div = np.nanstd(np_list)
+            try:
+                test.save()
+            except ValueError:
+                pass
+        all_scores = Grades.objects.filter(test_id=pk).values_list('score', flat=True).exclude(score=None)
+        try:
+            np_array = np.array(all_scores)
+            std_div = np.nanstd(np_array)
+            t = Test.objects.get(id=pk)
+            t.std_div = std_div
+            t.save()
+        except:
+            pass
+    if request.method == 'POST':
+        return redirect(f'/grades/result/{pk}/normal')
     return render(request, 'grades_edit.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
                                                 'user_list': sorted_user_list, 'test_title': test_title})
 
@@ -972,7 +1000,7 @@ def grades_top(request):
     return render(request, 'grades_top.html', params)
 
 
-def test_result_super(request, pk: int):
+def test_result_super(request, pk: int, order: str):
     form = AddSubjectForm()
     subjects = TestSubject.objects.filter(test_id=pk)
     t = Test.objects.get(id=pk)
@@ -986,25 +1014,10 @@ def test_result_super(request, pk: int):
     else:
         test_type = ''
     test_title = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
-    if request.method == 'POST':
-        for v in request.POST:
-            if v == "csrfmiddlewaretoken":
-                continue
-            id_and_sub = v.split('___')
-            try:
-                Grades.objects.get(student_id=id_and_sub[0],
-                                   subject=subjects[int(id_and_sub[1])].subject, test_id=pk)
-                if request.POST.get(v):
-                    Grades.objects.filter(student_id=id_and_sub[0],
-                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
-            except:
-                Grades(student_id=id_and_sub[0], subject=subjects[int(id_and_sub[1])].subject, test_id=pk).save()
-                if request.POST.get(v):
-                    Grades.objects.filter(student_id=id_and_sub[0],
-                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
     users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
     name_and_grades = dict()
     try:
+        array_for_average = list()
         for user in users:
             usr = User.objects.get(student_id=user['student_id'])
             name_and_grades[usr.username] = dict()
@@ -1021,11 +1034,28 @@ def test_result_super(request, pk: int):
                     subject_count += 1
             if subject_count >= 1:
                 name_and_grades[usr.username]['total'] = total
-                name_and_grades[usr.username]['average'] = total / subject_count
+                array_for_average.append(total)
+                name_and_grades[usr.username]['average'] = round(total / subject_count, 1)
+        try:
+            total_average = round(sum(array_for_average) / len(array_for_average), 1)
+            total_array = np.array(array_for_average)
+            std_div_of_total = round(np.std(total_array), 2)
+        except:
+            total_average = ''
+            std_div_of_total = ''
+        if order == 'normal':
+            sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+        elif order == 'ranking':
+            sorted_user_list = sorted(name_and_grades.items(), key=lambda x: x[1]['total'], reverse=True)
+            return render(request, 'test_result.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
+                                                        'user_list': sorted_user_list, 'test_title': test_title,
+                                                        'total_average': total_average,
+                                                        'std_div_of_total': std_div_of_total, 'order': order})
 
-        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
     except:
         sorted_user_list = {}
+        total_average = ''
+        std_div_of_total = ''
     if sorted_user_list:
         sorted_user_list_by_class = []
         sorted_user_list_by_class_tmp = []
@@ -1041,9 +1071,107 @@ def test_result_super(request, pk: int):
             if sorted_user_list_by_class_tmp:
                 sorted_user_list_by_class.append(sorted_user_list_by_class_tmp)
         sorted_user_list = sorted_user_list_by_class
-        print(sorted_user_list)
     return render(request, 'test_result.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
-                                                'user_list': sorted_user_list, 'test_title': test_title})
+                                                'user_list': sorted_user_list, 'test_title': test_title, 'order': order,
+                                                'total_average': total_average, 'std_div_of_total': std_div_of_total})
+
+
+def return_csv(request, pk: int, order: str):
+    subjects = TestSubject.objects.filter(test_id=pk)
+    t = Test.objects.get(id=pk)
+    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
+    name_and_grades = dict()
+    try:
+        for user in users:
+            usr = User.objects.get(student_id=user['student_id'])
+            name_and_grades[usr.username] = dict()
+            name_and_grades[usr.username]['furigana'] = usr.furigana
+            name_and_grades[usr.username]['class_id'] = usr.class_id
+            name_and_grades[usr.username]['student_id'] = user['student_id']
+            for s in subjects:
+                try:
+                    g = Grades.objects.get(test_id=pk, student_id=user['student_id'], subject=s.subject)
+                    name_and_grades[usr.username][s.subject] = g.score
+                except:
+                    name_and_grades[usr.username][s.subject] = np.nan
+        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+    except:
+        sorted_user_list = {}
+    if sorted_user_list and order == 'normal':
+        sorted_user_list_by_class = []
+        sorted_user_list_by_class_tmp = []
+        tmp_class_id = sorted_user_list[0][1]['class_id']
+        for sorted_user in sorted_user_list:
+            if tmp_class_id != sorted_user[1]['class_id']:
+                tmp_class_id = sorted_user[1]['class_id']
+                sorted_user_list_by_class.append(sorted_user_list_by_class_tmp.copy())
+                sorted_user_list_by_class_tmp = [sorted_user]
+                continue
+            sorted_user_list_by_class_tmp.append(sorted_user)
+        else:
+            if sorted_user_list_by_class_tmp:
+                sorted_user_list_by_class.append(sorted_user_list_by_class_tmp)
+        sorted_user_list = sorted_user_list_by_class
+
+    subjects_str = list(map(lambda s: s.subject, subjects))
+    header = ['名前'] + subjects_str + ['合計', '平均']
+    data = np.array([header])
+
+    if order == 'normal':
+        for sorted_users in sorted_user_list:
+            class_row = ['' for _ in (range(len(subjects_str) + 3))]
+            class_row[0] = sorted_users[0][1]['class_id'] + 'クラス'
+            data = np.append(data, np.array([class_row.copy()]), axis=0)
+            for sorted_user in sorted_users:
+                total = 0
+                subject_count = 0
+                user_info = list()
+                name = User.objects.get(student_id=sorted_user[1]['student_id']).username
+                user_info.append(name)
+                for k, v in sorted_user[1].items():
+                    if k in ['furigana', 'class_id', 'student_id']:
+                        continue
+                    user_info.append(v)
+                    if v is not np.nan and v is not None:
+                        subject_count += 1
+                        total += v
+                else:
+                    user_info.append(total)
+                    if subject_count >= 1:
+                        user_info.append(round(total/subject_count, 1))
+                    else:
+                        user_info.append(0)
+                data = np.append(data, np.array([user_info.copy()]), axis=0)
+    elif order == 'ranking':
+        not_order_list = list()
+        for sorted_user in sorted_user_list:
+            total = 0
+            subject_count = 0
+            user_info = list()
+            name = User.objects.get(student_id=sorted_user[1]['student_id']).username
+            user_info.append(name)
+            for k, v in sorted_user[1].items():
+                if k in ['furigana', 'class_id', 'student_id']:
+                    continue
+                user_info.append(v)
+                if v is not np.nan and v is not None:
+                    subject_count += 1
+                    total += v
+            else:
+                user_info.append(total)
+                if subject_count >= 1:
+                    user_info.append(round(total/subject_count, 1))
+                else:
+                    user_info.append(0)
+            not_order_list.append(user_info.copy())
+        ordered_list = sorted(not_order_list, reverse=True, key=lambda x: x[-2])
+        data = np.array(ordered_list)
+
+    np.savetxt(f'media/{t.year}-{t.grade_id}_test_result.csv', data, delimiter=",", fmt='%s')
+    response = HttpResponse(open(f'media/{t.year}-{t.grade_id}_test_result.csv', 'rb').read(), content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{t.year}-{t.grade_id}_test_result.csv"'
+    os.remove(f'media/{t.year}-{t.grade_id}_test_result.csv')
+    return response
 
 
 def paginate_queryset(request, queryset, count):
