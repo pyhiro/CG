@@ -30,7 +30,6 @@ urlpatterns = [
     path('message/', views.message, name='message'),
     path('point/', views.point, name='point'),
     path('user_search/', views.user_search, name='user_search'),
-    path('transaction/', views.create_transaction, name='transaction'),
     path('shop/', views.shop_home, name='shop_home'),
     path('signup/', views.signup, name='signup'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
