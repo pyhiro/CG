@@ -57,4 +57,6 @@ urlpatterns = [
     path('grades/result/<int:pk>/<str:order>', views.test_result_super, name='super_point'),
     path('return_csv/<int:pk>/<str:order>', views.return_csv, name='super_point'),
     path('test_delete/', views.test_delete, name='super_point'),
+    path('deleted/', views.deleted, name='super_point'),
+    path('to_deleted/', views.to_deleted, name='super_point'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

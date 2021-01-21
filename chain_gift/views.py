@@ -82,37 +82,47 @@ def top(request):
     return render(request, 'top.html')
 
 
-def create_transaction(request):
-    json_data = json.loads(request.body)
-    required = (
-        'sender_private_key',
-        'sender_blockchain_address',
-        'recipient_blockchain_address',
-        'sender_public_key',
-        'value')
-    if not all(k in json_data for k in required):
-        return HttpResponse('missing values', status=400)
+# def create_transaction(request):
+#     json_data = json.loads(request.body)
+#     required = (
+#         'sender_private_key',
+#         'sender_blockchain_address',
+#         'recipient_blockchain_address',
+#         'sender_public_key',
+#         'value')
+#     if not all(k in json_data for k in required):
+#         return HttpResponse('missing values', status=400)
+#
+#     sender_private_key = json_data['sender_private_key']
+#     sender_public_key = json_data['sender_public_key']
+#     sender_blockchain_address = json_data['sender_blockchain_address']
+#     recipient_blockchain_address = json_data['recipient_blockchain_address']
+#     value = int(json_data['value'])
+#
+#     response = post_transaction(sender_private_key, sender_public_key,
+#                                 sender_blockchain_address, recipient_blockchain_address,
+#                                 value)
+#
+#     if response.status_code == 201:
+#         return JsonResponse({'message': 'success'}, status=200)
+#
+#     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
-    sender_private_key = json_data['sender_private_key']
-    sender_public_key = json_data['sender_public_key']
-    sender_blockchain_address = json_data['sender_blockchain_address']
-    recipient_blockchain_address = json_data['recipient_blockchain_address']
-    value = int(json_data['value'])
+def deleted(request):
+    return render(request, 'deleted.html')
 
-    response = post_transaction(sender_private_key, sender_public_key,
-                                sender_blockchain_address, recipient_blockchain_address,
-                                value)
 
-    if response.status_code == 201:
-        return JsonResponse({'message': 'success'}, status=200)
-
-    return JsonResponse({'message': 'fail', 'response': response}, status=400)
+def to_deleted(request):
+    return render(request, 'todeleted.html')
 
 
 def point_send(request, pk):
     if not request.user.is_authenticated:
         return redirect(f'/login?next=/point_send/{pk}')
     user = request.user
+    if user.delete_flag:
+        return redirect('/deleted')
+
     if user.student_id == pk:
         return redirect(f'/profile/{pk}')
     try:
@@ -158,6 +168,10 @@ def point_send(request, pk):
 def user_search(request):
     if not request.user.login_flag:
         return redirect('/change?next=/user_search')
+    user = request.user
+    if user.delete_flag:
+        return redirect('/deleted')
+
     if request.method == 'POST':
         grade_id = request.POST.get('grade_id', None)
         class_id = request.POST.get('class_id', None)
@@ -203,7 +217,9 @@ def user_search(request):
 def home(request):
     user = request.user
     if not user.login_flag:
-        return redirect('/change?next=/home')
+        return redirect(f'/change?next=/home')
+    if user.delete_flag:
+        return redirect('/deleted')
     not_notified_messages = Message.objects.filter(notify_flag=0, recipient=user.student_id)
     not_notified_message_count = len(not_notified_messages)
     my_blockchain_address = user.blockchain_address
@@ -225,6 +241,8 @@ def message(request):
     user = request.user
     if not user.login_flag:
         return redirect('/change?next=/message')
+    if user.delete_flag:
+        return redirect('/deleted')
     student_id = user.student_id
     try:
         Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
@@ -260,6 +278,8 @@ def message(request):
 
     params = {'receive': received_messages,
               'send': send_messages}
+    if user.is_superuser:
+        params['receive'] = ''
     return render(request, 'message.html', params)
 
 
@@ -269,6 +289,8 @@ def message_detail(request, pk):
     user = request.user
     if not user.login_flag:
         return redirect(f'/change?next=/message_detail/{pk}')
+    if user.delete_flag:
+        return redirect('/deleted')
 
     if msg.sender != user.student_id and msg.recipient != user.student_id:
         return redirect('/message')
@@ -311,6 +333,7 @@ def message_detail(request, pk):
                          'point': msg.point,
                          'time': now_str})
 
+
 @login_required
 def super_point(request):
     user = request.user
@@ -318,7 +341,7 @@ def super_point(request):
         return redirect('/home')
 
     if request.method == 'POST':
-        users = User.objects.exclude(delete_flag=True)
+        users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True)
         user_address = list(map(lambda u: u.blockchain_address, users))
         form = SuperPointForm(request.POST)
         point = form.data['point']
@@ -370,7 +393,8 @@ def point(request):
     user = request.user
     if not user.login_flag:
         return redirect('/change?next=/point')
-
+    if user.delete_flag:
+        return redirect('/deleted')
     my_blockchain_address = user.blockchain_address
     response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
@@ -412,8 +436,7 @@ def point(request):
                     transaction['name'] = 'Miner'
                 transaction['transacted_time'] = datetime.datetime.fromtimestamp(transaction['transacted_time'])
                 if user.is_superuser:
-                    params['receive'][-1]['name'] = 'first point'
-
+                    params['receive'] = ''
         return render(request, 'point.html', params, status=200)
     return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
 
@@ -423,6 +446,8 @@ def profile(request, pk=None):
     user = request.user
     if not user.login_flag:
         return redirect(f'/change?next=profile/{pk}')
+    if user.delete_flag:
+        return redirect('/deleted')
     img_url = user.profile_img
     user = get_object_or_404(User, student_id=pk, delete_flag=False)
     if user.is_superuser and not request.user.is_superuser:
@@ -511,6 +536,10 @@ def profile(request, pk=None):
 @login_required
 def edit_profile(request):
     user = request.user
+    if not user.login_flag:
+        return redirect(f'/change?next=login_flag')
+    if user.delete_flag:
+        return redirect('/deleted')
     if request.method == 'POST':
         before = user.profile_img
         form = UserUpdateForm(request.POST, request.FILES, instance=user)
@@ -539,9 +568,9 @@ def shop_home(request):
 
 @login_required
 def signup(request):
-    # user = request.user
-    # if not user.is_superuser:
-    #     return request('/home')
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         data = form.data
@@ -550,11 +579,14 @@ def signup(request):
 
         b58str = base58.b58encode(password.encode()).decode('utf-8')
         password = b58str[:8]
-
-        user = User(
-            username=data['username'],
-            email=data['email'],
-            class_id=data['class_id'])
+        try:
+            User.objects.get(student_id=data['student_id'])
+            return redirect('/management')
+        except:
+            user = User(
+                username=data['username'],
+                email=data['email'],
+                class_id=data['class_id'])
         user.set_password(password)
         user.furigana = data['furigana']
         user.student_id = data['student_id']
@@ -576,7 +608,11 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
+@login_required
 def create_test(request):
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
     if request.method == 'POST':
         form = CreateTestForm(request.POST)
         data = form.data
@@ -607,7 +643,6 @@ def create_test(request):
 
     form = CreateTestForm()
     return render(request, 'create_test.html', {'form': form})
-
 
 
 def goods_db(request):
@@ -686,7 +721,7 @@ def all_users(request):
     return render(request, 'all_user.html', params)
 
 
-@login_required()
+@login_required
 def super_edit(request, pk):
     user = request.user
     if not user.is_superuser:
@@ -726,6 +761,9 @@ def get_ranking(request):
     if not request.user.login_flag:
         return redirect('/change?next=/ranking')
 
+    if not request.user.delete_flag:
+        return redirect('/deleted')
+
     now = datetime.datetime.now()
     month_first = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     first_time_stamp = month_first.timestamp()
@@ -758,6 +796,8 @@ def grades(request):
     user = request.user
     if not user.login_flag:
         return redirect('/change?next=/grades')
+    if user.delete_flag:
+        return redirect('/deleted')
     my_grades = Grades.objects.filter(student_id=user.student_id).order_by('-year', '-semester')
     return render(request, 'grades.html', {'my_grades': my_grades})
 
@@ -804,6 +844,8 @@ def forget_change_password(request):
 @login_required
 def settings(request):
     user = request.user
+    if user.delete_flag:
+        return redirect('/deleted')
     if request.method == 'POST':
         form = UserSettingsForm(request.POST)
         try:
@@ -822,7 +864,10 @@ def settings(request):
     return render(request, 'settings.html', params)
 
 
+@login_required
 def grades_edit(request, pk: int):
+    if not request.user.is_superuser:
+        return redirect('home')
     form = AddSubjectForm()
     subjects = TestSubject.objects.filter(test_id=pk)
     t = Test.objects.get(id=pk)
@@ -915,7 +960,10 @@ def grades_edit(request, pk: int):
                                                 'user_list': sorted_user_list, 'test_title': test_title})
 
 
+@login_required
 def add_subject(request, pk: int):
+    if not request.user.is_superuser:
+        return redirect('/home')
     form = AddSubjectForm(request.POST)
     subject = form.data['subject']
     TestSubject(test_id=pk, subject=subject).save()
@@ -926,7 +974,10 @@ def add_subject(request, pk: int):
     return redirect(f'/grades/edit/{pk}')
 
 
+@login_required
 def test_delete(request):
+    if not request.user.is_superuser:
+        return redirect('/home')
     test_id = request.GET.get('id')
     Test.objects.filter(id=test_id).delete()
     TestSubject.objects.filter(test_id=test_id).delete()
@@ -934,7 +985,10 @@ def test_delete(request):
     return redirect('/grades/top')
 
 
+@login_required
 def grades_top(request):
+    if not request.user.is_superuser:
+        return redirect('/home')
     test_list = Test.objects.all().order_by('-year', '-semester', '-id')
     if request.method == 'POST':
         form = TestSearchForm(request.POST)
@@ -953,7 +1007,10 @@ def grades_top(request):
     return render(request, 'grades_top.html', params)
 
 
+@login_required
 def test_result_super(request, pk: int, order: str):
+    if not request.user.is_superuser:
+        return redirect('/home')
     form = AddSubjectForm()
     subjects = TestSubject.objects.filter(test_id=pk)
     t = Test.objects.get(id=pk)
@@ -1033,7 +1090,10 @@ def test_result_super(request, pk: int, order: str):
                                                 'total_average': total_average, 'std_div_of_total': std_div_of_total})
 
 
+@login_required
 def return_csv(request, pk: int, order: str):
+    if not request.user.is_superuser:
+        return redirect('/home')
     subjects = TestSubject.objects.filter(test_id=pk)
     t = Test.objects.get(id=pk)
     users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
@@ -1153,7 +1213,15 @@ def grades_super_point(request, pk: int):
             id_and_total.append((user.student_id, total))
         sorted_id_and_total = sorted(id_and_total, reverse=True, key=lambda x: x[1])
 
-        top_count = 1
+        form = GradesPointForm(request.POST)
+        point = str(form.data['point'])
+        top_count = str(form.data['top_count'])
+        if not point.isdigit() or not top_count.isdigit():
+            redirect('/super_point')
+        if int(point) < 0 or int(top_count) < 0:
+            redirect('/super_point')
+        point = int(point)
+        top_count = int(top_count)
         top_count_ = 1
         for idx, user_score in enumerate(sorted_id_and_total[top_count_-1:]):
             if top_count == len(sorted_id_and_total):
@@ -1169,14 +1237,6 @@ def grades_super_point(request, pk: int):
 
         user_address = list(map(lambda u: u.blockchain_address, to_send_users))
 
-        form = SuperPointForm(request.POST)
-        point = form.data['point']
-        if not point.isdigit():
-            redirect('/super_point')
-        if int(point) < 0:
-            redirect('/super_point')
-        point = int(point)
-        msg = form.data['contents']
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
         secret = Secret.objects.get(id_hash=hashed_id)
 
@@ -1204,15 +1264,13 @@ def grades_super_point(request, pk: int):
         response = requests.post(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
             json=json_data_send, timeout=10)
-
         if response.status_code == 201:
-            for usr in users:
-                Message(contents=msg, sender=user.student_id,
+            for usr in to_send_users:
+                Message(contents='成績上位ポイント', sender=user.student_id,
                         recipient=usr.student_id, point=point).save()
         return redirect('/home')
-    form = SuperPointForm()
+    form = GradesPointForm()
     return render(request, 'super_point.html', {'form': form})
-
 
 
 def paginate_queryset(request, queryset, count):
@@ -1280,6 +1338,7 @@ def post_transaction(sender_private_key, sender_public_key, sender_blockchain_ad
         urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
         json=json_data_send, timeout=10)
     return response
+
 
 @register.filter
 def get_item(dictionary, key):

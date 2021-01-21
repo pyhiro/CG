@@ -73,17 +73,19 @@ class SuperPointForm(forms.ModelForm):
 
 
 class GradesPointForm(forms.Form):
-    point = forms.IntegerField()
-    message = forms.CharField()
-    grade_id = forms.CharField()
-    class_id = forms.CharField()
-    top_count = forms.IntegerField()
+    point = forms.IntegerField(label='point')
+    top_count = forms.IntegerField(label='top_count')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
+            if field.label == 'top_count':
+                field.widget.attrs['placeholder'] = '上位人数'
+            if field.label == 'point':
+                field.widget.attrs['placeholder'] = 'ポイント'
+
 
 
 class LoginForm(AuthenticationForm):
@@ -157,7 +159,7 @@ class SuperUserUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('grade_id', 'class_id', 'email', 'username', 'furigana', 'student_id', 'delete_flag')
+        fields = ('grade_id', 'class_id', 'email', 'username', 'furigana', 'delete_flag')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
