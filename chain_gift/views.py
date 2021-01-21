@@ -311,61 +311,6 @@ def message_detail(request, pk):
                          'point': msg.point,
                          'time': now_str})
 
-
-@login_required
-def grades_super_point(request):
-    user = request.user
-    if not user.is_superuser:
-        return redirect('/home')
-
-    if request.method == 'POST':
-        users = User.objects.exclude(delete_flag=True)
-        user_address = list(map(lambda u: u.blockchain_address, users))
-        form = SuperPointForm(request.POST)
-        point = form.data['point']
-        if not point.isdigit():
-            redirect('/super_point')
-        if int(point) < 0:
-            redirect('/super_point')
-        point = int(point)
-        msg = form.data['contents']
-        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-        secret = Secret.objects.get(id_hash=hashed_id)
-
-        sender_private_key = secret.private_key
-        sender_blockchain_address = user.blockchain_address
-        recipient_blockchain_address = user_address
-        sender_public_key = secret.public_key
-        value = int(point)
-
-        transaction = wallet.Transaction(
-            sender_private_key,
-            sender_public_key,
-            sender_blockchain_address,
-            str(recipient_blockchain_address.sort()),
-            value)
-
-        json_data_send = {
-            'sender_blockchain_address': sender_blockchain_address,
-            'recipient_blockchain_address': recipient_blockchain_address,
-            'sender_public_key': sender_public_key,
-            'value': value,
-            'signature': transaction.generate_signature(),
-        }
-
-        response = requests.post(
-            urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
-            json=json_data_send, timeout=10)
-
-        if response.status_code == 201:
-            for usr in users:
-                Message(contents=msg, sender=user.student_id,
-                        recipient=usr.student_id, point=point).save()
-        return redirect('/home')
-    form = SuperPointForm()
-    return render(request, 'super_point.html', {'form': form})
-
-
 @login_required
 def super_point(request):
     user = request.user
@@ -904,7 +849,7 @@ def grades_edit(request, pk: int):
                                           subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
                 else:
                     Grades.objects.filter(student_id=id_and_sub[0],
-                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).delete()
+                                          subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=None)
             except:
                 Grades(student_id=id_and_sub[0], subject=subjects[int(id_and_sub[1])].subject, test_id=pk).save()
                 if request.POST.get(v):
@@ -981,6 +926,14 @@ def add_subject(request, pk: int):
     return redirect(f'/grades/edit/{pk}')
 
 
+def test_delete(request):
+    test_id = request.GET.get('id')
+    Test.objects.filter(id=test_id).delete()
+    TestSubject.objects.filter(test_id=test_id).delete()
+    Grades.objects.filter(test_id=test_id).delete()
+    return redirect('/grades/top')
+
+
 def grades_top(request):
     test_list = Test.objects.all().order_by('-year', '-semester', '-id')
     if request.method == 'POST':
@@ -1016,6 +969,7 @@ def test_result_super(request, pk: int, order: str):
     test_title = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
     users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
     name_and_grades = dict()
+    sorted_user_list = {}
     try:
         array_for_average = list()
         for user in users:
@@ -1032,17 +986,20 @@ def test_result_super(request, pk: int, order: str):
                 if type(g.score) is int or type(g.score) is float:
                     total += g.score
                     subject_count += 1
+            name_and_grades[usr.username]['total'] = total
+            array_for_average.append(total)
             if subject_count >= 1:
-                name_and_grades[usr.username]['total'] = total
-                array_for_average.append(total)
                 name_and_grades[usr.username]['average'] = round(total / subject_count, 1)
+            else:
+                name_and_grades[usr.username]['average'] = 0
+
         try:
             total_average = round(sum(array_for_average) / len(array_for_average), 1)
             total_array = np.array(array_for_average)
             std_div_of_total = round(np.std(total_array), 2)
         except:
-            total_average = ''
-            std_div_of_total = ''
+            total_average = 0
+            std_div_of_total = 0
         if order == 'normal':
             sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
         elif order == 'ranking':
@@ -1164,7 +1121,10 @@ def return_csv(request, pk: int, order: str):
                 else:
                     user_info.append(0)
             not_order_list.append(user_info.copy())
+        subjects_str = list(map(lambda s: s.subject, subjects))
+        header = ['名前'] + subjects_str + ['合計', '平均']
         ordered_list = sorted(not_order_list, reverse=True, key=lambda x: x[-2])
+        ordered_list.insert(0, header)
         data = np.array(ordered_list)
 
     np.savetxt(f'media/{t.year}-{t.grade_id}_test_result.csv', data, delimiter=",", fmt='%s')
@@ -1172,6 +1132,87 @@ def return_csv(request, pk: int, order: str):
     response['Content-Disposition'] = f'attachment; filename="{t.year}-{t.grade_id}_test_result.csv"'
     os.remove(f'media/{t.year}-{t.grade_id}_test_result.csv')
     return response
+
+
+@login_required
+def grades_super_point(request, pk: int):
+    user = request.user
+    if not user.is_superuser:
+        return redirect('/home')
+
+    if request.method == 'POST':
+        grade_id = Test.objects.get(id=pk).grade_id
+        users = User.objects.exclude(delete_flag=True).filter(grade_id=grade_id)
+        id_and_total = list()
+        for user in users:
+            total = 0
+            scores = Grades.objects.filter(student_id=user.student_id).exclude(score=None).values_list('score')
+            if scores:
+                for score in scores[0]:
+                    total += score
+            id_and_total.append((user.student_id, total))
+        sorted_id_and_total = sorted(id_and_total, reverse=True, key=lambda x: x[1])
+
+        top_count = 1
+        top_count_ = 1
+        for idx, user_score in enumerate(sorted_id_and_total[top_count_-1:]):
+            if top_count == len(sorted_id_and_total):
+                break
+            if user_score[1] == sorted_id_and_total[top_count_+idx][1]:
+                top_count += 1
+            else:
+                break
+
+        to_send_users = list()
+        for user_and_total in sorted_id_and_total[:top_count]:
+            to_send_users.append(User.objects.get(student_id=user_and_total[0]))
+
+        user_address = list(map(lambda u: u.blockchain_address, to_send_users))
+
+        form = SuperPointForm(request.POST)
+        point = form.data['point']
+        if not point.isdigit():
+            redirect('/super_point')
+        if int(point) < 0:
+            redirect('/super_point')
+        point = int(point)
+        msg = form.data['contents']
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        secret = Secret.objects.get(id_hash=hashed_id)
+
+        sender_private_key = secret.private_key
+        sender_blockchain_address = user.blockchain_address
+        recipient_blockchain_address = user_address
+        sender_public_key = secret.public_key
+        value = int(point)
+
+        transaction = wallet.Transaction(
+            sender_private_key,
+            sender_public_key,
+            sender_blockchain_address,
+            str(recipient_blockchain_address.sort()),
+            value)
+
+        json_data_send = {
+            'sender_blockchain_address': sender_blockchain_address,
+            'recipient_blockchain_address': recipient_blockchain_address,
+            'sender_public_key': sender_public_key,
+            'value': value,
+            'signature': transaction.generate_signature(),
+        }
+
+        response = requests.post(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
+            json=json_data_send, timeout=10)
+
+        if response.status_code == 201:
+            for usr in users:
+                Message(contents=msg, sender=user.student_id,
+                        recipient=usr.student_id, point=point).save()
+        return redirect('/home')
+    form = SuperPointForm()
+    return render(request, 'super_point.html', {'form': form})
+
 
 
 def paginate_queryset(request, queryset, count):

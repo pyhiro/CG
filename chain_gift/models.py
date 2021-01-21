@@ -93,13 +93,13 @@ class Test(models.Model):
     semester = models.CharField(max_length=3)
     type = models.IntegerField(default=1) #中間, 期末, other
     grade_id = models.CharField(_('学年'), max_length=50, blank=True, null=False)
-    std_div = models.IntegerField()
+    std_div = models.IntegerField(null=True)
 
 
 class TestSubject(models.Model):
     test_id = models.IntegerField()
     subject = models.CharField(max_length=30)
-    std_div = models.IntegerField()
+    std_div = models.IntegerField(null=True)
 
 
 class Grades(models.Model):

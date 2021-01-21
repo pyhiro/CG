@@ -161,3 +161,6 @@ option {
     color: white;
     background: black;
 }
+.ui-datepicker-title {
+    color: black;
+}

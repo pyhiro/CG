@@ -18,11 +18,11 @@
 {% endblock %}
 {% block content %}
 <script>
-function to_delete(student_id){
+function to_delete(test_id){
 
 	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
 	if(window.confirm('削除してよろしいですか')){
-		location.href = "/super_delete/" + student_id; // example_confirm.html へジャンプ
+		location.href = "/test_delete?id=" + test_id; // example_confirm.html へジャンプ
 	}
 }
 </script>
@@ -54,7 +54,7 @@ function to_delete(student_id){
                     {% endif %}
                             <h3 class="test-title" style="width: 100%; float: right; margin: 0 0 0 20px;float: left; ">{{test.year}}年度　{% if test.semester == '前' or test.semester == '中' or test.semester == '後' %}{{test.semester}}期 {% else %}{{test.semester}}学期{% endif %}　{{test.grade_id}}学年　{% if test.type == 1 %}中間テスト{% elif test.type == 2 %}期末テスト{% endif %}</h3>
                             <div class="test-responsive">
-                            <button  onClick="to_delete({{usr.student_id}})" style="float: right; margin-right: 30px;">削除</button>
+                            <button  onClick="to_delete({{test.id}})" style="float: right; margin-right: 30px;">削除</button>
                             <a href="/grades/edit/{{test.id}}" style="float: right; margin-right: 5px;"><button>入力</button></a>
                             <a href="/grades/result/{{ test.id }}/normal" style="float: right; margin-right: 5px;"><button>閲覧</button></a>
                             </div>
