@@ -966,6 +966,8 @@ def add_subject(request, pk: int):
         return redirect('/home')
     form = AddSubjectForm(request.POST)
     subject = form.data['subject']
+    if subject == '':
+        return redirect(f'/grades/edit/{pk}')
     try:
         TestSubject.objects.get(test_id=pk, subject=subject)
     except:
