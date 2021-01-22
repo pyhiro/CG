@@ -596,13 +596,13 @@ def signup(request):
         qr_img_name = make_qr(user.student_id)
         user.qr_img = qr_img_name
         user.save()
-
         send_gmail(password, data['email'])
-
         hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
         s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
         s.save()
-        return redirect('/signup')
+        form = SignUpForm()
+        msg = 'ユーザーの作成に成功しました'
+        return render(request, 'signup.html', {'form': form, 'msg': msg})
 
     form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -887,8 +887,8 @@ def grades_edit(request, pk: int):
                 continue
             id_and_sub = v.split('___')
             try:
-                Grades.objects.get(student_id=id_and_sub[0],
-                                   subject=subjects[int(id_and_sub[1])].subject, test_id=pk)
+                Grades.objects.filter(student_id=id_and_sub[0],
+                                      subject=subjects[int(id_and_sub[1])].subject, test_id=pk)[0]
                 if request.POST.get(v):
                     Grades.objects.filter(student_id=id_and_sub[0],
                                           subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
@@ -1241,9 +1241,9 @@ def grades_super_point(request, pk: int):
         point = str(form.data['point'])
         top_count = str(form.data['top_count'])
         if not point.isdigit() or not top_count.isdigit():
-            redirect('/super_point')
+            return redirect('/super_point')
         if int(point) < 0 or int(top_count) < 0:
-            redirect('/super_point')
+            return redirect('/super_point')
         point = int(point)
         top_count = int(top_count)
         top_count_ = 1
