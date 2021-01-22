@@ -9,9 +9,9 @@ body {
     color: #F0F6FC;
 }
 
-#id_contents, #id_point {
-    border: 1px solid gray;
-    background: #182636;
+#id_contents, #id_point, #id_top_count, .dark-input {
+    border: 1px solid gray !important;
+    background: #182636 !important;
 }
 
 .desc {

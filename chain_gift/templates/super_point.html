@@ -67,6 +67,7 @@ Facebook: 		https://www.facebook.com/fh5co
 <body>
     <div style="display: block; height: 5rem;"></div>
     <h3 class="login-box-msg" style="text-align:center"><b>ポイント一斉送信</b></h3>
+    <h3 class="login-box-msg" style="text-align:center">{{msg}}</h3>
     <form action="" method="POST">
       {% csrf_token %}
       <!-- {% for error in form.non_field_errors %}

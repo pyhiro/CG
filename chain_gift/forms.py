@@ -24,6 +24,12 @@ class TestSearchForm(forms.Form):
 class AddSubjectForm(forms.Form):
     subject = forms.CharField(max_length=30)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'dark-input'
+
+
 
 class TestClassSearchForm(forms.Form):
     year = forms.CharField(label='クラス', required=False)

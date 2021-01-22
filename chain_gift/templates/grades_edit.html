@@ -34,16 +34,22 @@ function to_delete(student_id){
             <table class="form-table">
                 <tbody>
                 <tr>
-                    <th>科目の追加</th>
-                    <td style="color: black;">
+                    <th>科目の追加・削除</th>
+                    <td>
                         {{ form.subject }}
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <p style="margin: 20px"><button type="submit" style="text-align: center;">追加</button></p>
+            <p style="margin: 20px">  <button type="button" onclick="multipleaction('/add_subject/{{self_pk}}')"style="margin-right:5px">追加</button><button type="button" onclick="multipleaction('/delete_subject/{{self_pk}}')">削除</button></p>
         </form>
-
+        <script>
+          function multipleaction(u){
+          var f = document.querySelector("form");
+          var a = f.setAttribute("action", u);
+          document.querySelector("form").submit();
+          }
+        </script>
         <form method="POST">
             {% csrf_token %}
             <table class="form-table">
@@ -65,7 +71,7 @@ function to_delete(student_id){
                     <tr>
                         <th style="border: 1px solid #d7d7d7; padding: 20px"> {{usr.0}}</th>
                         {% for s in subjects %}
-                        <td style="border: 1px solid #d7d7d7; padding: 10px; text-align: center"><input style="max-width: 50px; color: black" name="{{ usr.1.student_id }}___{{forloop.counter0}}"  value="{{ usr.1|get_item:s.subject }}"></td>
+                        <td style="border: 1px solid #d7d7d7; padding: 10px; text-align: center"><input style="max-width: 50px;" name="{{ usr.1.student_id }}___{{forloop.counter0}}"  value="{{ usr.1|get_item:s.subject }}" class="dark-input"></td>
                         {% endfor %}
                     </tr>
                     {% endfor %}

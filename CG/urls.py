@@ -53,6 +53,7 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('super_point/', views.super_point, name='super_point'),
     path('add_subject/<int:pk>', views.add_subject, name='super_point'),
+    path('delete_subject/<int:pk>', views.delete_subject, name='super_point'),
     path('grades/result/<int:pk>/<str:order>', views.test_result_super, name='super_point'),
     path('return_csv/<int:pk>/<str:order>', views.return_csv, name='super_point'),
     path('test_delete/', views.test_delete, name='super_point'),

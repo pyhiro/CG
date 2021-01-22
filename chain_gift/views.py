@@ -966,11 +966,32 @@ def add_subject(request, pk: int):
         return redirect('/home')
     form = AddSubjectForm(request.POST)
     subject = form.data['subject']
-    TestSubject(test_id=pk, subject=subject).save()
-    grade = Test.objects.get(id=pk).grade_id
-    users = User.objects.filter(grade_id=grade)
-    for user in users:
-        Grades(test_id=pk, subject=subject, student_id=user.student_id).save()
+    try:
+        TestSubject.objects.get(test_id=pk, subject=subject)
+    except:
+        TestSubject(test_id=pk, subject=subject).save()
+        grade = Test.objects.get(id=pk).grade_id
+        users = User.objects.filter(grade_id=grade)
+        for user in users:
+            Grades(test_id=pk, subject=subject, student_id=user.student_id).save()
+    return redirect(f'/grades/edit/{pk}')
+
+
+@login_required
+def delete_subject(request, pk: int):
+    if not request.user.is_superuser:
+        return redirect('/home')
+    form = AddSubjectForm(request.POST)
+    subject = form.data['subject']
+    try:
+        TestSubject.objects.filter(test_id=pk, subject=subject)[0]
+    except:
+        return redirect(f'/grades/edit/{pk}')
+    TestSubject.objects.filter(test_id=pk, subject=subject).delete()
+    try:
+        Grades.objects.filter(test_id=pk, subject=subject).delete()
+    except:
+        pass
     return redirect(f'/grades/edit/{pk}')
 
 
@@ -1201,7 +1222,8 @@ def grades_super_point(request, pk: int):
         return redirect('/home')
 
     if request.method == 'POST':
-        grade_id = Test.objects.get(id=pk).grade_id
+        t = Test.objects.get(id=pk)
+        grade_id = t.grade_id
         users = User.objects.exclude(delete_flag=True).filter(grade_id=grade_id)
         id_and_total = list()
         for user in users:
@@ -1265,12 +1287,33 @@ def grades_super_point(request, pk: int):
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
             json=json_data_send, timeout=10)
         if response.status_code == 201:
+            semester = t.semester
+            if t.semester not in ['前', '中', '後']:
+                semester = t.semester + '学'
+            if t.type == 1:
+                test_type = '中間テスト'
+            elif t.type == 2:
+                test_type = '期末テスト'
+            else:
+                test_type = ''
+            msg = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
             for usr in to_send_users:
-                Message(contents='成績上位ポイント', sender=user.student_id,
+                Message(contents=f'{msg} 成績上位ポイント', sender=user.student_id,
                         recipient=usr.student_id, point=point).save()
         return redirect('/home')
     form = GradesPointForm()
-    return render(request, 'super_point.html', {'form': form})
+    t = Test.objects.get(id=pk)
+    semester = t.semester
+    if t.semester not in ['前', '中', '後']:
+        semester = t.semester + '学'
+    if t.type == 1:
+        test_type = '中間テスト'
+    elif t.type == 2:
+        test_type = '期末テスト'
+    else:
+        test_type = ''
+    msg = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
+    return render(request, 'super_point.html', {'form': form, 'msg': msg})
 
 
 def paginate_queryset(request, queryset, count):
