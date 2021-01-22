@@ -121,7 +121,7 @@ def point_send(request, pk):
         return redirect(f'/login?next=/point_send/{pk}')
     user = request.user
     if user.delete_flag:
-        return redirect('/deleted')
+        return redirect('/logout')
 
     if user.student_id == pk:
         return redirect(f'/profile/{pk}')
@@ -166,11 +166,11 @@ def point_send(request, pk):
 
 @login_required
 def user_search(request):
-    if not request.user.login_flag:
-        return redirect('/change?next=/user_search')
     user = request.user
     if user.delete_flag:
-        return redirect('/deleted')
+        return redirect('/logout')
+    if not user.login_flag:
+        return redirect('/change?next=/user_search')
 
     if request.method == 'POST':
         grade_id = request.POST.get('grade_id', None)
@@ -216,10 +216,10 @@ def user_search(request):
 @login_required
 def home(request):
     user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
     if not user.login_flag:
         return redirect(f'/change?next=/home')
-    if user.delete_flag:
-        return redirect('/deleted')
     not_notified_messages = Message.objects.filter(notify_flag=0, recipient=user.student_id)
     not_notified_message_count = len(not_notified_messages)
     my_blockchain_address = user.blockchain_address
@@ -239,10 +239,10 @@ def home(request):
 @login_required
 def message(request):
     user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
     if not user.login_flag:
         return redirect('/change?next=/message')
-    if user.delete_flag:
-        return redirect('/deleted')
     student_id = user.student_id
     try:
         Message.objects.filter(notify_flag=0, recipient=request.user.student_id).update(notify_flag=1)
@@ -287,10 +287,10 @@ def message(request):
 def message_detail(request, pk):
     msg = Message.objects.get(id=pk)
     user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
     if not user.login_flag:
         return redirect(f'/change?next=/message_detail/{pk}')
-    if user.delete_flag:
-        return redirect('/deleted')
 
     if msg.sender != user.student_id and msg.recipient != user.student_id:
         return redirect('/message')
@@ -391,10 +391,10 @@ def super_point(request):
 @login_required
 def point(request):
     user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
     if not user.login_flag:
         return redirect('/change?next=/point')
-    if user.delete_flag:
-        return redirect('/deleted')
     my_blockchain_address = user.blockchain_address
     response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'history'),
@@ -444,10 +444,10 @@ def point(request):
 @login_required
 def profile(request, pk=None):
     user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
     if not user.login_flag:
         return redirect(f'/change?next=profile/{pk}')
-    if user.delete_flag:
-        return redirect('/deleted')
     img_url = user.profile_img
     user = get_object_or_404(User, student_id=pk, delete_flag=False)
     if user.is_superuser and not request.user.is_superuser:
@@ -536,10 +536,10 @@ def profile(request, pk=None):
 @login_required
 def edit_profile(request):
     user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
     if not user.login_flag:
         return redirect(f'/change?next=login_flag')
-    if user.delete_flag:
-        return redirect('/deleted')
     if request.method == 'POST':
         before = user.profile_img
         form = UserUpdateForm(request.POST, request.FILES, instance=user)
@@ -761,8 +761,8 @@ def get_ranking(request):
     if not request.user.login_flag:
         return redirect('/change?next=/ranking')
 
-    if not request.user.delete_flag:
-        return redirect('/deleted')
+    if request.user.delete_flag:
+        return redirect('/logout')
 
     now = datetime.datetime.now()
     month_first = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
@@ -794,10 +794,10 @@ def get_ranking(request):
 @login_required
 def grades(request):
     user = request.user
+    if user.delete_flag:
+        return redirect('/login')
     if not user.login_flag:
         return redirect('/change?next=/grades')
-    if user.delete_flag:
-        return redirect('/deleted')
     my_grades = Grades.objects.filter(student_id=user.student_id).order_by('-year', '-semester')
     return render(request, 'grades.html', {'my_grades': my_grades})
 
@@ -845,7 +845,7 @@ def forget_change_password(request):
 def settings(request):
     user = request.user
     if user.delete_flag:
-        return redirect('/deleted')
+        return redirect('/logout')
     if request.method == 'POST':
         form = UserSettingsForm(request.POST)
         try:
