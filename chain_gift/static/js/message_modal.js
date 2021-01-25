@@ -53,7 +53,6 @@
                         $("#time").text(jp_time)
 					},
 					error: function(){
-						alert('失敗');
 					}
                 })
 				    $('#layer_board_area').css('display', 'block');
@@ -145,7 +144,6 @@
                         $("#time").text(jp_time)
 					},
 					error: function(){
-						alert('失敗');
 					}
                 })
 				    $('#layer_board_area').css('display', 'block');
