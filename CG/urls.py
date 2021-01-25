@@ -28,6 +28,7 @@ urlpatterns = [
     path('change/', views.PasswordChange.as_view(), name='change'),
     path('password_change/done/', views.PasswordChangeDone.as_view(), name='password_change_done'), 
     path('message/', views.message, name='message'),
+    path('message/delete/<int:pk>/<str:sender_or_recipient>', views.message_delete, name='message_delete'),
     path('point/', views.point, name='point'),
     path('user_search/', views.user_search, name='user_search'),
     path('shop/', views.shop_home, name='shop_home'),

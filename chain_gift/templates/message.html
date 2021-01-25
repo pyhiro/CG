@@ -76,6 +76,30 @@
     {% endif %}
 	</head>
 	<body>
+	<script>
+         $(function () {
+             $('#delete_button').click(function () {
+                if(window.confirm('削除してよろしいですか')){
+                	var url = $(this).attr('href');
+
+                     $.ajax({
+                         url: url,
+                         type: 'GET',
+                         success: function(response) {
+	                         let message_id = response['message_id'];
+	                         class_name = '.' + message_id
+	                         $(class_name).fadeOut(500);
+	                         $(class_name).parent().fadeOut(500);
+                         },
+                         error: function(){
+                         }
+                    })
+
+
+                }
+             })
+         })
+    </script>
 	<div id="fh5co-page">
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
 		<aside id="fh5co-aside" role="complementary" class="border js-fullheight">
@@ -122,15 +146,15 @@
 									{% if user.dark_mode %}
 
 										{% if value.read_flag == 0 %}
-											<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="height:130px; background-color: #182636;" id="modal1" >
+											<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style="height:130px; background-color: #182636;" id="modal1" >
 										{% else %}
-											<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="height:130px; background-color: #000" id="modal1" >
+											<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style="height:130px; background-color: #000" id="modal1" >
 										{% endif %}
 									{% else %}
 									{% if value.read_flag == 0 %}
-									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup " style="height:130px; background-color:rgb(255, 236, 234)" id="modal1" >
+									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style="height:130px; background-color:rgb(255, 236, 234)" id="modal1" >
 										{% else %}
-										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style=" height:130px; background-color: rgb(230, 230, 230);" id='modal2'>
+										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style=" height:130px; background-color: rgb(230, 230, 230);" id='modal2'>
                                     {% endif %}
                                     {% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
@@ -152,9 +176,9 @@
 								{% for value in send %}
 								<div class="col-md-3 col-sm-6 col-padding text-center animate-box" >
                                     {% if user.dark_mode %}
-									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="height:130px; background-color: #000" id='modal3'>
+									<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style="height:130px; background-color: #000" id='modal3'>
 									{% else %}
-										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup" style="height:130px; background-color: rgb(230, 230, 230)" id='modal3'>
+										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style="height:130px; background-color: rgb(230, 230, 230)" id='modal3'>
 									{% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
 												<h5><object><a href="/profile/{{ value.recipient.1 }}" class="message-link">{{ value.recipient.0 }}<br></a></object></h5>
@@ -178,6 +202,8 @@
 <div id="layer_board_area">
 	<div class="layer_board_bg"></div>
 	<section class="layer_board">
+<!--		todo      -->
+		<a class="mdl_btn_close square_btn " href="#" style="float: right; background: gray; width: 80px" id="delete_button">削除</a>
 		{% if user.dark_mode %}
 		<h2 class="layer_borad_title" id="sender_recipient" style="color: white;"></h2>
 		{% else %}
@@ -190,7 +216,7 @@
 		<p class="layer_borad_point" id="point"></p>
 		<p class="layer_borad_time" id="time"></p>
 		<a class="mdl_btn_close square_btn  " href="#">閉じる</a>
-		<div class="mdl_btn_close circle_btn"></div>
+<!--		<div class="mdl_btn_close circle_btn"></div>-->
 	</section>
 </div>
 <script>

@@ -124,7 +124,6 @@
 					type: 'GET',
 					dataType: 'json',
 					success: function(data) {
-
                         var datum = data
                         var contents = datum.contents
                         var sender = datum.sender
@@ -137,7 +136,9 @@
                         $("#message").text(contents)
                         if(i == 'modal3'){
                             $("#sender_recipient").text(recipient)
+                            $("#delete_button").attr("href", datum.sender_delete_url)
                         }else{
+                            $("#delete_button").attr("href", datum.recipient_delete_url)
                             $("#sender_recipient").text(sender)
                         }
                         $("#point").text(point+"ポイント")
@@ -162,9 +163,9 @@
                 $('body').removeClass('fixed').css({'top': 0});
 		        window.scrollTo( 0 , scrollPosition );
 
-				$('.layer_board , #layer_board_area', elements).fadeOut(option.fadeTime);
-				$('.layer_board_bg', elements).fadeOut(option.fadeTime);
-				$('#layer_board_area').css('display', 'none');
+				$('.layer_board , #layer_board_area', elements).fadeOut(1500);
+				$('.layer_board_bg', elements).fadeOut(1500);
+				$('#layer_board_area').fadeOut(1500);
 
                 //<a>タグのリンクを無効化　＊これが無いとTOPに飛ぶ
                 return false

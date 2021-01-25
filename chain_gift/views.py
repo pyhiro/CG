@@ -331,7 +331,27 @@ def message_detail(request, pk):
                          'recipient': msg.recipient,
                          'contents': msg.contents,
                          'point': msg.point,
-                         'time': now_str})
+                         'time': now_str,
+                         'recipient_delete_url': f'http://127.0.0.1:8000/message/delete/{msg.id}/recipient',
+                         'sender_delete_url': f'http://127.0.0.1:8000/message/delete/{msg.id}/sender'})
+
+
+@login_required
+def message_delete(request, pk: int, sender_or_recipient: str):
+    msg = Message.objects.get(id=pk)
+    user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
+    if not user.login_flag:
+        return redirect(f'/change?next=/message_detail/{pk}')
+
+    if sender_or_recipient == 'sender' and user.student_id == msg.sender:
+        msg.sender_delete_flag = True
+        msg.save()
+    elif sender_or_recipient == 'recipient' and user.student_id == msg.sender:
+        msg.recipient_delete_flag = True
+        msg.save()
+    return JsonResponse({'message_id': msg.id})
 
 
 @login_required
