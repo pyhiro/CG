@@ -12,6 +12,7 @@
     <li><a href="/logout">Logout</a></li>
 	{% if not user.is_superuser %}
     <li><h4>{{total}} pt</h4></li>
+	<li><h5>新しいメッセージ {{ not_notified_message_count }}件</h5></li>
 	{% endif %}
 {% endblock %}
 

@@ -30,7 +30,6 @@ class AddSubjectForm(forms.Form):
             field.widget.attrs['class'] = 'dark-input'
 
 
-
 class TestClassSearchForm(forms.Form):
     year = forms.CharField(label='クラス', required=False)
 
@@ -38,7 +37,7 @@ class TestClassSearchForm(forms.Form):
 class CreateTestForm(forms.Form):
     year = forms.IntegerField(label='年度')
     grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
-
+    grade_id_list = list(grade_id_list)
     SEMESTER_CHOICE = ((0, '学期'),
                        (1, '前期'),
                        (2, '中期'),
@@ -53,7 +52,7 @@ class CreateTestForm(forms.Form):
     semester = forms.ChoiceField(widget=forms.Select, choices=SEMESTER_CHOICE, label='学期')
     type = forms.ChoiceField(widget=forms.Select, choices=TYPE_CHOICE, label='テスト種別')
 
-    GRADE_CHOICE = ((0, '1'),)
+    GRADE_CHOICE = (tuple(grade_id_list),)
     if grade_id_list:
         GRADE_CHOICE = [(k + 1, str(v)) for k, v in enumerate(grade_id_list)]
         GRADE_CHOICE.insert(0, (0, "学年"))
@@ -76,6 +75,8 @@ class SuperPointForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Contents':
+                field.widget.attrs['placeholder'] = 'メッセージ'
 
 
 class GradesPointForm(forms.Form):
@@ -91,7 +92,6 @@ class GradesPointForm(forms.Form):
                 field.widget.attrs['placeholder'] = '上位人数'
             if field.label == 'point':
                 field.widget.attrs['placeholder'] = 'ポイント'
-
 
 
 class LoginForm(AuthenticationForm):
@@ -196,6 +196,7 @@ class PasswordForgetForm(forms.ModelForm):
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
+
 
 class MyPasswordChangeForm(PasswordChangeForm):
     """パスワード変更フォーム"""
