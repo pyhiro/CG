@@ -39,6 +39,7 @@ urlpatterns = [
     path('management/', views.management, name='management'),
     path('all_users/', views.all_users, name='all_users'),
     path('super_edit/<str:pk>', views.super_edit, name='super_edit'),
+    path('super_update/', views.super_update, name='super_update'),
     path('super_delete/<str:pk>', views.super_delete, name='super_delete'),
     path('message_detail/<int:pk>', views.message_detail, name='message_detail'),
     path('point_send/<str:pk>', views.point_send, name='point_send'),

@@ -971,7 +971,7 @@ def grades_edit(request, pk: int):
                 if request.POST.get(v):
                     Grades.objects.filter(student_id=id_and_sub[0],
                                           subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
-    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
+    users = User.objects.filter(test_id=pk).values('student_id').distinct()
     name_and_grades = dict()
     try:
         for user in users:
@@ -1387,6 +1387,29 @@ def grades_super_point(request, pk: int):
         test_type = ''
     msg = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
     return render(request, 'super_point.html', {'form': form, 'msg': msg})
+
+
+@login_required
+def super_update(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    form = AddSubjectForm()
+    user_list = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+    if request.method == 'POST':
+        print(request.POST)
+        all_student_id = []
+        for usr in user_list:
+            all_student_id.append(usr.student_id)
+        for stu_id in all_student_id:
+            if request.POST.get(f'{stu_id}___delete'):
+                User.objects.filter(student_id=stu_id).delete()
+                continue
+            User.objects.filter(student_id=stu_id).update(grade_id=request.POST.get(f'{stu_id}___grade_id'),
+                                                          class_id=request.POST.get(f'{stu_id}___class_id'),
+                                                          delete_flag=bool(request.POST.get(f'{stu_id}___delete_flag'))
+                                                          )
+        return redirect(f'/super_update')
+    return render(request, 'super_update.html', {'form': form, 'user_list': user_list})
 
 
 def paginate_queryset(request, queryset, count):

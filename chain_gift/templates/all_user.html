@@ -27,8 +27,8 @@ function to_delete(student_id){
 </script>
 <div id="fh5co-main">
     <div class="fh5co-narrow-content">
-        <h2 class="fh5co-heading animate-box responsive-center" data-animate-effect="fadeInLeft">User Search</h2>
-        <form method="POST" class="animate-box" data-animate-effect="fadeInLeft">
+        <h2 class="fh5co-heading responsive-center">User Search</h2>
+        <form method="POST">
             {% csrf_token %}
             <table class="form-table">
                 <tbody>
@@ -50,7 +50,7 @@ function to_delete(student_id){
         </form>
         <div class="row row-bottom-padded-md">
             {% for usr in users %}
-            <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
+            <div class="col-md-3 col-sm-6 col-padding">
                     <div class="blog-entry">
                         {% if usr.delete_flag %}
                             {% if user.dark_mode %}
