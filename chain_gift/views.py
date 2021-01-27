@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+import re
 from django.template.defaulttags import register
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
@@ -744,21 +745,21 @@ def all_users(request):
         if grade_id and not class_id:
             users = User.objects.filter(grade_id=grade_id, delete_flag=False)\
                 .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
-                .order_by('grade_id', 'class_id', 'furigana')
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         elif grade_id and class_id:
             users = User.objects.filter(grade_id=grade_id, class_id=class_id)\
                 .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
-                .order_by('grade_id', 'class_id', 'furigana')
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         elif not grade_id and class_id:
             users = User.objects.filter(class_id=class_id)\
                 .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
-                .order_by('grade_id', 'class_id', 'furigana')
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
@@ -766,14 +767,14 @@ def all_users(request):
             form = UserSearchForm(initial={'grade_id': ''})
             users = User.objects.all()\
                 .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
-                .order_by('grade_id', 'class_id', 'furigana')
+                .order_by('my_grade_id', 'my_class_id', 'furigana')
             params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
             return render(request, 'all_user.html', params)
 
     form = UserSearchForm(initial={'grade_id': ''})
     users = User.objects.all()\
         .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'}) \
-        .order_by('grade_id', 'class_id', 'furigana')
+        .order_by('my_grade_id', 'my_class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'all_user.html', params)
 
@@ -971,7 +972,8 @@ def grades_edit(request, pk: int):
                 if request.POST.get(v):
                     Grades.objects.filter(student_id=id_and_sub[0],
                                           subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
-    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
+
+    users = User.objects.filter(grade_id=t.grade_id).values('student_id').distinct()
     name_and_grades = dict()
     try:
         for user in users:
@@ -983,7 +985,8 @@ def grades_edit(request, pk: int):
             grades = Grades.objects.filter(test_id=pk, student_id=user['student_id'])
             for g in grades:
                 name_and_grades[usr.username][g.subject] = g.score
-        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: ((natural_keys(x[1]['class_id'])),
+                                                                          x[1]['furigana']))
     except:
         sorted_user_list = {}
     if sorted_user_list:
@@ -1118,7 +1121,7 @@ def test_result_super(request, pk: int, order: str):
     else:
         test_type = ''
     test_title = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
-    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
+    users = User.objects.filter(grade_id=t.grade_id).values('student_id').distinct()
     name_and_grades = dict()
     sorted_user_list = {}
     try:
@@ -1152,7 +1155,8 @@ def test_result_super(request, pk: int, order: str):
             total_average = 0
             std_div_of_total = 0
         if order == 'normal':
-            sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+            sorted_user_list = sorted(name_and_grades.items(), key=lambda x: ((natural_keys(x[1]['class_id'])),
+                                                                              x[1]['furigana']))
         elif order == 'ranking':
             sorted_user_list = sorted(name_and_grades.items(), key=lambda x: x[1]['total'], reverse=True)
             return render(request, 'test_result.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
@@ -1484,3 +1488,11 @@ def get_item(dictionary, key):
     if dictionary.get(key) is None:
         return ''
     return dictionary.get(key)
+
+
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+
+def natural_keys(text):
+    return [atoi(c) for c in re.split(r'(\d+)', text)]

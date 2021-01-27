@@ -71,7 +71,7 @@ function to_delete(student_id){
                     <tr>
                         <th style="border: 1px solid #d7d7d7; padding: 20px"> {{usr.0}}</th>
                         {% for s in subjects %}
-                        <td style="border: 1px solid #d7d7d7; padding: 10px; text-align: center"><input style="max-width: 50px;" name="{{ usr.1.student_id }}___{{forloop.counter0}}"  value="{{ usr.1|get_item:s.subject }}" class="dark-input"></td>
+                        <td style="border: 1px solid #d7d7d7; padding: 10px; text-align: center"><input name="{{ usr.1.student_id }}___{{forloop.counter0}}"  value="{{ usr.1|get_item:s.subject }}" class="dark-input" type="number" style="max-width: 50px;"></td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
