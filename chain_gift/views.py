@@ -971,7 +971,7 @@ def grades_edit(request, pk: int):
                 if request.POST.get(v):
                     Grades.objects.filter(student_id=id_and_sub[0],
                                           subject=subjects[int(id_and_sub[1])].subject, test_id=pk).update(score=int(request.POST.get(v)))
-    users = User.objects.filter(test_id=pk).values('student_id').distinct()
+    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
     name_and_grades = dict()
     try:
         for user in users:
