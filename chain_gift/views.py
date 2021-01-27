@@ -1208,8 +1208,9 @@ def return_csv(request, pk: int, order: str):
                     g = Grades.objects.get(test_id=pk, student_id=user['student_id'], subject=s.subject)
                     name_and_grades[usr.username][s.subject] = g.score
                 except:
-                    name_and_grades[usr.username][s.subject] = np.nan
-        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (x[1]['class_id'], x[1]['furigana']))
+                    name_and_grades[usr.username][s.subject] = None
+        sorted_user_list = sorted(name_and_grades.items(), key=lambda x: (natural_keys(x[1]['class_id']),
+                                                                          x[1]['furigana']))
     except:
         sorted_user_list = {}
     if sorted_user_list and order == 'normal':
