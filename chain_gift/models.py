@@ -80,7 +80,7 @@ class Message(models.Model):
 class Goods(models.Model):
     price = models.IntegerField()
     name = models.CharField(max_length=50)
-    goods_img = models.CharField(_('image'), max_length=150, blank=True, null=True)
+    goods_img = models.ImageField(_('image'), upload_to='', blank=True, null=True)
     category = models.CharField(max_length=50, null=True)
     show = models.BooleanField(default=False)
 

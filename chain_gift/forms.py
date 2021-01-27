@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django import forms
-from .models import User, Message
+from .models import User, Message, Goods
 
 
 class PointForm(forms.ModelForm):
@@ -15,6 +15,20 @@ class PointForm(forms.ModelForm):
             field.widget.attrs['placeholder'] = field.label
             if field.label == 'Contents':
                 field.widget.attrs['placeholder'] = 'Message'
+
+
+class GoodsRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Goods
+        fields = ('name', 'price', 'category', 'goods_img')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+            if field.label == 'Image':
+                field.widget.attrs['class'] = None
 
 
 class TestSearchForm(forms.Form):

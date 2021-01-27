@@ -10,7 +10,7 @@ from django.http.response import JsonResponse
 from .forms import (LoginForm, SignUpForm, UserSearchForm, UserUpdateForm,
                     SuperUserUpdateForm, SuperPointForm, PasswordForgetForm,
                     PointForm, UserSettingsForm, GradesPointForm, CreateTestForm, TestSearchForm, MyPasswordChangeForm,
-                    AddSubjectForm)
+                    AddSubjectForm, GoodsRegisterForm)
 from .models import User, Secret, Message, Goods, Grades, MessageCount, Test, TestSubject
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
@@ -701,6 +701,25 @@ def create_test(request):
 
     form = CreateTestForm()
     return render(request, 'create_test.html', {'form': form})
+
+
+@login_required
+def goods_register(request: HttpRequest) -> HttpResponse:
+    user: User = request.user
+    if not user.is_superuser:
+        return redirect('/home')
+    if request.method == 'POST':
+        form: GoodsRegisterForm = GoodsRegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('/goods/register')
+        else:
+            form: GoodsRegisterForm = GoodsRegisterForm()
+            params = {'form': form, 'message': '値が不正です'}
+        return render(request, 'goods_register.html', params)
+
+    form: GoodsRegisterForm = GoodsRegisterForm()
+    return render(request, 'goods_register.html', {'form': form})
 
 
 def goods_db(request):

@@ -36,6 +36,7 @@ urlpatterns = [
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('profile/<str:pk>/', views.profile, name='profile'),
     path('goods_db/', views.goods_db, name='goods_db'),
+    path('goods/register', views.goods_register, name='goods_register'),
     path('management/', views.management, name='management'),
     path('all_users/', views.all_users, name='all_users'),
     path('super_edit/<str:pk>', views.super_edit, name='super_edit'),
