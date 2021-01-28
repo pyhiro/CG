@@ -874,8 +874,25 @@ def grades(request):
         return redirect('/login')
     if not user.login_flag:
         return redirect('/change?next=/grades')
-    my_grades = Grades.objects.filter(student_id=user.student_id).order_by('-year', '-semester')
-    return render(request, 'grades.html', {'my_grades': my_grades})
+    all_test = Grades.objects.filter(student_id=user.student_id).values_list('test_id').distinct().order_by('-year', '-id')
+    tests = []
+    for test_id in all_test:
+        tmp_dict = dict()
+        test = Test.objects.get(id=test_id[0])
+        semester = test.semester
+        if test.semester not in ['前', '中', '後']:
+            semester = test.semester + '学'
+        if test.type == 1:
+            test_type = '中間テスト'
+        elif test.type == 2:
+            test_type = '期末テスト'
+        else:
+            test_type = ''
+        test_title = f'{test.year}年度 {semester}期 {test.grade_id}学年 {test_type}'
+        tmp_dict['id'] = test.id
+        tmp_dict['title'] = test_title
+        tests.append(tmp_dict.copy())
+    return render(request, 'grades.html', {'tests': tests})
 
 
 def forget_password(request):
@@ -1322,13 +1339,13 @@ def grades_super_point(request, pk: int):
         grade_id = t.grade_id
         users = User.objects.exclude(delete_flag=True).filter(grade_id=grade_id)
         id_and_total = list()
-        for user in users:
+        for usr in users:
             total = 0
-            scores = Grades.objects.filter(student_id=user.student_id).exclude(score=None).values_list('score')
+            scores = Grades.objects.filter(student_id=usr.student_id).exclude(score=None).values_list('score')
             if scores:
                 for score in scores[0]:
                     total += score
-            id_and_total.append((user.student_id, total))
+            id_and_total.append((usr.student_id, total))
         sorted_id_and_total = sorted(id_and_total, reverse=True, key=lambda x: x[1])
 
         form = GradesPointForm(request.POST)
