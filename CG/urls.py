@@ -49,6 +49,7 @@ urlpatterns = [
     path('forget_change/', views.forget_change_password, name='forget_change'),
     path('grades/', views.grades, name='grades'),
     path('grades/edit/<int:pk>', views.grades_edit, name='grades_edit'),
+    path('grades/detail/<int:pk>', views.grades_detail, name='grades_detail'),
     path('grades/super_point/<int:pk>', views.grades_super_point, name='super_point'),
     path('grades/top/', views.grades_top, name='grades_top'),
     path('grades/edit/', views.grades, name='grades'),

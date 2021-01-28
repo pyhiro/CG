@@ -874,7 +874,8 @@ def grades(request):
         return redirect('/login')
     if not user.login_flag:
         return redirect('/change?next=/grades')
-    all_test = Grades.objects.filter(student_id=user.student_id).values_list('test_id').distinct().order_by('-year', '-id')
+    all_test = list(set(Grades.objects.filter(student_id=user.student_id).values_list('test_id').order_by('-id')))
+    all_test = sorted(all_test, key=lambda x: x[0], reverse=True)
     tests = []
     for test_id in all_test:
         tmp_dict = dict()
@@ -893,6 +894,33 @@ def grades(request):
         tmp_dict['title'] = test_title
         tests.append(tmp_dict.copy())
     return render(request, 'grades.html', {'tests': tests})
+
+
+@login_required
+def grades_detail(request, pk: int):
+    user = request.user
+    if user.delete_flag:
+        return redirect('/login')
+    if not user.login_flag:
+        return redirect('/change?next=/grades')
+    test = Test.objects.get(id=pk)
+    grades = Grades.objects.filter(test_id=test.id, student_id=user.student_id)
+
+    test_result_info = []
+    subjects = TestSubject.objects.filter(test_id=test.id)
+
+    semester = test.semester
+    if test.semester not in ['前', '中', '後']:
+        semester = test.semester + '学'
+    if test.type == 1:
+        test_type = '中間テスト'
+    elif test.type == 2:
+        test_type = '期末テスト'
+    else:
+        test_type = ''
+    test_title = f'{test.year}年度 {semester}期 {test.grade_id}学年 {test_type}'
+
+    return render(request, 'grades_detail.html')
 
 
 def forget_password(request):
@@ -1130,7 +1158,7 @@ def grades_top(request):
             form = TestSearchForm(initial={'year': year})
     else:
         form = TestSearchForm()
-    page_obj = paginate_queryset(request, test_list, 40)
+    page_obj = paginate_queryset(request, test_list, 20)
     params = {
         'form': form,
         'test_list': page_obj.object_list,

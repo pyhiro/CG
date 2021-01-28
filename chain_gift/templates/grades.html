@@ -22,20 +22,19 @@
     <div class="fh5co-narrow-content">
         <h2 class="fh5co-heading animate-box responsive-center" data-animate-effect="fadeInLeft">Services</h2>
         <div class="row">
-
-            <div class="col-md-6">
-                <a href="">
-                <div class="fh5co-feature animate-box dark-block" data-animate-effect="fadeInLeft">
-                    <div class="fh5co-icon" style="padding-top: 20px">
-                        <i class="icon-params"></i>
-                    </div>
-                    <div class="fh5co-text" style="padding-top: 15px;">
-                        <h4>Expertise</h4>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+            {% for test in tests %}
+                <div class="col-md-6">
+                    <div class="fh5co-feature animate-box dark-block" data-animate-effect="fadeInLeft">
+                        <div class="fh5co-icon" style="padding-top: 10px">
+                            <i class="icon-params"></i>
+                        </div>
+                        <div class="fh5co-text" style="padding-top: 15px;">
+                            <h4>{{ test.title }}</h4>
+                            <object><a href="/grades/detail/{{ test.id }}" class="lead btn btn-primary" style="color: white; margin:0 80px 15px">結果はこちら</a></object>
+                        </div>
                     </div>
                 </div>
-                </a>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
