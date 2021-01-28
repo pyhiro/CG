@@ -69,6 +69,7 @@ Facebook: 		https://www.facebook.com/fh5co
     <h3 class="login-box-msg" style="text-align:center"><b>パスワード変更</b></h3>
     <form action="" method="POST">
       {% csrf_token %}
+
       {% for error in form.non_field_errors %}
       <p style="text-align: center; color: red;">emailまたはパスワードが間違っています。</p>
       {% endfor %}

@@ -21,6 +21,9 @@ body {
     color: rgba(240, 246, 252, 0.4);
 }
 
+.dark-block {
+    background:#182636;
+}
 
 .desc-p {
     color: rgba(240, 246, 252, 0.4);

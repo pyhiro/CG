@@ -724,7 +724,6 @@ def goods_register(request: HttpRequest) -> HttpResponse:
 
 def goods_db(request):
     grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
-    print(grade_id_list)
     # m = Message(contents='good morning', sender=request.user.student_id, recipient=request.user.student_id)
     # m.save()
     category = request.GET.get('category', None)
@@ -737,7 +736,7 @@ def goods_db(request):
         goods_dict['goods'].append({'goods_id': value.id,
                                     'goods_name': value.name,
                                     'goods_value': value.price,
-                                    'goods_img': value.goods_img,
+                                    'goods_img': str(value.goods_img),
                                     'goods_category': value.category,
                                     'goods_show': value.show})
     return JsonResponse(goods_dict)
@@ -1418,7 +1417,9 @@ def super_update(request):
     if not request.user.is_superuser:
         return redirect('home')
     form = AddSubjectForm()
-    user_list = User.objects.all().order_by('grade_id', 'class_id', 'furigana')
+    user_list: QuerySet = User.objects.all()\
+        .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'}) \
+        .order_by('my_grade_id', 'my_class_id', 'furigana')
     if request.method == 'POST':
         print(request.POST)
         all_student_id = []
