@@ -29,9 +29,13 @@
                  <div class="row row-bottom-padded-md">
                       <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">
                         {% if img_url %}
-                        <img class="img-responsive" src="/media/{{ img_url }}" alt="" class="profile_figure" style="max-width: 250px; max-height: 250px; margin: 0 auto;">
+                        <img class="img-responsive" src="/media/{{ img_url }}" alt=""style="max-width: 250px; max-height: 250px; margin: 0 auto;">
                         {% else %}
-                        <img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img" class="profile_figure" style="max-width: 250px; max-height: 250px; margin: 0 auto;">
+                            {% if request.user.dark_mode %}
+                                <img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img" style="max-width: 250px; max-height: 250px; margin: 0 auto;">
+                            {% else %}
+                                <img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img" style="max-width: 250px; max-height: 250px; margin: 0 auto;">
+                            {% endif %}
                         {% endif %}
                       </div>
                       <div class="col-md-6 animate-box" data-animate-effect="fadeInLeft">

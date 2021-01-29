@@ -35,16 +35,19 @@
                     {% for usr in receive_ranking %}
                     <div class="row row-bottom-padded-md">
                         <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
-                            <a class="blog-entry">
-                                {% if img_url %}
-                                <a href="#" class="blog-img"><img class="img-responsive" src="/media/{{ img_url }}" alt="" class="profile_figure" style="max-width: 250px; max-height: 250px; margin: 0 auto;"></a>
+                            <div class="blog-entry">
+                                {% if usr.1.img_url %}
+                                <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.1.img_url }}" alt=""></a>
                                 {% else %}
-                                <a href="#" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img" class="profile_figure" style="max-width: 250px; max-height: 250px; margin: 0 auto;"></a>
+                                {% if request.user.dark_mode %}
+                                <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img"></a>
+                                {% else %}
+                                <a href="/profile/{{ request.usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img"></a>
+                                {% endif %}
                                 {% endif %}
                                 <div class="desc">
-                                    <h3 style="text-align: center">1位</h3>
-                                    <span><small>by Admin </small> / <small> Web Design </small> / <small> <i class="icon-comment"></i> 14</small></span>
-                                    <a href="#" class="lead"><p>profile へ</p></a>
+                                    <h3 style="text-align: center">{{ forloop.counter }}位</h3>
+                                    <p style="text-align: center">{{ usr.1.username }}</p>
                                 </div>
                             </div>
                         </div>
@@ -52,23 +55,28 @@
                     {% endfor %}
 
                 </div>
-                </p>
             </div>
         </div>
         <div class="tab_content" id="tab2_content">
             <div class="tab_content_description">
 
                 <div class="fh5co-narrow-content" style="padding-top: 0px">
-                    {% for value in send_ranking %}
+                    {% for usr in send_ranking %}
                     <div class="row row-bottom-padded-md">
                         <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
                             <div class="blog-entry">
-                                <a href="#" class="blog-img"><img src="images/img-1.jpg" class="img-responsive" alt="Free HTML5 Bootstrap Template by FreeHTML5.co"></a>
+                                {% if usr.1.img_url %}
+                                <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.1.img_url }}" alt=""></a>
+                                {% else %}
+                                {% if user.dark_mode %}
+                                    <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img"></a>
+                                {% else %}
+                                    <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img"></a>
+                                {% endif %}
+                                {% endif %}
                                 <div class="desc">
-                                    <h3><a href="#">Inspirational Website</a></h3>
-                                    <span><small>by Admin </small> / <small> Web Design </small> / <small> <i class="icon-comment"></i> 14</small></span>
-                                    <p>Design must be functional and functionality must be translated into visual aesthetics</p>
-                                    <a href="#" class="lead">Read More <i class="icon-arrow-right3"></i></a>
+                                    <h3 style="text-align: center">{{ forloop.counter }}位</h3>
+                                    <p style="text-align: center">{{ usr.1.username }}</p>
                                 </div>
                             </div>
                         </div>

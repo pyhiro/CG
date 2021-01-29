@@ -851,6 +851,18 @@ def get_ranking(request):
     not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=request.user.student_id)
     not_notified_message_count: int = len(not_notified_messages)
 
+    my_blockchain_address: str = request.user.blockchain_address
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        total: int = response.json()['amount']
+    else:
+        total: str = ''
+    if request.user.is_superuser:
+        not_notified_message_count = 0
+
     now = datetime.datetime.now()
     month_first = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     first_time_stamp = month_first.timestamp()
@@ -866,18 +878,22 @@ def get_ranking(request):
 
         for k, v in tmp_rank['receive_ranking'].items():
             user = User.objects.get(blockchain_address=k)
-            receive_ranking[user] = v
+            receive_ranking[user.student_id] = {'username': user.username,
+                                                'point': v,
+                                                'img_url': str(user.profile_img)}
 
         for k, v in tmp_rank['send_ranking'].items():
             user = User.objects.get(blockchain_address=k)
-            send_ranking[user] = v
+            send_ranking[user.student_id] = {'username': user.username,
+                                             'point': v,
+                                             'img_url': str(user.profile_img)}
 
         sorted_send_ranking = sorted(send_ranking.items(), key=lambda x: x[1], reverse=True)
         sorted_receive_ranking = sorted(receive_ranking.items(), key=lambda x: x[1], reverse=True)
         params = {'send_ranking': sorted_send_ranking,
                   'receive_ranking': sorted_receive_ranking,
-                  'not_notified_message_count': not_notified_message_count}
-        print(params)
+                  'not_notified_message_count': not_notified_message_count,
+                  'total': total}
         return render(request, 'ranking.html', params)
 
 
@@ -907,7 +923,23 @@ def grades(request):
         tmp_dict['id'] = test.id
         tmp_dict['title'] = test_title
         tests.append(tmp_dict.copy())
-    return render(request, 'grades.html', {'tests': tests})
+        not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=user.student_id)
+        not_notified_message_count: int = len(not_notified_messages)
+        my_blockchain_address: str = user.blockchain_address
+        response: Response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=5)
+        if response.status_code == 200:
+            total: int = response.json()['amount']
+        else:
+            total: str = ''
+        if user.is_superuser:
+            not_notified_message_count = 0
+        params = {'total': total,
+                  'not_notified_message_count': not_notified_message_count,
+                  'tests': tests}
+    return render(request, 'grades.html', params)
 
 
 @login_required
@@ -978,6 +1010,22 @@ def grades_detail(request, pk: int):
     for subject in subjects_query:
         subjects_list.append(subject[0])
     params = {'title': test_title, 'result': test_result_info, 'subjects': subjects_list}
+
+    not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=user.student_id)
+    not_notified_message_count: int = len(not_notified_messages)
+    my_blockchain_address: str = user.blockchain_address
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        total: int = response.json()['amount']
+    else:
+        total: str = ''
+    if user.is_superuser:
+        not_notified_message_count = 0
+    params['total'] = total
+    params['not_notified_message_count'] = not_notified_message_count
     return render(request, 'grades_detail.html', params)
 
 
