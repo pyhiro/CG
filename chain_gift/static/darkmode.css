@@ -167,3 +167,7 @@ option {
 .ui-datepicker-title {
     color: black;
 }
+
+.to-white {
+    color: white important;
+}

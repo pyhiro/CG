@@ -18,6 +18,7 @@ from django.http import HttpResponse, HttpRequest
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from bisect import bisect
 import datetime
 import hashlib
 import json
@@ -561,7 +562,8 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
         'img_url': user.profile_img,
         'not_notified_message_count': not_notified_message_count
     }
-    my_blockchain_address: str = user.blockchain_address
+
+    my_blockchain_address: str = request.user.blockchain_address
     response: Response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
         {'blockchain_address': my_blockchain_address},
@@ -654,12 +656,18 @@ def signup(request: HttpRequest) -> HttpResponse:
         qr_img_name = make_qr(user.student_id)
         user.qr_img = qr_img_name
         user.save()
-        send_gmail(password, data['email'])
-        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
-        s = Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key)
-        s.save()
-        form = SignUpForm()
         msg = 'ユーザーの作成に成功しました'
+        hashed_id = hashlib.sha256(user.student_id.encode()).hexdigest()
+        Secret(id_hash=hashed_id, public_key=w.public_key, private_key=w.private_key).save()
+        form = SignUpForm()
+        hashed_id: str = hashlib.sha256(request.user.student_id.encode()).hexdigest()
+        secret: Secret = Secret.objects.get(id_hash=hashed_id)
+        post_transaction(sender_blockchain_address=request.user.blockchain_address,
+                         sender_private_key=secret.private_key,
+                         sender_public_key=secret.public_key,
+                         recipient_blockchain_address=w.blockchain_address,
+                         value=300)
+        send_gmail(password, data['email'])
         return render(request, 'signup.html', {'form': form, 'msg': msg})
 
     form = SignUpForm()
@@ -840,6 +848,9 @@ def get_ranking(request):
     if request.user.delete_flag:
         return redirect('/logout')
 
+    not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=request.user.student_id)
+    not_notified_message_count: int = len(not_notified_messages)
+
     now = datetime.datetime.now()
     month_first = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     first_time_stamp = month_first.timestamp()
@@ -851,19 +862,22 @@ def get_ranking(request):
     if response.status_code == 200:
         tmp_rank = response.json()[0]['ranking']
         receive_ranking, send_ranking = dict(), dict()
+        print(tmp_rank)
 
         for k, v in tmp_rank['receive_ranking'].items():
             user = User.objects.get(blockchain_address=k)
-            receive_ranking[user.username] = v
+            receive_ranking[user] = v
 
         for k, v in tmp_rank['send_ranking'].items():
             user = User.objects.get(blockchain_address=k)
-            send_ranking[user.username] = v
+            send_ranking[user] = v
 
         sorted_send_ranking = sorted(send_ranking.items(), key=lambda x: x[1], reverse=True)
         sorted_receive_ranking = sorted(receive_ranking.items(), key=lambda x: x[1], reverse=True)
         params = {'send_ranking': sorted_send_ranking,
-                  'receive_ranking': sorted_receive_ranking}
+                  'receive_ranking': sorted_receive_ranking,
+                  'not_notified_message_count': not_notified_message_count}
+        print(params)
         return render(request, 'ranking.html', params)
 
 
@@ -904,11 +918,51 @@ def grades_detail(request, pk: int):
     if not user.login_flag:
         return redirect('/change?next=/grades')
     test = Test.objects.get(id=pk)
-    grades = Grades.objects.filter(test_id=test.id, student_id=user.student_id)
+    grades = Grades.objects.filter(test_id=pk, student_id=user.student_id)
+    test_result_info = {}
+    my_total = 0
+    for g in grades:
+        scores_tmp_list = []
+        all_members_grades_list = Grades.objects.filter(test_id=pk, subject=g.subject).values_list('score')
+        try:
+            my_score = Grades.objects.get(test_id=pk, subject=g.subject, student_id=user.student_id).score
+            if my_score:
+                my_total += my_score
+        except:
+            continue
+        for score in all_members_grades_list:
+            if score[0]:
+                scores_tmp_list.append(score[0])
 
-    test_result_info = []
-    subjects = TestSubject.objects.filter(test_id=test.id)
+        if scores_tmp_list and my_score:
+            scores_tmp_list.sort()
+            my_rank = len(scores_tmp_list) - bisect(scores_tmp_list, my_score) + 1
+            np_array = np.array(scores_tmp_list)
+            mean = np.mean(np_array)
+            std = np.std(np_array)
+            my_deviation = round((my_score - mean)/std * 10 + 50, 2)
+            test_result_info[g.subject] = {'rank': my_rank,
+                                           'score': my_score,
+                                           'deviation': my_deviation}
 
+    list_of_total = []
+    for usr in User.objects.filter(grade_id=test.grade_id):
+        grades = Grades.objects.filter(student_id=usr.student_id, test_id=pk)
+        t = 0
+        for g in grades:
+            if g.score:
+                t += g.score
+        list_of_total.append(t)
+    if list_of_total and my_total:
+        list_of_total.sort()
+        my_total_rank = len(list_of_total) - bisect(list_of_total, my_total) + 1
+    else:
+        my_total_rank = ''
+    if my_total:
+        my_total_deviation = round((my_total - test.mean) / test.std_div * 10 + 50, 2)
+        test_result_info['total'] = {'rank': my_total_rank,
+                                     'score': my_total,
+                                     'deviation': my_total_deviation}
     semester = test.semester
     if test.semester not in ['前', '中', '後']:
         semester = test.semester + '学'
@@ -919,8 +973,12 @@ def grades_detail(request, pk: int):
     else:
         test_type = ''
     test_title = f'{test.year}年度 {semester}期 {test.grade_id}学年 {test_type}'
-
-    return render(request, 'grades_detail.html')
+    subjects_query = TestSubject.objects.filter(test_id=pk).values_list('subject')
+    subjects_list = []
+    for subject in subjects_query:
+        subjects_list.append(subject[0])
+    params = {'title': test_title, 'result': test_result_info, 'subjects': subjects_list}
+    return render(request, 'grades_detail.html', params)
 
 
 def forget_password(request):
@@ -959,7 +1017,7 @@ def forget_change_password(request):
     send_gmail(password=password, email=user.email, subject='パスワード更新')
     user = authenticate(request=request, email=email, password=password)
     login(request, user)
-    return redirect('/')
+    return redirect('/change')
 
 
 @login_required
@@ -1039,17 +1097,27 @@ def grades_edit(request, pk: int):
     users = User.objects.filter(grade_id=t.grade_id).values('student_id').distinct()
     name_and_grades = dict()
     try:
+        user_total_scores_list = []
         for user in users:
             usr = User.objects.get(student_id=user['student_id'])
             name_and_grades[usr.username] = dict()
             name_and_grades[usr.username]['furigana'] = usr.furigana
             name_and_grades[usr.username]['class_id'] = usr.class_id
             name_and_grades[usr.username]['student_id'] = user['student_id']
-            grades = Grades.objects.filter(test_id=pk, student_id=user['student_id'])
-            for g in grades:
+            grades_ = Grades.objects.filter(test_id=pk, student_id=user['student_id'])
+            total = 0
+            for g in grades_:
+                if g.score:
+                    total += g.score
                 name_and_grades[usr.username][g.subject] = g.score
+            user_total_scores_list.append(total)
+        if user_total_scores_list:
+            mean = sum(user_total_scores_list) / len(user_total_scores_list)
+            t.mean = mean
+            t.save()
         sorted_user_list = sorted(name_and_grades.items(), key=lambda x: ((natural_keys(x[1]['class_id'])),
                                                                           x[1]['furigana']))
+
     except:
         sorted_user_list = {}
     if sorted_user_list:
@@ -1210,13 +1278,8 @@ def test_result_super(request, pk: int, order: str):
             else:
                 name_and_grades[usr.username]['average'] = 0
 
-        try:
-            total_average = round(sum(array_for_average) / len(array_for_average), 1)
-            total_array = np.array(array_for_average)
-            std_div_of_total = round(np.std(total_array), 2)
-        except:
-            total_average = 0
-            std_div_of_total = 0
+        total_average = round(t.mean, 2)
+        std_div_of_total = round(t.std_div, 2)
         if order == 'normal':
             sorted_user_list = sorted(name_and_grades.items(), key=lambda x: ((natural_keys(x[1]['class_id'])),
                                                                               x[1]['furigana']))
@@ -1246,6 +1309,8 @@ def test_result_super(request, pk: int, order: str):
             if sorted_user_list_by_class_tmp:
                 sorted_user_list_by_class.append(sorted_user_list_by_class_tmp)
         sorted_user_list = sorted_user_list_by_class
+    t.mean = total_average
+    t.save()
     return render(request, 'test_result.html', {'form': form, 'self_pk': pk, 'subjects': subjects,
                                                 'user_list': sorted_user_list, 'test_title': test_title, 'order': order,
                                                 'total_average': total_average, 'std_div_of_total': std_div_of_total})
@@ -1501,10 +1566,10 @@ def send_gmail(password=None, email=None, query=None, subject='初回ログイ�
     gmail_password = config['password'][0]
     mail_to = email
 
-    body = password
+    body = 'chain gift\nパスワード: ' + password
     if query:
         subject = 'パスワード再発行'
-        contents = f'http://127.0.0.1:8000/forget_change?rand_query={query}&email={email}'
+        contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttp://127.0.0.1:8000/forget_change?rand_query={query}&email={email}'
         body = contents
     msg = MIMEText(body, "html")
     msg["Subject"] = subject
@@ -1554,6 +1619,36 @@ def get_item(dictionary, key):
     if dictionary.get(key) is None:
         return ''
     return dictionary.get(key)
+
+
+@register.filter
+def return_score(dictionary, key):
+    if dictionary.get(key) is None:
+        return ''
+    inner_dict = dictionary.get(key)
+    if inner_dict.get('score') is None:
+        return ''
+    return inner_dict.get('score')
+
+
+@register.filter
+def return_rank(dictionary, key):
+    if dictionary.get(key) is None:
+        return ''
+    inner_dict = dictionary.get(key)
+    if inner_dict.get('rank') is None:
+        return ''
+    return inner_dict.get('rank')
+
+
+@register.filter
+def return_deviation(dictionary, key):
+    if dictionary.get(key) is None:
+        return ''
+    inner_dict = dictionary.get(key)
+    if inner_dict.get('deviation') is None:
+        return ''
+    return inner_dict.get('deviation')
 
 
 def atoi(text):

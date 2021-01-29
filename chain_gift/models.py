@@ -93,7 +93,8 @@ class Test(models.Model):
     semester = models.CharField(max_length=3)
     type = models.IntegerField(default=1) #中間, 期末, other
     grade_id = models.CharField(_('学年'), max_length=50, blank=True, null=False)
-    std_div = models.IntegerField(null=True)
+    std_div = models.FloatField(null=True)
+    mean = models.FloatField(null=True)
 
 
 class TestSubject(models.Model):

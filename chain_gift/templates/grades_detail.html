@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block nav %}
+<li><a href="/home">Home</a></li>
+<li><a href="/message">Message</a></li>
+<li><a href="/point">Point</a></li>
+<li class="fh5co-active"><a href="/profile/{{ user.student_id }}">Profile</a></li>
+<li><a href="/user_search">Search</a></li>
+<li><a href="/settings">Settings</a></li>
+{% if user.is_superuser %}
+<li><a href="/management">management</a></li>
+{% endif %}
+<li><a href="/logout">Logout</a></li>
+{% if not user.is_superuser %}
+<li><h4>{{total}} pt</h4></li>
+<li><h5>新しいメッセージ {{ not_notified_message_count }}件</h5></li>
+{% endif %}
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+
+<div id="fh5co-main">
+    <div class="fh5co-narrow-content">
+        <h2 class="fh5co-heading animate-box responsive-center">{{ title }}</h2>
+        <div class="row row-bottom-padded-md">
+            <div class="col-md-3 col-sm-6 animate-box col-padding">
+                <div class="blog-entry">
+                    <div class="desc">
+                        <h3>合計</h3>
+                        <p class="desc-p">点数:　　{{ result.total.score }}</p>
+                        <p class="desc-p">順位:　　{{ result.total.rank }}</p>
+                        <p class="desc-p">偏差値:　{{ result.total.deviation }}</p>
+                    </div>
+                </div>
+            </div>
+            {% for s in subjects %}
+                <div class="col-md-3 col-sm-6 animate-box col-padding">
+                    <div class="blog-entry">
+                        <div class="desc">
+                            <h3>{{ s }}</h3>
+                            <p class="desc-p">点数:　　{{ result|return_score:s }}</p>
+                            <p class="desc-p">順位:　　{{ result|return_rank:s }}</p>
+                            <p class="desc-p">偏差値:　{{ result|return_deviation:s }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
