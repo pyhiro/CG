@@ -67,7 +67,9 @@
 </head>
 <body>
 <div style="display: block; height: 5rem;"></div>
-<h3 class="login-box-msg" style="text-align:center"><b>{{ name }}さんへ</b></h3>
+<h4 class="login-box-msg" style="text-align:center"><b>{{ name }}さんへ</b></h4>
+<h4 class="login-box-msg" style="text-align:center; margin-bottom: 10px">{{ total }} pt</h4>
+<p style="text-align: center">送信専用 {{ only_send }} pt</p>
 <form action="" method="POST">
     {% csrf_token %}
     <!-- {% for error in form.non_field_errors %}

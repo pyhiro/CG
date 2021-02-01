@@ -109,11 +109,35 @@ def point_send(request: HttpRequest, pk: str) -> HttpResponse:
         return HttpResponse('user not found')
 
     if request.method == 'GET':
+        my_blockchain_address: str = user.blockchain_address
+        response: Response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=5)
+        if response.status_code == 200:
+            total: int = response.json()['amount']
+        else:
+            total: str = ''
+        response: Response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=5)
+        if response.status_code == 200:
+            can_buy_total: int = response.json()['can_buy']
+        else:
+            can_buy_total: str = ''
+        if total and can_buy_total:
+            only_send = total - can_buy_total
+        else:
+            only_send = ''
         form = PointForm(initial={'point': user.template_point,
                                   'contents': 'ありがとう'})
+
         name: str = to_user.username
         params = {'name': name,
-                  'form': form}
+                  'form': form,
+                  'total': total,
+                  'only_send': only_send}
         return render(request, 'send.html', params)
     form = PointForm(request.POST)
     if not form.data['point'].isdigit() or int(form.data['point']) <= 0:
@@ -582,6 +606,19 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
     else:
         total: str = ''
     params['total'] = total
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        can_buy_total: int = response.json()['can_buy']
+    else:
+        can_buy_total: str = ''
+    if total and can_buy_total:
+        only_send = total - can_buy_total
+    else:
+        only_send = ''
+    params['only_send'] = only_send
     if user.birthday:
         birthday: datetime.date = user.birthday
         params['birthday'] = birthday
@@ -594,10 +631,12 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
         if user.is_authenticated:
             if user.student_id == pk:
                 params['self_user'] = True
+            else:
+                params['self_user'] = False
         else:
             params['self_user'] = False
     params['user_img'] = img_url
-    form: PointForm = PointForm()
+    form: PointForm = PointForm(initial={'point': user.template_point})
     params['form'] = form
     return render(request, 'profile.html', params)
 
@@ -882,31 +921,28 @@ def get_ranking(request):
         timeout=10)
     if response.status_code == 200:
         tmp_rank = response.json()[0]['ranking']
-        receive_ranking, send_ranking = dict(), dict()
+        # receive_ranking, send_ranking = dict(), dict()
         receive_rank = []
         send_rank = []
-        idx = 1
         for k, v in tmp_rank['receive_ranking'].items():
             user = User.objects.get(blockchain_address=k)
             receive_rank.append({'username': user.username,
                                  'point': v,
                                  'stu_id': user.student_id,
                                  'img_url': str(user.profile_img)})
-            idx += 1
-            if idx == 5:
-                break
 
-        idx = 1
         for k, v in tmp_rank['send_ranking'].items():
             user = User.objects.get(blockchain_address=k)
             send_rank.append({'username': user.username,
                               'point': v,
                               'stu_id': user.student_id,
                               'img_url': str(user.profile_img)})
-            if idx == 5:
-                break
         sorted_send_ranking = sorted(send_rank, key=lambda x: x['point'], reverse=True)
         sorted_receive_ranking = sorted(receive_rank, key=lambda x: x['point'], reverse=True)
+        if len(sorted_send_ranking) > 10:
+            sorted_send_ranking = sorted_send_ranking[:10]
+        if len(sorted_receive_ranking) > 10:
+            sorted_receive_ranking = sorted_receive_ranking[:10]
         params = {'send_ranking': sorted_send_ranking,
                   'receive_ranking': sorted_receive_ranking,
                   'not_notified_message_count': not_notified_message_count,

@@ -61,6 +61,8 @@
              </div>
              <div class="row">
              </div>
+             <h4 class="login-box-msg" style="text-align:center; margin-bottom: 10px">{{ total }} pt</h4>
+             <p style="text-align: center">送信専用 {{ only_send }} pt</p>
              <form action="" method="POST">
                  {% csrf_token %}
                  {% for error in form.non_field_errors %}
