@@ -79,12 +79,13 @@
         <h1 id="fh5co-logo"><a href="/home">Chain Gift</a></h1>
         <nav id="fh5co-main-menu" role="navigation">
             <ul>
-                {% block nav %}
                 <li><a href="/home">Home</a></li>
                 <li><a href="/message">Message</a></li>
                 <li><a href="/point">Point</a></li>
+                {% if not user.is_superuser %}
                 <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
                 <li><a href="/user_search">Search</a></li>
+                {% endif %}
                 <li class="fh5co-active"><a href="/settings">Settings</a></li>
                 {% if user.is_superuser %}
                 <li><a href="/management">management</a></li>
@@ -94,7 +95,6 @@
                 <li><h4>{{total}} pt</h4></li>
                 <li><h5>新しいメッセージ {{ not_notified_message_count }}件</h5></li>
                 {% endif %}
-                {% endblock %}
             </ul>
         </nav>
     </aside>
@@ -125,6 +125,9 @@
                 <button type="submit" class="btn btn-primary btn-md" style="margin-top: 1em">確定</button>
             </div>
         </form>
+        <div class="animate-box" style="text-align:center" data-animate-effect="fadeInLeft">
+            パスワード変更は<a href="/change"  style="margin-top: 1em">こちら</a>
+        </div>
     </div>
 </div>
 <script>

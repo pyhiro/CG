@@ -32,27 +32,27 @@
         <div class="tab_content" id="tab1_content">
             <div class="tab_content_description">
                 <div class="fh5co-narrow-content" style="padding-top: 0px">
-                    {% for usr in receive_ranking %}
                     <div class="row row-bottom-padded-md">
+                    {% for usr in receive_ranking %}
                         <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
                             <div class="blog-entry">
-                                {% if usr.1.img_url %}
-                                <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.1.img_url }}" alt=""></a>
+                                {% if usr.img_url %}
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.img_url }}" alt=""></a>
                                 {% else %}
                                 {% if request.user.dark_mode %}
-                                <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img"></a>
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img"></a>
                                 {% else %}
-                                <a href="/profile/{{ request.usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img"></a>
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img"></a>
                                 {% endif %}
                                 {% endif %}
                                 <div class="desc">
                                     <h3 style="text-align: center">{{ forloop.counter }}位</h3>
-                                    <p style="text-align: center">{{ usr.1.username }}</p>
+                                    <p style="text-align: center">{{ usr.username }}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     {% endfor %}
+                    </div>
 
                 </div>
             </div>
@@ -61,27 +61,27 @@
             <div class="tab_content_description">
 
                 <div class="fh5co-narrow-content" style="padding-top: 0px">
-                    {% for usr in send_ranking %}
                     <div class="row row-bottom-padded-md">
+                        {% for usr in send_ranking %}
                         <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
                             <div class="blog-entry">
-                                {% if usr.1.img_url %}
-                                <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.1.img_url }}" alt=""></a>
+                                {% if usr.img_url %}
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.img_url }}" alt=""></a>
                                 {% else %}
-                                {% if user.dark_mode %}
-                                    <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img"></a>
+                                {% if request.user.dark_mode %}
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img"></a>
                                 {% else %}
-                                    <a href="/profile/{{ usr.0 }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img"></a>
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile.png' %}" alt="profile-img"></a>
                                 {% endif %}
                                 {% endif %}
                                 <div class="desc">
                                     <h3 style="text-align: center">{{ forloop.counter }}位</h3>
-                                    <p style="text-align: center">{{ usr.1.username }}</p>
+                                    <p style="text-align: center">{{ usr.username }}</p>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 </div>
                 </p>
             </div>

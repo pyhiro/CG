@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block nav %}
-    <li><a href="/home">Home</a></li>
-    <li><a href="/message">Message</a></li>
-    <li><a href="/point">Point</a></li>
-    <li class="fh5co-active"><a href="/profile/{{ user.student_id }}">Profile</a></li>
-    <li><a href="/user_search">Search</a></li>
-    <li><a href="/settings">Settings</a></li>
-    {% if user.is_superuser %}
-    <li><a href="/management">management</a></li>
-    {% endif %}
-    <li><a href="/logout">Logout</a></li>
-    {% if not user.is_superuser %}
-    <li><h4>{{total}} pt</h4></li>
-    <li><h5>新しいメッセージ {{ not_notified_message_count }}件</h5></li>
-    {% endif %}
+<li><a href="/home">Home</a></li>
+<li><a href="/message">Message</a></li>
+<li><a href="/point">Point</a></li>
+{% if not user.is_superuser %}
+<li class="fh5co-active"><a href="/profile/{{ user.student_id }}">Profile</a></li>
+<li><a href="/user_search">Search</a></li>
+<li><a href="/grades">Grades</a></li>
+{% endif %}
+{% if user.is_superuser %}
+<li><a href="/settings">Settings</a></li>
+<li><a href="/management">management</a></li>
+{% endif %}
+<li><a href="/logout">Logout</a></li>
+{% if not user.is_superuser %}
+<li><h4>{{total}} pt</h4></li>
+<li><h5>新しいメッセージ {{ not_notified_message_count }}件</h5></li>
+{% endif %}
 {% endblock %}
 {% block content %}
     <div id="fh5co-main">
@@ -50,6 +53,7 @@
              {% if self_user %}
              <div class="" style="text-align:center">
                  <a href="/profile/edit" class="btn btn-primary btn-md">プロフィール編集</a>
+                 <a href="/settings" class="btn btn-primary btn-md">ユーザー設定</a>
              </div>
              {% else %}
              <div class="">

@@ -228,10 +228,19 @@ def home(request: HttpRequest) -> HttpResponse:
         total: int = response.json()['amount']
     else:
         total: str = ''
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        can_buy_total: int = response.json()['can_buy']
+    else:
+        can_buy_total: str = ''
     if user.is_superuser:
         not_notified_message_count = 0
     params = {'not_notified_message_count': not_notified_message_count,
-              'total': total}
+              'total': total,
+              'can_buy_total': can_buy_total}
     return render(request, 'home.html', params)
 
 
@@ -520,7 +529,7 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
         if not value.isdigit() or int(value) <= 0:
             return redirect(f'/super_point')
 
-        hashed_id: str = hashlib.sha256(user.student_id.encode()).hexdigest()
+        hashed_id: str = hashlib.sha256(request.user.student_id.encode()).hexdigest()
         secret: Secret = Secret.objects.get(id_hash=hashed_id)
         sender_private_key: str = secret.private_key
         sender_blockchain_address: str = my_blockchain_address
@@ -874,22 +883,30 @@ def get_ranking(request):
     if response.status_code == 200:
         tmp_rank = response.json()[0]['ranking']
         receive_ranking, send_ranking = dict(), dict()
-        print(tmp_rank)
-
+        receive_rank = []
+        send_rank = []
+        idx = 1
         for k, v in tmp_rank['receive_ranking'].items():
             user = User.objects.get(blockchain_address=k)
-            receive_ranking[user.student_id] = {'username': user.username,
-                                                'point': v,
-                                                'img_url': str(user.profile_img)}
+            receive_rank.append({'username': user.username,
+                                 'point': v,
+                                 'stu_id': user.student_id,
+                                 'img_url': str(user.profile_img)})
+            idx += 1
+            if idx == 5:
+                break
 
+        idx = 1
         for k, v in tmp_rank['send_ranking'].items():
             user = User.objects.get(blockchain_address=k)
-            send_ranking[user.student_id] = {'username': user.username,
-                                             'point': v,
-                                             'img_url': str(user.profile_img)}
-
-        sorted_send_ranking = sorted(send_ranking.items(), key=lambda x: x[1], reverse=True)
-        sorted_receive_ranking = sorted(receive_ranking.items(), key=lambda x: x[1], reverse=True)
+            send_rank.append({'username': user.username,
+                              'point': v,
+                              'stu_id': user.student_id,
+                              'img_url': str(user.profile_img)})
+            if idx == 5:
+                break
+        sorted_send_ranking = sorted(send_rank, key=lambda x: x['point'], reverse=True)
+        sorted_receive_ranking = sorted(receive_rank, key=lambda x: x['point'], reverse=True)
         params = {'send_ranking': sorted_send_ranking,
                   'receive_ranking': sorted_receive_ranking,
                   'not_notified_message_count': not_notified_message_count,
@@ -1517,7 +1534,7 @@ def grades_super_point(request, pk: int):
         secret = Secret.objects.get(id_hash=hashed_id)
 
         sender_private_key = secret.private_key
-        sender_blockchain_address = user.blockchain_address
+        sender_blockchain_address = 'Grades Chain Gift'
         recipient_blockchain_address = user_address
         sender_public_key = secret.public_key
         value = int(point)
