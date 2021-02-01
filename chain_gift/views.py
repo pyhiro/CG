@@ -967,11 +967,15 @@ def get_ranking(request):
                 continuous = 0
                 user_info['rank'] = rank_idx
             before_point = user_info['point']
-            if continuous == 0 and total_member > 0:
+            if continuous == 0 and total_member > 10:
                 break
         else:
             sorted_send_ranking = sorted_send_ranking[:total_member]
 
+        rank_idx = 1
+        continuous = 0
+        total_member = 0
+        before_point = 0
         for user_info in sorted_receive_ranking:
             total_member += 1
             if user_info['point'] == before_point:
@@ -981,7 +985,7 @@ def get_ranking(request):
                 rank_idx = total_member
                 continuous = 0
                 user_info['rank'] = rank_idx
-            if continuous == 0 and total_member > 0:
+            if continuous == 0 and total_member > 10:
                 break
         else:
             sorted_receive_ranking = sorted_receive_ranking[:total_member]
