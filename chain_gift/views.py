@@ -515,6 +515,20 @@ def point(request: HttpRequest) -> HttpResponse:
         else:
             total: str = ''
         params['total'] = total
+        response: Response = requests.get(
+            urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
+            {'blockchain_address': my_blockchain_address},
+            timeout=5)
+        if response.status_code == 200:
+            can_buy_total: int = response.json()['can_buy']
+        else:
+            can_buy_total: str = ''
+        params['can_buy_total'] = can_buy_total
+        if total and can_buy_total:
+            only_send = total - can_buy_total
+        else:
+            only_send = ''
+        params['only_send'] = only_send
         params['not_notified_message_count'] = not_notified_message_count
         return render(request, 'point.html', params, status=200)
     return JsonResponse({'message': 'fail', 'error': response.content}, status=400)
