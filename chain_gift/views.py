@@ -953,10 +953,39 @@ def get_ranking(request):
                               'img_url': str(user.profile_img)})
         sorted_send_ranking = sorted(send_rank, key=lambda x: x['point'], reverse=True)
         sorted_receive_ranking = sorted(receive_rank, key=lambda x: x['point'], reverse=True)
-        if len(sorted_send_ranking) > 10:
-            sorted_send_ranking = sorted_send_ranking[:10]
-        if len(sorted_receive_ranking) > 10:
-            sorted_receive_ranking = sorted_receive_ranking[:10]
+        rank_idx = 1
+        continuous = 0
+        total_member = 0
+        before_point = 0
+        for user_info in sorted_send_ranking:
+            total_member += 1
+            if user_info['point'] == before_point:
+                user_info['rank'] = rank_idx
+                continuous += 1
+            else:
+                rank_idx = total_member
+                continuous = 0
+                user_info['rank'] = rank_idx
+            before_point = user_info['point']
+            if continuous == 0 and total_member > 0:
+                break
+        else:
+            sorted_send_ranking = sorted_send_ranking[:total_member]
+
+        for user_info in sorted_receive_ranking:
+            total_member += 1
+            if user_info['point'] == before_point:
+                user_info['rank'] = rank_idx
+                continuous += 1
+            else:
+                rank_idx = total_member
+                continuous = 0
+                user_info['rank'] = rank_idx
+            if continuous == 0 and total_member > 0:
+                break
+        else:
+            sorted_receive_ranking = sorted_receive_ranking[:total_member]
+
         params = {'send_ranking': sorted_send_ranking,
                   'receive_ranking': sorted_receive_ranking,
                   'not_notified_message_count': not_notified_message_count,
