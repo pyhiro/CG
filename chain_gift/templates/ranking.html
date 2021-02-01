@@ -37,7 +37,7 @@
                         <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
                             <div class="blog-entry">
                                 {% if usr.img_url %}
-                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.img_url }}" alt=""></a>
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.img_url }}" alt="" style="min-height: 140px"></a>
                                 {% else %}
                                 {% if request.user.dark_mode %}
                                 <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img" style="min-height: 140px"></a>
@@ -66,7 +66,7 @@
                         <div class="col-md-3 col-sm-6 col-padding animate-box" data-animate-effect="fadeInLeft">
                             <div class="blog-entry">
                                 {% if usr.img_url %}
-                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.img_url }}" alt=""></a>
+                                <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="/media/{{ usr.img_url }}" alt="" style="min-height: 140px"></a>
                                 {% else %}
                                 {% if request.user.dark_mode %}
                                 <a href="/profile/{{ usr.stu_id }}" class="blog-img"><img class="img-responsive" src="{% static 'images/smile_dark.png' %}" alt="profile-img" style="min-height: 140px"></a>
