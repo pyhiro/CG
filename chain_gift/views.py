@@ -526,12 +526,12 @@ def point(request: HttpRequest) -> HttpResponse:
         if response.status_code == 200:
             can_buy_total: int = response.json()['can_buy']
         else:
-            can_buy_total: str = ''
+            can_buy_total: str = 0
         params['can_buy_total'] = can_buy_total
         if total and can_buy_total:
             only_send = total - can_buy_total
         else:
-            only_send = ''
+            only_send = 0
         params['only_send'] = only_send
         params['not_notified_message_count'] = not_notified_message_count
         return render(request, 'point.html', params, status=200)
