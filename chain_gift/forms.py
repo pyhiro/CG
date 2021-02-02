@@ -50,7 +50,7 @@ class TestClassSearchForm(forms.Form):
 
 class CreateTestForm(forms.Form):
     year = forms.IntegerField(label='年度')
-    grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
+    grade_id_list = User.objects.all().exclude(is_superuser=True).values_list('grade_id', flat=True).order_by('grade_id').distinct()
     grade_id_list = list(grade_id_list)
     SEMESTER_CHOICE = ((0, '学期'),
                        (1, '前期'),
