@@ -73,6 +73,9 @@ class PasswordChangeDone(LoginRequiredMixin, PasswordChangeDoneView):
         user.login_flag = True
         user.save()
         if user.is_superuser and not user.blockchain_address:
+            user.grade_id = '管理者'
+            user.class_id = '管理者'
+            user.save()
             w: wallet.Wallet = wallet.Wallet()
             user.blockchain_address: str = 'Chain Gift'
             user.save()
