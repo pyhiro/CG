@@ -800,6 +800,12 @@ def goods_register(request: HttpRequest) -> HttpResponse:
 
 def goods_db(request):
     grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
+    img = Image.open(f'media/smile.png')
+    img_resize = img.resize((256, 256))
+    img_resize.save(f'media/smile.png')
+    img = Image.open(f'media/smile_dark.png')
+    img_resize = img.resize((256, 256))
+    img_resize.save(f'media/smile_dark.png')
     # m = Message(contents='good morning', sender=request.user.student_id, recipient=request.user.student_id)
     # m.save()
     category = request.GET.get('category', None)
@@ -1029,22 +1035,23 @@ def grades(request):
         tmp_dict['id'] = test.id
         tmp_dict['title'] = test_title
         tests.append(tmp_dict.copy())
-        not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=user.student_id)
-        not_notified_message_count: int = len(not_notified_messages)
-        my_blockchain_address: str = user.blockchain_address
-        response: Response = requests.get(
-            urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
-            {'blockchain_address': my_blockchain_address},
-            timeout=5)
-        if response.status_code == 200:
-            total: int = response.json()['amount']
-        else:
-            total: str = ''
-        if user.is_superuser:
-            not_notified_message_count = 0
-        params = {'total': total,
-                  'not_notified_message_count': not_notified_message_count,
-                  'tests': tests}
+
+    not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=user.student_id)
+    not_notified_message_count: int = len(not_notified_messages)
+    my_blockchain_address: str = user.blockchain_address
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        total: int = response.json()['amount']
+    else:
+        total: str = ''
+    if user.is_superuser:
+        not_notified_message_count = 0
+    params = {'total': total,
+              'not_notified_message_count': not_notified_message_count,
+              'tests': tests}
     return render(request, 'grades.html', params)
 
 

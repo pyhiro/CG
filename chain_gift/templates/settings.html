@@ -83,11 +83,12 @@
                 <li><a href="/message">Message</a></li>
                 <li><a href="/point">Point</a></li>
                 {% if not user.is_superuser %}
-                <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
+                <li class="fh5co-active"><a href="/profile/{{ user.student_id }}">Profile</a></li>
                 <li><a href="/user_search">Search</a></li>
+                <li><a href="/grades">Grades</a></li>
                 {% endif %}
-                <li class="fh5co-active"><a href="/settings">Settings</a></li>
                 {% if user.is_superuser %}
+                <li class="fh5co-active"><a href="/settings">Settings</a></li>
                 <li><a href="/management">management</a></li>
                 {% endif %}
                 <li><a href="/logout">Logout</a></li>

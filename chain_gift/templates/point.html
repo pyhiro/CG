@@ -18,9 +18,9 @@
 {% endif %}
 <li><a href="/logout">Logout</a></li>
 {% if not user.is_superuser %}
-<li>送信専用ポイント {{only_send}} pt</li>
-<li>購入可能ポイント {{can_buy_total}} pt</li>
-<li>新しいメッセージ {{ not_notified_message_count }}件</li>
+<li style="margin-bottom: 10px">送信専用ポイント {{only_send}} pt</li>
+<li style="margin-bottom: 10px">購入可能ポイント {{can_buy_total}} pt</li>
+<li style="margin-bottom: 10px">新しいメッセージ {{ not_notified_message_count }}件</li>
 {% endif %}
 {% endblock %}
 {% block content %}
