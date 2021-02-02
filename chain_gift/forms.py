@@ -50,6 +50,7 @@ class TestClassSearchForm(forms.Form):
 
 class CreateTestForm(forms.Form):
     year = forms.IntegerField(label='年度')
+
     grade_id_list = User.objects.all().exclude(is_superuser=True).values_list('grade_id', flat=True).order_by('grade_id').distinct()
     grade_id_list = list(grade_id_list)
     SEMESTER_CHOICE = ((0, '学期'),
@@ -73,7 +74,15 @@ class CreateTestForm(forms.Form):
     grade_id = forms.ChoiceField(widget=forms.Select, choices=GRADE_CHOICE, label='学年')
 
     def __init__(self, *args, **kwargs):
+
         super().__init__(*args, **kwargs)
+        grade_id_list = User.objects.all().exclude(is_superuser=True).values_list('grade_id', flat=True).order_by('grade_id').distinct()
+        grade_id_list = list(grade_id_list)
+        GRADE_CHOICE = (tuple(grade_id_list),)
+        if grade_id_list:
+            GRADE_CHOICE = [(k + 1, str(v)) for k, v in enumerate(grade_id_list)]
+            GRADE_CHOICE.insert(0, (0, "学年"))
+        self.fields['grade_id'].choices = GRADE_CHOICE
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
             field.widget.attrs['placeholder'] = field.label
