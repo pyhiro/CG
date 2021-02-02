@@ -1103,7 +1103,7 @@ def grades_detail(request, pk: int):
         my_total_rank = len(list_of_total) - bisect(list_of_total, my_total) + 1
     else:
         my_total_rank = ''
-    if my_total:
+    if my_total and test.std_div:
         my_total_deviation = round((my_total - test.mean) / test.std_div * 10 + 50, 2)
         test_result_info['total'] = {'rank': my_total_rank,
                                      'score': my_total,
