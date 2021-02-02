@@ -33,6 +33,7 @@ import urllib
 
 import base58
 import numpy as np
+from PIL import Image
 import qrcode
 import requests
 from requests.models import Response
@@ -667,8 +668,13 @@ def edit_profile(request: HttpRequest) -> HttpResponse:
         form: UserUpdateForm = UserUpdateForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
+
             user: Union[User, Exception] = get_object_or_404(User, student_id=user.student_id)
             after: str = user.profile_img
+            if after and before != after:
+                img = Image.open(f'media/{after}')
+                img_resize = img.resize((256, 256))
+                img_resize.save(f'media/{after}')
             if before and not after:
                 os.remove(f'media/{before}')
             if (before and after) and (before != after):
