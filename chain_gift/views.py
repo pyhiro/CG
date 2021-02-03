@@ -802,15 +802,6 @@ def goods_register(request: HttpRequest) -> HttpResponse:
 
 
 def goods_db(request):
-    grade_id_list = User.objects.all().values_list('grade_id', flat=True).order_by('grade_id').distinct()
-    img = Image.open(f'media/smile.png')
-    img_resize = img.resize((256, 256))
-    img_resize.save(f'media/smile.png')
-    img = Image.open(f'media/smile_dark.png')
-    img_resize = img.resize((256, 256))
-    img_resize.save(f'media/smile_dark.png')
-    # m = Message(contents='good morning', sender=request.user.student_id, recipient=request.user.student_id)
-    # m.save()
     category = request.GET.get('category', None)
     if category:
         goods = Goods.objects.filter(category=category)
