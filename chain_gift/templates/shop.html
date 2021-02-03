@@ -30,13 +30,17 @@
     <script src="https://jp.vuejs.org/js/vue.js"></script>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
 
+    <script src="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.31/dist/index.min.js"></script> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-js-modal@1.3.31/dist/styles.css">
+
+
 </head>
 
 <div id="fh5co-main">
     <body>
         <div class="fh5co-narrow-content">
             <div id="app">
-                <div class="container">
+                <div class="container ">
                     <div class="menue">
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(allList())" >すべての商品　</a>
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(stampList())" >スタンプ　</a>
@@ -59,6 +63,8 @@
                                 <select id="sort" class="sprting" v-model.number="sortOrder">
                                     <option value="1">標準</option>
                                     <option value="2">ポイントが安い順</option>
+                                    <option value="3">ポイントが高い順</option>
+                                    <option value="4">新着順</option>
                                 </select>
                             </div>
                         </div>
@@ -74,10 +80,14 @@
                                 <li class="contens-li" style="width: 207px;">
                                     <span class="list-item">
                                         <div class="list-item-list">
-                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;">
+                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;" v-on:click="openModal(product.goods_name,product.goods_img,product.goods_value)">
+
                                                 <div class="image">
-                                                    <img src="{% static 'images/ani.jpg' %}" alt="">
+                                                    <span class="image-style">
+                                                        <img :src="`http://localhost:8000/media/${product.goods_img}`" alt="">
+                                                    </span>
                                                 </div>
+
                                                 <div class="detail">
                                                     <div class="price">
                                                         <span>
@@ -97,11 +107,37 @@
                             </ul>
                         </div>
                     </div>
+                    <open-modal v-show="showContent" v-on:from-child="closeModal">
+
+                            <div class="Modal_Image">
+                                <img :src="`http://localhost:8000/media/${inModal_Image}`" alt="" class="in_Image">
+                            </div>
+                            <div class="Modal_detail">
+                                <div class="Modal_name">
+                                    <span class="in_name">[[ inModal_name ]]</span>
+                                </div>
+                                <div class="Modal_price">
+                                    <span class="in_price">[[ inModal_price ]]</span>
+                                    ポイント
+                                </div>
+                                <div class="Modal_txt">
+                                    <span class="in_txt">
+                                    <!--[[ inModal_txt ]]-->
+                                    ここに説明が入る
+                                    </span>
+                                </div>
+                                <div class="Modal_butoon">
+                                    <a href="http:/..." onclick="return false;" class="square_btn">購入</a>
+                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる</a>
+                                </div>
+                            </div>
+                    </open-modal>
                 </div>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
             <script src="{% static 'js/shop.js' %}"></script>
         </div>
     </body>
 </div>
 </html>
-{% endblock content %}
+{% endblock %}
