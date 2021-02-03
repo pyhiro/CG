@@ -1,0 +1,11 @@
+base58==1.0.3
+ecdsa==0.13
+Flask==1.0.2
+requests==2.21.0
+pyyaml
+Django==3.0.4
+pillow
+gunicorn
+qrcode
+django-axes
+numpy
