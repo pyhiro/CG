@@ -1458,8 +1458,8 @@ def test_result_super(request, pk: int, order: str):
 
     except:
         sorted_user_list = {}
-        total_average = ''
-        std_div_of_total = ''
+        total_average = 0
+        std_div_of_total = 0
     if sorted_user_list:
         sorted_user_list_by_class = []
         sorted_user_list_by_class_tmp = []
