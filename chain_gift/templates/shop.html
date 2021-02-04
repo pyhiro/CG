@@ -80,7 +80,7 @@
                                 <li class="contens-li" style="width: 207px;">
                                     <span class="list-item">
                                         <div class="list-item-list">
-                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;" v-on:click="openModal(product.goods_name,product.goods_img,product.goods_value)">
+                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;" v-on:click="openModal(product.goods_name,product.goods_img,product.goods_value,product.goods_id)">
 
                                                 <div class="image">
                                                     <span class="image-style">
@@ -113,7 +113,6 @@
                                 <img :src="`http://localhost:8000/media/${inModal_Image}`" alt="" class="in_Image">
                             </div>
                             <div class="Modal_detail">
-
                                 <div class="Modal_name">
                                     <span class="in_name">[[ inModal_name ]]</span>
                                 </div>
@@ -122,25 +121,15 @@
                                     ポイント
                                 </div>
                                 <div class="Modal_txt">
-                                  
+                                    <span class="in_txt">
                                     <!--[[ inModal_txt ]]-->
-                                   
-                                       
-                                       
-                                    <p>ここに説明が入る</p>
-                                    
+                                    ここに説明が入る
+                                    </span>
                                 </div>
                                 <div class="Modal_butoon">
-                                
-                                <span class="inbox">
-                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる　</a>
-                                </span>
-                               
-                                <span class="buybox">
-                                    <a href="http:/..." onclick="return false;" class="square_btn">購入</a>
-                                </span>
-                            </div>
-                            
+                                    <a :href="'/buy/'+inModal_id" class="sqsuare_btn">購入</a>
+                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる</a>
+                                </div>
                             </div>
                     </open-modal>
                 </div>
