@@ -46,6 +46,8 @@ var app = new Vue({
       inModal_Image:'',
       // モーダル表示用のポイント
       inModal_price:0,
+
+      inModal_id:0,
   },
   created: function() {
       // JSONPのURL（サーバーに配置する）
@@ -140,11 +142,12 @@ var app = new Vue({
       return newList;
     },
     //モーダル表示用及びモーダルの情報を挿入
-    openModal: function(n,i,p){
+    openModal: function(n,i,p,q){
       this.showContent = true
       this.inModal_name = n
       this.inModal_Image = i
       this.inModal_price = p
+      this.inModal_id = q
     },
     //モーダル非表示及び情報の初期化
     closeModal: function(){
@@ -152,6 +155,7 @@ var app = new Vue({
       this.inModal_name = ''
       this.inModal_Image = ''
       this.inModal_price = 0
+      this.inModal_id = 0
     },
   }
 });
