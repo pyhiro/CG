@@ -20,7 +20,7 @@ class PointForm(forms.ModelForm):
 class GoodsRegisterForm(forms.ModelForm):
     class Meta:
         model = Goods
-        fields = ('name', 'price', 'category', 'goods_img')
+        fields = ('name', 'price', 'category', 'goods_img', 'detail')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -876,7 +876,7 @@ def goods_db(request):
                                     'goods_value': value.price,
                                     'goods_img': str(value.goods_img),
                                     'goods_category': value.category,
-                                    'goods_show': value.show})
+                                    'goods_detail': value.detail})
     return JsonResponse(goods_dict)
 
 
