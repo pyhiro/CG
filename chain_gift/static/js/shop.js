@@ -9,7 +9,8 @@ Vue.component('open-modal',{
         <div id="content">
           <slot></slot>
           <span class ="closebtn">
-            <a href="http:/..." onclick="return false;" class="mdl_btn_close square_btn" v-on:click="clickEvent">close</span></a>
+            <a href="http:/..." onclick="return false;" class="mdl_btn_close square_btn" v-on:click="clickEvent">close</a>
+          </span>
         </div>
     </div>
     `,
@@ -46,7 +47,7 @@ var app = new Vue({
       inModal_Image:'',
       // モーダル表示用のポイント
       inModal_price:0,
-
+      //商品購入用にモーダル表示中の商品IDを格納するもの
       inModal_id:0,
   },
   created: function() {
@@ -157,5 +158,5 @@ var app = new Vue({
       this.inModal_price = 0
       this.inModal_id = 0
     },
-  }
+  },
 });

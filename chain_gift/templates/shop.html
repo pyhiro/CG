@@ -1,23 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
 {% block nav %}
-<li class="fh5co-active"><a href="/home">Home</a></li>
-<li><a href="/message">Message</a></li>
-<li><a href="/point">Point</a></li>
-{% if not user.is_superuser %}
-<li><a href="/profile/{{ user.student_id }}">Profile</a></li>
-<li><a href="/user_search">Search</a></li>
-<li><a href="/grades">Grades</a></li>
-{% endif %}
-{% if user.is_superuser %}
-<li><a href="/settings">Settings</a></li>
-<li><a href="/management">management</a></li>
-{% endif %}
-<li><a href="/logout">Logout</a></li>
-{% if not user.is_superuser %}
-<li><h4>{{total}} pt</h4></li>
-<li><h5>新しいメッセージ {{ not_notified_message_count }}件</h5></li>
-{% endif %}
+    <li><a href="/home">Home</a></li>
+    <li><a href="/message">Message</a></li>
+    <li><a href="/point">Point</a></li>
+    <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
+    <li><a href="/user_search">Search</a></li>
+    <li class="fh5co-active"><a href="/shop">Shop</a></li>
+    <li><a href="/logout">Logout</a></li>
+    {% if not user.is_superuser %}
+    <li><h4>{{total}} pt</h4></li>
+    {% endif %}
+    {% if user.is_superuser %}
+    <li><a href="/management">management</a></li>
+    {% endif %}
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -84,7 +80,7 @@
                                 <li class="contens-li" style="width: 207px;">
                                     <span class="list-item">
                                         <div class="list-item-list">
-                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;" v-on:click="openModal(product.goods_name,product.goods_img,product.goods_value,product_id)">
+                                            <a class="contens" style="width: 207px;" href="http:/..." onclick="return false;" v-on:click="openModal(product.goods_name,product.goods_img,product.goods_value,product.goods_id)">
 
                                                 <div class="image">
                                                     <span class="image-style">
@@ -117,7 +113,6 @@
                                 <img :src="`http://localhost:8000/media/${inModal_Image}`" alt="" class="in_Image">
                             </div>
                             <div class="Modal_detail">
-
                                 <div class="Modal_name">
                                     <span class="in_name">[[ inModal_name ]]</span>
                                 </div>
@@ -126,25 +121,15 @@
                                     ポイント
                                 </div>
                                 <div class="Modal_txt">
-                                  
+                                    <span class="in_txt">
                                     <!--[[ inModal_txt ]]-->
-                                   
-                                       
-                                       
-                                    <p>ここに説明が入る</p>
-                                    
+                                    ここに説明が入る
+                                    </span>
                                 </div>
                                 <div class="Modal_butoon">
-                                
-                                <span class="inbox">
-                                    <a href="#" onclick="return false;" class="square_btn">かごに入れる　</a>
-                                </span>
-                               
-                                <span class="buybox">
-                                    <a href="`http://localhost:8000/buy/${inModal_id}`"  class="square_btn">購入</a>
-                                </span>
-                            </div>
-                            
+                                    <a :href="'/buy/'+inModal_id" class="sqsuare_btn">購入</a>
+                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる</a>
+                                </div>
                             </div>
                     </open-modal>
                 </div>
