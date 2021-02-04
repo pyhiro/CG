@@ -64,4 +64,5 @@ urlpatterns = [
     path('deleted/', views.deleted, name='super_point'),
     path('to_deleted/', views.to_deleted, name='super_point'),
     path('buy/<int:pk>', views.buy_goods, name='buy_goods'),
+    path('done/<int:pk>', views.done, name='done'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

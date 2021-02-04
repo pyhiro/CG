@@ -331,6 +331,16 @@ def message(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+def done(request):
+    user = request.user
+    if user.delete_flag:
+        return redirect('/logout')
+    if not user.login_flag:
+        return redirect(f'/change?next=/shop')
+    return render(request, 'done.html', {'next': 'home'})
+
+
+@login_required
 def message_detail(request: HttpResponse, pk: int) -> JsonResponse:
     msg: Message = Message.objects.get(id=pk)
     user: User = request.user
