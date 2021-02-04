@@ -47,6 +47,8 @@ var app = new Vue({
       inModal_Image:'',
       // モーダル表示用のポイント
       inModal_price:0,
+      //モーダル表示用の商品説明
+      inModal_txt:'',
       //商品購入用にモーダル表示中の商品IDを格納するもの
       inModal_id:0,
   },
@@ -143,12 +145,13 @@ var app = new Vue({
       return newList;
     },
     //モーダル表示用及びモーダルの情報を挿入
-    openModal: function(n,i,p,q){
+    openModal: function(n,i,p,q,t){
       this.showContent = true
       this.inModal_name = n
       this.inModal_Image = i
       this.inModal_price = p
       this.inModal_id = q
+      this.inModal_txt =t
     },
     //モーダル非表示及び情報の初期化
     closeModal: function(){
