@@ -8,7 +8,8 @@ Vue.component('open-modal',{
     <div id="overlay">
         <div id="content">
           <slot></slot>
-            <a href="http:/..." onclick="return false;" class="mdl_btn_close square_btn" v-on:click="clickEvent">close</a>
+          <span class ="closebtn">
+            <a href="http:/..." onclick="return false;" class="mdl_btn_close square_btn" v-on:click="clickEvent">close</span></a>
         </div>
     </div>
     `,

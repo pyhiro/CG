@@ -159,10 +159,31 @@
   .in_price {
 	  font-size: 21px;
   }
-  .Modal_butoon {
-	clear: left;;
-  }
+  
   .Modal_txt {
 	margin: 4em auto 1.5em;
 	word-wrap: break-word;
-  }
+	}
+	
+	.Modal_butoon{
+		margin:4rem;
+	}
+
+
+	.closebtn {
+	float:right;
+	height: 100;
+	}
+
+	.Modal_txt{
+	color: #006DD9;
+	width: 400px;
+	height: 100px;
+	}
+	p{
+		width: 500px;
+	}
+	
+	p.w-nomal{
+		word-wrap: normal;
+	}

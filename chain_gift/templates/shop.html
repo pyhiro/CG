@@ -113,6 +113,7 @@
                                 <img :src="`http://localhost:8000/media/${inModal_Image}`" alt="" class="in_Image">
                             </div>
                             <div class="Modal_detail">
+
                                 <div class="Modal_name">
                                     <span class="in_name">[[ inModal_name ]]</span>
                                 </div>
@@ -121,15 +122,25 @@
                                     ポイント
                                 </div>
                                 <div class="Modal_txt">
-                                    <span class="in_txt">
+                                  
                                     <!--[[ inModal_txt ]]-->
-                                    ここに説明が入る
-                                    </span>
+                                   
+                                       
+                                       
+                                    <p>ここに説明が入る</p>
+                                    
                                 </div>
                                 <div class="Modal_butoon">
+                                
+                                <span class="inbox">
+                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる　</a>
+                                </span>
+                               
+                                <span class="buybox">
                                     <a href="http:/..." onclick="return false;" class="square_btn">購入</a>
-                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる</a>
-                                </div>
+                                </span>
+                            </div>
+                            
                             </div>
                     </open-modal>
                 </div>
