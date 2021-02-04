@@ -25,7 +25,7 @@ SECRET_KEY = '2qk96ri$sc1$vlhq-3xot7-@0ku3@1d6kphmv^c480@rmn$v(p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chain_gift',
     'axes',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,8 @@ AXES_ONLY_USER_FAILURES = True
 AXES_FAILURE_LIMIT = 6
 AXES_LOCKOUT_TEMPLATE = 'lockout.html'
 
+RUNSERVERPLUS_SERVER_ADDRESS_PORT = '0.0.0.0:443'
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

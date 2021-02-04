@@ -1633,8 +1633,8 @@ def return_csv(request, pk: int, order: str):
         ordered_list.insert(0, header)
         data = np.array(ordered_list)
 
-    np.savetxt(f'media/{t.year}-{t.grade_id}_test_result.csv', data, delimiter=",", fmt='%s')
-    response = HttpResponse(open(f'media/{t.year}-{t.grade_id}_test_result.csv', 'rb').read(), content_type='text/csv')
+    np.savetxt(f'media/{t.year}-{t.grade_id}_test_result.csv', data, delimiter=",", fmt='%s', encoding='shift-jis')
+    response = HttpResponse(open(f'media/{t.year}-{t.grade_id}_test_result.csv', 'rb').read(), content_type='text/csv; charset=Shift-JIS')
     response['Content-Disposition'] = f'attachment; filename="{t.year}-{t.grade_id}_test_result.csv"'
     os.remove(f'media/{t.year}-{t.grade_id}_test_result.csv')
     return response
@@ -1806,7 +1806,7 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
 
 
 def make_qr(student_id):
-    qr = f'http://34.201.9.45:80/point_send/{student_id}'
+    qr = f'https://34.201.9.45:80/point_send/{student_id}'
     file_name = f"media/{student_id}.png"
 
     img = qrcode.make(qr)
