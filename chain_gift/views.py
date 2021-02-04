@@ -20,15 +20,13 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from bisect import bisect
 import datetime
+from email import message
 import hashlib
-import json
 import os
 import random
 import smtplib
-import ssl
 import string
 from typing import (List, Tuple, Union)
-from email.mime.text import MIMEText
 import urllib
 
 import base58
@@ -166,7 +164,7 @@ def point_send(request: HttpRequest, pk: str) -> HttpResponse:
         msg_count: MessageCount = MessageCount(from_grade_id=user.grade_id, from_class_id=user.class_id,
                                                to_grade_id=to_user.grade_id, to_class_id=to_user.class_id)
         msg_count.save()
-        return redirect(f'/profile/{pk}')
+        return render(request, 'done.html', {'next': f'profile/{pk}'})
     return JsonResponse({'message': 'fail', 'response': response}, status=400)
 
 
@@ -692,9 +690,40 @@ def edit_profile(request: HttpRequest) -> HttpResponse:
     return render(request, 'edit_profile.html', {'form': form})
 
 
+@login_required
 def shop_home(request):
+    user: User = request.user
+    if user.delete_flag:
+        return redirect('/logout')
+    if not user.login_flag:
+        return redirect(f'/change?next=login_flag')
     data = Goods.objects.all()
-    return render(request, 'shop.html', {'data': data})
+    not_notified_messages: QuerySet = Message.objects.filter(notify_flag=0, recipient=user.student_id)
+    not_notified_message_count: int = len(not_notified_messages)
+    my_blockchain_address: str = user.blockchain_address
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'amount'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        total: int = response.json()['amount']
+    else:
+        total: str = ''
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        can_buy_total: int = response.json()['can_buy']
+    else:
+        can_buy_total: str = ''
+    if user.is_superuser:
+        not_notified_message_count = 0
+    params = {'not_notified_message_count': not_notified_message_count,
+              'total': total,
+              'can_buy_total': can_buy_total,
+              'data': data}
+    return render(request, 'shop.html', params)
 
 
 @login_required
@@ -738,7 +767,7 @@ def signup(request: HttpRequest) -> HttpResponse:
                          sender_public_key=secret.public_key,
                          recipient_blockchain_address=w.blockchain_address,
                          value=300)
-        send_gmail(password, data['email'])
+        send_mail(password, data['email'])
         return render(request, 'signup.html', {'form': form, 'msg': msg})
 
     form = SignUpForm()
@@ -799,6 +828,29 @@ def goods_register(request: HttpRequest) -> HttpResponse:
 
     form: GoodsRegisterForm = GoodsRegisterForm()
     return render(request, 'goods_register.html', {'form': form})
+
+
+@login_required
+def buy_goods(request: HttpRequest, pk: int) -> HttpResponse:
+    user: User = request.user
+    if not user.is_superuser:
+        return redirect('/home')
+    goods = Goods.objects.get(id=pk)
+    price = goods.price
+    hashed_id: str = hashlib.sha256(user.student_id.encode()).hexdigest()
+    secret: Secret = Secret.objects.get(id_hash=hashed_id)
+
+    sender_private_key: str = secret.private_key
+    sender_blockchain_address: str = user.blockchain_address
+    recipient_blockchain_address: str = 'Chain Gift'
+    sender_public_key: str = secret.public_key
+    value: int = int(price)
+
+    response: Response = post_transaction(sender_private_key, sender_public_key,
+                                          sender_blockchain_address, recipient_blockchain_address,
+                                          value)
+
+    return redirect('/done')
 
 
 def goods_db(request):
@@ -1147,7 +1199,7 @@ def forget_password(request):
         random_query_str = ''.join(random_query)
         user.password_change_query = random_query_str
         user.save()
-        send_gmail(email=user.email, query=random_query_str)
+        send_mail(email=user.email, query=random_query_str)
         return redirect('/login')
     form = PasswordForgetForm()
     return render(request, 'forget.html', {'form': form})
@@ -1171,7 +1223,7 @@ def forget_change_password(request):
     user.password_change_query = None
     user.login_flag = False
     user.save()
-    send_gmail(password=password, email=user.email, subject='パスワード更新')
+    send_mail(password=password, email=user.email, subject='パスワード更新')
     user = authenticate(request=request, email=email, password=password)
     login(request, user)
     return redirect('/change')
@@ -1716,31 +1768,35 @@ def paginate_queryset(request, queryset, count):
     return page_obj
 
 
-def send_gmail(password=None, email=None, query=None, subject='初回ログイン'):
+def send_mail(password=None, email=None, query=None, subject='初回ログイン'):
     with open('chain_gift/config.yaml', 'r') as file:
         config = yaml.load(file, Loader=yaml.SafeLoader)
-    gmail_account = config['account'][0]
-    gmail_password = config['password'][0]
+    mail_account = config['account'][0]
+    mail_password = config['password'][0]
     mail_to = email
 
-    body = 'chain gift\nパスワード: ' + password
+    body = f'chain gift\nパスワード: {password}'
     if query:
         subject = 'パスワード再発行'
         contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttp://127.0.0.1:8000/forget_change?rand_query={query}&email={email}'
         body = contents
-    msg = MIMEText(body, "html")
+    msg = message.EmailMessage()
+    msg.set_content(body)
     msg["Subject"] = subject
     msg["To"] = mail_to
-    msg["From"] = gmail_account
+    msg["From"] = mail_account
 
-    server = smtplib.SMTP_SSL("smtp.gmail.com", 465,
-                              context=ssl.create_default_context())
-    server.login(gmail_account, gmail_password)
+    server = smtplib.SMTP("smtp.live.com", 587)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+    server.login(mail_account, mail_password)
     server.send_message(msg)
+    server.quit()
 
 
 def make_qr(student_id):
-    qr = f'http://127.0.0.1:8000/point_send/{student_id}'
+    qr = f'http://34.201.9.45:80/point_send/{student_id}'
     file_name = f"media/{student_id}.png"
 
     img = qrcode.make(qr)
