@@ -1785,10 +1785,10 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
     mail_password = config['password'][0]
     mail_to = email
 
-    body = f'chain gift\nパスワード: {password}'
+    body = f'chain gift\nパスワード: {password}\nhttps://34.201.9.45'
     if query:
         subject = 'パスワード再発行'
-        contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttp://127.0.0.1:8000/forget_change?rand_query={query}&email={email}'
+        contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttps://34.201.9.45/forget_change?rand_query={query}&email={email}'
         body = contents
     msg = message_.EmailMessage()
     msg.set_content(body)
@@ -1806,7 +1806,7 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
 
 
 def make_qr(student_id):
-    qr = f'https://34.201.9.45:80/point_send/{student_id}'
+    qr = f'https://34.201.9.45/point_send/{student_id}'
     file_name = f"media/{student_id}.png"
 
     img = qrcode.make(qr)
