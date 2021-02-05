@@ -682,9 +682,25 @@ def edit_profile(request: HttpRequest) -> HttpResponse:
 
             user: Union[User, Exception] = get_object_or_404(User, student_id=user.student_id)
             after: str = user.profile_img
+            img_tmp_rotate = ''
             if after and before != after:
                 img = Image.open(f'media/{after}')
-                img_resize = img.resize((256, 256))
+                try:
+                    # exif情報取得
+                    exifinfo = img._getexif()
+                    # exif情報からOrientationの取得
+                    orientation = exifinfo.get(0x112, 1)
+                    # 画像を回転
+                    img_tmp_rotate = rotateImage(img, orientation)
+                    # 回転した画像を保存（元の画像に上書き）
+                except:
+                    # exif情報が取得できなかった場合は、そのまま処理を続ける
+                    # ホントは拡張子でexifを取得する、しないを判別した方がいいかもしれない。
+                    pass
+                if img_tmp_rotate:
+                    img_resize = img_tmp_rotate.resize((256, 256))
+                else:
+                    img_resize = img.resize((256, 256))
                 img_resize.save(f'media/{after}')
             if before and not after:
                 os.remove(f'media/{before}')
@@ -1885,3 +1901,37 @@ def atoi(text):
 
 def natural_keys(text):
     return [atoi(c) for c in re.split(r'(\d+)', text)]
+
+
+def rotateImage(img, orientation):
+    """
+    画像ファイルをOrientationの値に応じて回転させる
+    """
+    #orientationの値に応じて画像を回転させる
+    if orientation == 1:
+        pass
+    elif orientation == 2:
+        #左右反転
+        img_rotate = img.transpose(Image.FLIP_LEFT_RIGHT)
+    elif orientation == 3:
+        #180度回転
+        img_rotate = img.transpose(Image.ROTATE_180)
+    elif orientation == 4:
+        #上下反転
+        img_rotate = img.transpose(Image.FLIP_TOP_BOTTOM)
+    elif orientation == 5:
+        #左右反転して90度回転
+        img_rotate = img.transpose(Image.FLIP_LEFT_RIGHT).transpose(Image.ROTATE_90)
+    elif orientation == 6:
+        #270度回転
+        img_rotate = img.transpose(Image.ROTATE_270)
+    elif orientation == 7:
+        #左右反転して270度回転
+        img_rotate = img.transpose(Image.FLIP_LEFT_RIGHT).transpose(Image.ROTATE_270)
+    elif orientation == 8:
+        #90度回転
+        img_rotate = img.transpose(Image.ROTATE_90)
+    else:
+        pass
+
+    return img_rotate
