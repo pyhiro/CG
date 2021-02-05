@@ -20,7 +20,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from bisect import bisect
 import datetime
-from email import message
+from email import message as message_
 import hashlib
 import os
 import random
@@ -1790,7 +1790,7 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
         subject = 'パスワード再発行'
         contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttp://127.0.0.1:8000/forget_change?rand_query={query}&email={email}'
         body = contents
-    msg = message.EmailMessage()
+    msg = message_.EmailMessage()
     msg.set_content(body)
     msg["Subject"] = subject
     msg["To"] = mail_to
