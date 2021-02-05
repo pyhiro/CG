@@ -52,7 +52,7 @@
                             $("#sender_recipient").text(sender)
                         }
                         $("#point").text(point+"ポイント")
-                        $("#time").text(jp_time)
+                        $("#time").text(time)
 					},
 					error: function(){
 					}
