@@ -449,6 +449,12 @@ figure figcaption {
   #fh5co-hero .flexslider .slider-text > .slider-text-inner .btn {
     width: 100%;
   }
+  .responsive-top {
+    width: 100% !important;
+  }
+  .responsive-btn {
+  width: 50% !important;
+  }
 }
 
 .fh5co-bg-color {
