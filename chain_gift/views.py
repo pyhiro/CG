@@ -763,7 +763,7 @@ def signup(request: HttpRequest) -> HttpResponse:
         user.grade_id = 1
         w = wallet.Wallet()
         user.blockchain_address: str = w.blockchain_address
-        qr_img_name = make_qr(user.student_id)
+        qr_img_name = make_qrcode(user.student_id)
         user.qr_img = qr_img_name
         user.save()
         msg = 'ユーザーの作成に成功しました'
@@ -1810,7 +1810,7 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
     server.quit()
 
 
-def make_qr(student_id):
+def make_qrcode(student_id):
     qr = f'https://34.201.9.45/point_send/{student_id}'
     file_name = f"media/{student_id}.png"
 
