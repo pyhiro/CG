@@ -1007,18 +1007,23 @@ def get_ranking(request):
         receive_rank = []
         send_rank = []
         for k, v in tmp_rank['receive_ranking'].items():
-            user = User.objects.get(blockchain_address=k)
-            receive_rank.append({'username': user.username,
-                                 'point': v,
-                                 'stu_id': user.student_id,
-                                 'img_url': str(user.profile_img)})
-
+            try:
+                user = User.objects.get(blockchain_address=k)
+                receive_rank.append({'username': user.username,
+                                     'point': v,
+                                     'stu_id': user.student_id,
+                                     'img_url': str(user.profile_img)})
+            except:
+                pass
         for k, v in tmp_rank['send_ranking'].items():
-            user = User.objects.get(blockchain_address=k)
-            send_rank.append({'username': user.username,
-                              'point': v,
-                              'stu_id': user.student_id,
-                              'img_url': str(user.profile_img)})
+            try:
+                user = User.objects.get(blockchain_address=k)
+                send_rank.append({'username': user.username,
+                                  'point': v,
+                                  'stu_id': user.student_id,
+                                  'img_url': str(user.profile_img)})
+            except:
+                pass
         sorted_send_ranking = sorted(send_rank, key=lambda x: x['point'], reverse=True)
         sorted_receive_ranking = sorted(receive_rank, key=lambda x: x['point'], reverse=True)
         rank_idx = 1
