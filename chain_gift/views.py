@@ -525,7 +525,7 @@ def point(request: HttpRequest) -> HttpResponse:
         if response.status_code == 200:
             total: int = response.json()['amount']
         else:
-            total: str = ''
+            total: int = 0
         params['total'] = total
         response: Response = requests.get(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
@@ -534,12 +534,9 @@ def point(request: HttpRequest) -> HttpResponse:
         if response.status_code == 200:
             can_buy_total: int = response.json()['can_buy']
         else:
-            can_buy_total: str = 0
+            can_buy_total: int = 0
         params['can_buy_total'] = can_buy_total
-        if total and can_buy_total:
-            only_send = total - can_buy_total
-        else:
-            only_send = 0
+        only_send = total - can_buy_total
         params['only_send'] = only_send
         params['not_notified_message_count'] = not_notified_message_count
         return render(request, 'point.html', params, status=200)
@@ -1806,10 +1803,10 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
     mail_password = config['password'][0]
     mail_to = email
 
-    body = f'chain gift\nパスワード: {password}\nhttps://34.201.9.45'
+    body = f'chain gift\nパスワード: {password}\nhttps://www.chaingift.tokyo'
     if query:
         subject = 'パスワード再発行'
-        contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttps://34.201.9.45/forget_change?rand_query={query}&email={email}'
+        contents = f'下記のリンクにアクセス後、登録されているメールアドレス宛てに新パスワードを送信します。\nhttps://www.chaingift.tokyo/forget_change?rand_query={query}&email={email}'
         body = contents
     msg = message_.EmailMessage()
     msg.set_content(body)
@@ -1827,7 +1824,7 @@ def send_mail(password=None, email=None, query=None, subject='初回ログイン
 
 
 def make_qrcode(student_id):
-    qr = f'https://34.201.9.45/point_send/{student_id}'
+    qr = f'https://www.chaingift.tokyo/point_send/{student_id}'
     file_name = f"media/{student_id}.png"
 
     img = qrcode.make(qr)
