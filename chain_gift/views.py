@@ -762,7 +762,7 @@ def shop_home(request):
     if response.status_code == 200:
         total: int = response.json()['amount']
     else:
-        total: str = ''
+        total: int = 0
     response: Response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
         {'blockchain_address': my_blockchain_address},
@@ -770,12 +770,21 @@ def shop_home(request):
     if response.status_code == 200:
         can_buy_total: int = response.json()['can_buy']
     else:
-        can_buy_total: str = ''
+        can_buy_total: int = 0
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'buy_except_pool'),
+        {'blockchain_address': my_blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        can_buy_total_except_pool: int = response.json()['except_pool']
+    else:
+        can_buy_total_except_pool: int = 0
     if user.is_superuser:
         not_notified_message_count = 0
     params = {'not_notified_message_count': not_notified_message_count,
               'total': total,
               'can_buy_total': can_buy_total,
+              'can_buy_total_except_pool': can_buy_total_except_pool,
               'data': data}
     return render(request, 'shop.html', params)
 
@@ -903,6 +912,16 @@ def buy_goods(request: HttpRequest, pk: int) -> HttpResponse:
     sender_public_key: str = secret.public_key
     value: int = int(price)
 
+    response: Response = requests.get(
+        urllib.parse.urljoin('http://127.0.0.1:5000', 'buy_except_pool'),
+        {'blockchain_address': user.blockchain_address},
+        timeout=5)
+    if response.status_code == 200:
+        can_buy_total_except_pool: int = response.json()['except_pool']
+    else:
+        can_buy_total_except_pool = 0
+    if price > can_buy_total_except_pool:
+        return redirect('/shop')
     response: Response = post_transaction(sender_private_key, sender_public_key,
                                           sender_blockchain_address, recipient_blockchain_address,
                                           value)
