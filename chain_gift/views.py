@@ -844,7 +844,7 @@ def goods_register(request: HttpRequest) -> HttpResponse:
         goods.detail = form.data['detail']
         goods.save()
         form = GoodsRegisterForm()
-        params = {'msg': 'success',
+        params = {'msg': '登録しました',
                   'form': form}
         return render(request, 'goods_register.html', params)
 

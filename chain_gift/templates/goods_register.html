@@ -67,6 +67,7 @@
 <body>
 <div style="display: block; height: 5rem;"></div>
 <h3 class="login-box-msg" style="text-align:center"><b>プロフィール編集</b></h3>
+<p style="text-align: center">{{msg}}</p>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
