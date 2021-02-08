@@ -73,7 +73,9 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+							{% if not request.user.is_superuser %}
 							<h2 class="fh5co-lead responsive-center" style="margin: 0 auto">myQRコード</h2>
+							{% endif %}
 						</div>
 
 					</div>

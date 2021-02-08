@@ -45,6 +45,11 @@ class Login(LoginView):
     template_name: str = 'login.html'
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
+        forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+        if forwarded_addresses:
+            client_addr = forwarded_addresses.split(',')[0]
+        else:
+            client_addr = request.META.get('REMOTE_ADDR')
         if self.request.user.is_authenticated:
             return redirect('/home')
         return render(request, self.template_name, {'form': self.form_class})
@@ -605,7 +610,7 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
                         recipient=user.student_id, point=value).save()
                 MessageCount(from_grade_id=user.grade_id, from_class_id=user.class_id,
                              to_grade_id=user.grade_id, to_class_id=user.class_id).save()
-            return redirect(f'/profile/{pk}')
+            return render(request, 'done.html', {'next': f'profile/{pk}'})
         else:
             return redirect('/home/')
     params = {
@@ -1486,7 +1491,7 @@ def test_result_super(request, pk: int, order: str):
     else:
         test_type = ''
     test_title = f'{t.year}年度 {semester}期 {t.grade_id}学年 {test_type}'
-    users = User.objects.filter(grade_id=t.grade_id).values('student_id').distinct()
+    users = Grades.objects.filter(test_id=pk).values('student_id').distinct()
     name_and_grades = dict()
     sorted_user_list = {}
     try:
