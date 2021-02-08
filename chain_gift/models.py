@@ -78,10 +78,11 @@ class Message(models.Model):
 
 
 class Goods(models.Model):
+    CHOICES = ((1, '文房具'), (2, '参考書'), (3, 'スタンプ'), (4, 'その他'))
     price = models.IntegerField()
     name = models.CharField(max_length=50)
     goods_img = models.ImageField(_('image'), upload_to='', blank=True, null=True)
-    category = models.CharField(max_length=50, null=True)
+    category = models.CharField(max_length=50, null=True, choices=CHOICES)
     detail = models.CharField(max_length=150, null=True)
     show = models.BooleanField(default=False)
 

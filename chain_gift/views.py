@@ -834,13 +834,18 @@ def goods_register(request: HttpRequest) -> HttpResponse:
     if not user.is_superuser:
         return redirect('/home')
     if request.method == 'POST':
+        CHOICES = ((1, '文房具'), (2, '参考書'), (3, 'スタンプ'), (4, 'その他'))
         form: GoodsRegisterForm = GoodsRegisterForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('/goods/register')
-        else:
-            form: GoodsRegisterForm = GoodsRegisterForm()
-            params = {'form': form, 'message': '値が不正です'}
+        goods = Goods()
+        goods.price = form.data['price']
+        goods.name = form.data['name']
+        goods.category = CHOICES[int(form.data['category'])][1]
+        goods.goods_img = form.files['goods_img']
+        goods.detail = form.data['detail']
+        goods.save()
+        form = GoodsRegisterForm()
+        params = {'msg': 'success',
+                  'form': form}
         return render(request, 'goods_register.html', params)
 
     form: GoodsRegisterForm = GoodsRegisterForm()
