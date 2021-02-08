@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
 {% block nav %}
-    <li><a href="/home">Home</a></li>
-    <li><a href="/message">Message</a></li>
-    <li><a href="/point">Point</a></li>
-    <li><a href="/profile/{{ user.student_id }}">Profile</a></li>
-    <li><a href="/user_search">Search</a></li>
-    <li class="fh5co-active"><a href="/shop">Shop</a></li>
-    <li><a href="/logout">Logout</a></li>
-    {% if not user.is_superuser %}
-    <li><h4>{{total}} pt</h4></li>
-    {% endif %}
-    {% if user.is_superuser %}
-    <li><a href="/management">management</a></li>
-    {% endif %}
+<li><a href="/home">Home</a></li>
+<li><a href="/message">Message</a></li>
+<li><a href="/point">Point</a></li>
+<li><a href="/profile/{{ user.student_id }}">Profile</a></li>
+<li><a href="/user_search">Search</a></li>
+<li class="fh5co-active"><a href="/shop">Shop</a></li>
+<li><a href="/logout">Logout</a></li>
+{% if not user.is_superuser %}
+<li><h4>{{total}} pt</h4></li>
+{% endif %}
+{% if user.is_superuser %}
+<li><a href="/management">management</a></li>
+{% endif %}
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -40,7 +40,7 @@
     <body>
         <div class="fh5co-narrow-content">
             <div id="app">
-                <div class="container ">
+                <div>
                     <div class="menue">
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(allList())" >すべての商品　</a>
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(stampList())" >スタンプ　</a>
@@ -60,7 +60,11 @@
                             </div>
                             <div class="sort">
                                 <label for="sort">並び替え</label>
+                                {% if user.dark_mode %}
+                                <select id="sort" class="sprting" v-model.number="sortOrder" style="background: #182636">
+                                {% else %}
                                 <select id="sort" class="sprting" v-model.number="sortOrder">
+                                {% endif %}
                                     <option value="1">標準</option>
                                     <option value="2">ポイントが安い順</option>
                                     <option value="3">ポイントが高い順</option>
@@ -127,7 +131,6 @@
                                 </div>
                                 <div class="Modal_butoon">
                                     <a :href="'/buy/'+inModal_id" class="sqsuare_btn">購入</a>
-                                    <a href="http:/..." onclick="return false;" class="square_btn">かごに入れる</a>
                                 </div>
                             </div>
                     </open-modal>
@@ -138,5 +141,13 @@
         </div>
     </body>
 </div>
+<style>
+    {% if user.dark_mode %}
+    #content {
+        background: #182636;
+        color: white;
+    }
+    {% endif %}
+</style>
 </html>
 {% endblock %}

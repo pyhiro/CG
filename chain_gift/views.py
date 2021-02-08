@@ -850,8 +850,6 @@ def goods_register(request: HttpRequest) -> HttpResponse:
 @login_required
 def buy_goods(request: HttpRequest, pk: int) -> HttpResponse:
     user: User = request.user
-    if not user.is_superuser:
-        return redirect('/home')
     goods = Goods.objects.get(id=pk)
     price = goods.price
     hashed_id: str = hashlib.sha256(user.student_id.encode()).hexdigest()
