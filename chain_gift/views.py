@@ -1980,7 +1980,7 @@ def rotateImage(img, orientation):
     """
     #orientationの値に応じて画像を回転させる
     if orientation == 1:
-        pass
+        img_rotate = img
     elif orientation == 2:
         #左右反転
         img_rotate = img.transpose(Image.FLIP_LEFT_RIGHT)
@@ -2003,6 +2003,6 @@ def rotateImage(img, orientation):
         #90度回転
         img_rotate = img.transpose(Image.ROTATE_90)
     else:
-        pass
+        img_rotate = img
 
     return img_rotate
