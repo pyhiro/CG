@@ -22,6 +22,7 @@ from bisect import bisect
 import datetime
 from email import message as message_
 import hashlib
+import logging
 import os
 import random
 import smtplib
@@ -40,16 +41,14 @@ import yaml
 from . import wallet
 
 
+logger = logging.getLogger(__name__)
+
+
 class Login(LoginView):
     form_class = LoginForm
     template_name: str = 'login.html'
 
     def get(self, request, *args, **kwargs) -> HttpResponse:
-        forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
-        if forwarded_addresses:
-            client_addr = forwarded_addresses.split(',')[0]
-        else:
-            client_addr = request.META.get('REMOTE_ADDR')
         if self.request.user.is_authenticated:
             return redirect('/home')
         return render(request, self.template_name, {'form': self.form_class})
@@ -143,6 +142,14 @@ def point_send(request: HttpRequest, pk: str) -> HttpResponse:
                   'total': total,
                   'only_send': only_send}
         return render(request, 'send.html', params)
+    forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+    if forwarded_addresses:
+        client_address = forwarded_addresses.split(',')[0]
+    else:
+        client_address = request.META.get('REMOTE_ADDR')
+    logger.info({
+        'action': 'point send', 'from ip address': client_address
+    })
     form = PointForm(request.POST)
     if not form.data['point'].isdigit() or int(form.data['point']) <= 0:
         return redirect(f'/point_send/{pk}')
@@ -414,8 +421,20 @@ def message_delete(request, pk: int, sender_or_recipient: str) -> HttpResponse:
 
 @login_required
 def super_point(request: HttpRequest) -> HttpResponse:
+    forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+    if forwarded_addresses:
+        client_address = forwarded_addresses.split(',')[0]
+    else:
+        client_address = request.META.get('REMOTE_ADDR')
+    logger.info({
+        'action': 'access super point', 'from ip address': client_address
+    })
     user: User = request.user
     if not user.is_superuser:
+        logger.info({
+            'action': 'access super point', 'from ip address': client_address,
+            'permission': 'not allowed'
+        })
         return redirect('/home')
 
     if request.method == 'POST':
@@ -453,9 +472,13 @@ def super_point(request: HttpRequest) -> HttpResponse:
             'signature': transaction.generate_signature(),
         }
 
-        response: Response= requests.post(
+        response: Response = requests.post(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
             json=json_data_send, timeout=10)
+        logger.info({
+            'action': 'send super point', 'from ip address': client_address,
+            'status': 'done'
+        })
 
         if response.status_code == 201:
             for usr in users:
@@ -605,6 +628,15 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions'),
             json=json_data_return, timeout=10)
         if response.status_code == 201:
+            forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+            if forwarded_addresses:
+                client_address = forwarded_addresses.split(',')[0]
+            else:
+                client_address = request.META.get('REMOTE_ADDR')
+            logger.info({
+                'action': 'send point', 'from ip address': client_address,
+                'status': 'done'
+            })
             if message:
                 Message(contents=message, sender=request.user.student_id,
                         recipient=user.student_id, point=value).save()
@@ -874,7 +906,16 @@ def buy_goods(request: HttpRequest, pk: int) -> HttpResponse:
     response: Response = post_transaction(sender_private_key, sender_public_key,
                                           sender_blockchain_address, recipient_blockchain_address,
                                           value)
-
+    if response.status_code == 200:
+        forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+        if forwarded_addresses:
+            client_address = forwarded_addresses.split(',')[0]
+        else:
+            client_address = request.META.get('REMOTE_ADDR')
+        logger.info({
+            'action': 'buy goods', 'from ip address': client_address,
+            'status': 'done'
+        })
     return redirect('/done')
 
 
@@ -1224,12 +1265,25 @@ def forget_password(request):
     if request.method == 'POST':
         form = PasswordForgetForm(request.POST)
         email = form.data['email']
-        user = get_object_or_404(User, email=email)
+        try:
+            user = User.objects.get(email=email)
+        except:
+            return render(request, 'forget.html', {'form': PasswordForgetForm(), 'msg': 'ユーザーが見つかりません'})
         random_query = [random.choice(string.ascii_letters + string.digits) for _ in range(30)]
         random_query_str = ''.join(random_query)
         user.password_change_query = random_query_str
         user.save()
         send_mail(email=user.email, query=random_query_str)
+
+        forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+        if forwarded_addresses:
+            client_address = forwarded_addresses.split(',')[0]
+        else:
+            client_address = request.META.get('REMOTE_ADDR')
+        logger.info({
+            'action': 'forget password', 'from ip address': client_address,
+            'status': 'done', 'email': email
+        })
         return redirect('/login')
     form = PasswordForgetForm()
     return render(request, 'forget.html', {'form': form})
@@ -1238,7 +1292,10 @@ def forget_password(request):
 def forget_change_password(request):
     query = request.GET.get('rand_query')
     email = request.GET.get('email')
-    user = get_object_or_404(User, email=email)
+    try:
+        user = User.objects.get(email=email)
+    except:
+        return render(request, 'forget.html', {'form': PasswordForgetForm(), 'msg': 'ユーザーが見つかりません'})
     if user.password_change_query != query:
         return redirect('/')
     if user.is_authenticated:
@@ -1662,8 +1719,20 @@ def return_csv(request, pk: int, order: str):
 
 @login_required
 def grades_super_point(request, pk: int):
+    forwarded_addresses = request.META.get('HTTP_X_FORWARDED_FOR')
+    if forwarded_addresses:
+        client_address = forwarded_addresses.split(',')[0]
+    else:
+        client_address = request.META.get('REMOTE_ADDR')
+    logger.info({
+        'action': 'access grades super point', 'from ip address': client_address,
+    })
     user = request.user
     if not user.is_superuser:
+        logger.info({
+            'action': 'access grades super point', 'from ip address': client_address,
+            'status': 'permission denied'
+        })
         return redirect('/home')
 
     if request.method == 'POST':
@@ -1732,6 +1801,10 @@ def grades_super_point(request, pk: int):
             urllib.parse.urljoin('http://127.0.0.1:5000', 'transactions_super'),
             json=json_data_send, timeout=10)
         if response.status_code == 201:
+            logger.info({
+                'action': 'send grades super point', 'from ip address': client_address,
+                'status': 'done'
+            })
             semester = t.semester
             if t.semester not in ['前', '中', '後']:
                 semester = t.semester + '学'
