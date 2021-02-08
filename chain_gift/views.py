@@ -191,7 +191,7 @@ def user_search(request: HttpRequest) -> HttpResponse:
         class_id: str = request.POST.get('class_id', None)
         if grade_id and not class_id:
             users: QuerySet = User.objects.filter(grade_id=grade_id, delete_flag=False).exclude(is_superuser=True) \
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form, 'total': total,
@@ -200,7 +200,7 @@ def user_search(request: HttpRequest) -> HttpResponse:
         elif grade_id and class_id:
             users: QuerySet = User.objects.filter(
                 grade_id=grade_id, class_id=class_id, delete_flag=False).exclude(is_superuser=True)\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             form: UserSearchForm = UserSearchForm(request.POST)
             params = {'users': users, 'form': form, 'total': total,
@@ -208,7 +208,7 @@ def user_search(request: HttpRequest) -> HttpResponse:
             return render(request, 'user_search.html', params)
         elif not grade_id and class_id:
             users = User.objects.filter(class_id=class_id, delete_flag=False).exclude(is_superuser=True)\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form, 'total': total,
@@ -217,7 +217,7 @@ def user_search(request: HttpRequest) -> HttpResponse:
         else:
             form = UserSearchForm(initial={'grade_id': ''})
             users = User.objects.exclude(delete_flag=True).exclude(is_superuser=True)\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             params = {'users': users, 'form': form, 'total': total,
                       'not_notified_message_count': not_notified_message_count}
@@ -225,7 +225,7 @@ def user_search(request: HttpRequest) -> HttpResponse:
 
     form = UserSearchForm(initial={'grade_id': ''})
     users: QuerySet = User.objects.exclude(delete_flag=True).exclude(is_superuser=True)\
-        .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+        .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
         .order_by('my_grade_id', 'my_class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None,
               'selected_class_id': None, 'form': form,
@@ -910,21 +910,21 @@ def all_users(request):
         class_id = request.POST.get('class_id', None)
         if grade_id and not class_id:
             users = User.objects.filter(grade_id=grade_id, delete_flag=False)\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         elif grade_id and class_id:
             users = User.objects.filter(grade_id=grade_id, class_id=class_id)\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
             return render(request, 'all_user.html', params)
         elif not grade_id and class_id:
             users = User.objects.filter(class_id=class_id)\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             form = UserSearchForm(request.POST)
             params = {'users': users, 'form': form}
@@ -932,14 +932,14 @@ def all_users(request):
         else:
             form = UserSearchForm(initial={'grade_id': ''})
             users = User.objects.all()\
-                .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
+                .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'})\
                 .order_by('my_grade_id', 'my_class_id', 'furigana')
             params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None,'form': form}
             return render(request, 'all_user.html', params)
 
     form = UserSearchForm(initial={'grade_id': ''})
     users = User.objects.all()\
-        .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'}) \
+        .extra(select={'my_grade_id': 'CAST(grade_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'}) \
         .order_by('my_grade_id', 'my_class_id', 'furigana')
     params = {'users': users, 'selected_grade_id': None, 'selected_class_id': None, 'form': form}
     return render(request, 'all_user.html', params)

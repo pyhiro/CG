@@ -205,9 +205,6 @@
         margin: 0 auto;
         height: 20px
     }
-    #content {
-        height: 55%;
-    }
     .list {
     justify-content: center;}
 
@@ -217,4 +214,16 @@
     .search {
         padding-bottom: 20px;
     }
+    .Modal_butoon {
+    margin: 2rem;
+    }
 }
+@media screen and (max-width: 495px) {
+    .Modal_butoon {
+    margin: 0.5rem;
+    }
+  #content{
+	height: 65%;
+  }
+}
+
