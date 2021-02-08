@@ -385,8 +385,8 @@ def message_detail(request: HttpResponse, pk: int) -> JsonResponse:
                          'contents': msg.contents,
                          'point': msg.point,
                          'time': now_str,
-                         'recipient_delete_url': f'http://127.0.0.1:8000/message/delete/{msg.id}/recipient',
-                         'sender_delete_url': f'http://127.0.0.1:8000/message/delete/{msg.id}/sender'})
+                         'recipient_delete_url': f'https://www.chaingift.tokyo/message/delete/{msg.id}/recipient',
+                         'sender_delete_url': f'http://www.chaingift.tokyo/message/delete/{msg.id}/sender'})
 
 
 @login_required
