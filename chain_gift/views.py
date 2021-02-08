@@ -839,7 +839,7 @@ def goods_register(request: HttpRequest) -> HttpResponse:
         goods = Goods()
         goods.price = form.data['price']
         goods.name = form.data['name']
-        goods.category = CHOICES[int(form.data['category'])][1]
+        goods.category = CHOICES[int(form.data['category'])-1][1]
         goods.goods_img = form.files['goods_img']
         goods.detail = form.data['detail']
         goods.save()

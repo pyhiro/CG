@@ -46,6 +46,7 @@
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(stampList())" >スタンプ　</a>
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(bookList())" >参考書　</a>
                         <a href="http:/..." onclick="return false;" v-on:click ="sortList(stationeryList())">文房具　</a>
+                        <a href="http:/..." onclick="return false;" v-on:click ="otherList(stationeryList())">その他　</a>
                         <!--<p style="display:none">[[ category ]]</p>-->
                     </div>
                     <h1 class="pageTitle">>>[[ category ]]</h1>
@@ -88,7 +89,7 @@
 
                                                 <div class="image">
                                                     <span class="image-style">
-                                                        <img :src="`http://localhost:8000/media/${product.goods_img}`" alt="">
+                                                        <img :src="`https://www.chaingift.tokyo/media/${product.goods_img}`" alt="">
                                                     </span>
                                                 </div>
 
@@ -114,7 +115,7 @@
                     <open-modal v-show="showContent" v-on:from-child="closeModal">
 
                             <div class="Modal_Image">
-                                <img :src="`http://localhost:8000/media/${inModal_Image}`" alt="" class="in_Image">
+                                <img :src="`https://www.chaingift.tokyo/media/${inModal_Image}`" alt="" class="in_Image">
                             </div>
                             <div class="Modal_detail">
                                 <div class="Modal_name">

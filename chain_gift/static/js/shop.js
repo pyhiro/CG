@@ -92,6 +92,9 @@ var app = new Vue({
     stationeryList: function() {
       this.category = '文房具';
     },
+    otherList: function() {
+      this.category = 'その他';
+    },
     sortList: function() {
       //絞り混み後のリストを格納する配列
       var newList = [];
@@ -99,16 +102,18 @@ var app = new Vue({
         //表示対象かどうかの判定フラグ
         var isShow = false;
         //スタンプだけの場合
-        if(this.category == 'スタンプ' && this.products[i].goods_category == 'stamp'){
+        if(this.category == 'スタンプ' && this.products[i].goods_category == 'スタンプ'){
           isShow = true;
           //参考書だけの場合
-        }else if(this.category == "参考書"　&& this.products[i].goods_category == 'book'){
+        }else if(this.category == "参考書"　&& this.products[i].goods_category == '参考書'){
           isShow = true;
           //文房具だけの場合
-        }else if(this.category == '文房具' && this.products[i].goods_category == 'stationery'){
+        }else if(this.category == '文房具' && this.products[i].goods_category == '文房具'){
           isShow = true;
           //全商品の場合
-        }else if (this.category == 'すべての商品'){
+        }else if(this.category == '文房具' && this.products[i].goods_category == 'その他'){
+          isShow = true;
+        } else if (this.category == 'すべての商品'){
           isShow = true;
           //何かの拍子にすり抜けた場合
         }else{

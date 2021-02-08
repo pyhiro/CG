@@ -138,10 +138,10 @@
 	float: left;
   }
   .in_Image {
-	max-height: 350px;
-	min-height: 300px;
-	max-width: 350px;
-	min-width: 300px; 
+	max-height: 250px;
+	min-height: 200px;
+	max-width: 250px;
+	min-width: 200px;
   }
   .Modal_name {
 		margin: 1em auto 1.5em;
@@ -187,3 +187,34 @@
 	p.w-nomal{
 		word-wrap: normal;
 	}
+@media screen and (max-width: 768px) {
+  .in_Image {
+	max-height: 150px;
+	min-height: 100px;
+	max-width: 150px;
+	min-width: 100px;
+	margin: 0 auto;
+  }
+  .Modal_Image {
+    width: 100%;
+    height: 150px;
+    float: left;
+    }
+
+    .Modal_txt {
+        margin: 0 auto;
+        height: 20px
+    }
+    #content {
+        height: 55%;
+    }
+    .list {
+    justify-content: center;}
+
+    a {
+        font-size: 15px;
+    }
+    .search {
+        padding-bottom: 20px;
+    }
+}
