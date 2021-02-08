@@ -386,7 +386,7 @@ def message_detail(request: HttpResponse, pk: int) -> JsonResponse:
                          'point': msg.point,
                          'time': now_str,
                          'recipient_delete_url': f'https://www.chaingift.tokyo/message/delete/{msg.id}/recipient',
-                         'sender_delete_url': f'http://www.chaingift.tokyo/message/delete/{msg.id}/sender'})
+                         'sender_delete_url': f'https://www.chaingift.tokyo/message/delete/{msg.id}/sender'})
 
 
 @login_required
@@ -401,7 +401,7 @@ def message_delete(request, pk: int, sender_or_recipient: str) -> HttpResponse:
     if sender_or_recipient == 'sender' and user.student_id == msg.sender:
         msg.sender_delete_flag: bool = True
         msg.save()
-    elif sender_or_recipient == 'recipient' and user.student_id == msg.sender:
+    elif sender_or_recipient == 'recipient' and user.student_id == msg.recipient:
         msg.recipient_delete_flag: bool = True
         msg.save()
     return JsonResponse({'message_id': msg.id})
@@ -1765,7 +1765,6 @@ def super_update(request):
         .extra(select={'my_grade_id': 'CAST(class_id AS INTEGER)', 'my_class_id': 'CAST(class_id AS INTEGER)'}) \
         .order_by('my_grade_id', 'my_class_id', 'furigana')
     if request.method == 'POST':
-        print(request.POST)
         all_student_id = []
         for usr in user_list:
             all_student_id.append(usr.student_id)
