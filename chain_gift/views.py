@@ -119,7 +119,7 @@ def point_send(request: HttpRequest, pk: str) -> HttpResponse:
         if response.status_code == 200:
             total: int = response.json()['amount']
         else:
-            total: str = ''
+            total: int = 0
         response: Response = requests.get(
             urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
             {'blockchain_address': my_blockchain_address},
@@ -127,11 +127,8 @@ def point_send(request: HttpRequest, pk: str) -> HttpResponse:
         if response.status_code == 200:
             can_buy_total: int = response.json()['can_buy']
         else:
-            can_buy_total: str = ''
-        if total and can_buy_total:
-            only_send = total - can_buy_total
-        else:
-            only_send = ''
+            can_buy_total: int = 0
+        only_send = total - can_buy_total
         form = PointForm(initial={'point': user.template_point,
                                   'contents': 'ありがとう'})
 
@@ -627,7 +624,7 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
     if response.status_code == 200:
         total: int = response.json()['amount']
     else:
-        total: str = ''
+        total: int = 0
     params['total'] = total
     response: Response = requests.get(
         urllib.parse.urljoin('http://127.0.0.1:5000', 'can_buy'),
@@ -636,11 +633,8 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
     if response.status_code == 200:
         can_buy_total: int = response.json()['can_buy']
     else:
-        can_buy_total: str = ''
-    if total and can_buy_total:
-        only_send = total - can_buy_total
-    else:
-        only_send = ''
+        can_buy_total: int = 0
+    only_send = total - can_buy_total
     params['only_send'] = only_send
     if user.birthday:
         birthday: datetime.date = user.birthday
