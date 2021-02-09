@@ -569,6 +569,11 @@ def point(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
+def redirect_home(request):
+    return redirect('/home')
+
+
+@login_required
 def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
     user: User = request.user
     if user.delete_flag:

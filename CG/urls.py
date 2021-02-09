@@ -33,6 +33,7 @@ urlpatterns = [
     path('user_search/', views.user_search, name='user_search'),
     path('shop/', views.shop_home, name='shop_home'),
     path('signup/', views.signup, name='signup'),
+    path('profile/', views.redirect_home, name='red_home'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
     path('profile/<str:pk>/', views.profile, name='profile'),
     path('goods_db/', views.goods_db, name='goods_db'),
