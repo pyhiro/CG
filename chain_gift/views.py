@@ -40,7 +40,7 @@ import yaml
 
 from . import wallet
 
-
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
@@ -580,7 +580,10 @@ def profile(request: HttpRequest, pk: Union[str, None] = None) -> HttpResponse:
     not_notified_message_count: int = len(not_notified_messages)
 
     img_url: str = user.profile_img
-    user: Union[User, Exception] = get_object_or_404(User, student_id=pk, delete_flag=False)
+    try:
+        user = User.objects.get(student_id=pk, delete_flag=False)
+    except:
+        return redirect('/home')
     if user.is_superuser and not request.user.is_superuser:
         return redirect('/home')
 

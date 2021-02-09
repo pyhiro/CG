@@ -72,9 +72,9 @@
                 $('body').removeClass('fixed').css({'top': 0});
 		        window.scrollTo( 0 , scrollPosition );
 
-				$('.layer_board , #layer_board_area', elements).fadeOut(1500);
-				$('.layer_board_bg', elements).fadeOut(1500);
-				$('#layer_board_area').fadeOut(1500);
+				$('.layer_board , #layer_board_area', elements).fadeOut(1000);
+				$('.layer_board_bg', elements).fadeOut(1000);
+				$('#layer_board_area').fadeOut(1000);
 
                 //<a>タグのリンクを無効化　＊これが無いとTOPに飛ぶ
                 return false
@@ -163,9 +163,9 @@
                 $('body').removeClass('fixed').css({'top': 0});
 		        window.scrollTo( 0 , scrollPosition );
 
-				$('.layer_board , #layer_board_area', elements).fadeOut(1500);
-				$('.layer_board_bg', elements).fadeOut(1500);
-				$('#layer_board_area').fadeOut(1500);
+				$('.layer_board , #layer_board_area', elements).fadeOut(1000);
+				$('.layer_board_bg', elements).fadeOut(1000);
+				$('#layer_board_area').fadeOut(1000);
 
                 //<a>タグのリンクを無効化　＊これが無いとTOPに飛ぶ
                 return false
