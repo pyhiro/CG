@@ -1091,7 +1091,7 @@ def get_ranking(request):
         send_rank = []
         for k, v in tmp_rank['receive_ranking'].items():
             try:
-                user = User.objects.get(blockchain_address=k)
+                user = User.objects.get(blockchain_address=k, delete_flag=False)
                 receive_rank.append({'username': user.username,
                                      'point': v,
                                      'stu_id': user.student_id,
@@ -1100,7 +1100,7 @@ def get_ranking(request):
                 pass
         for k, v in tmp_rank['send_ranking'].items():
             try:
-                user = User.objects.get(blockchain_address=k)
+                user = User.objects.get(blockchain_address=k, delete_flag=False)
                 send_rank.append({'username': user.username,
                                   'point': v,
                                   'stu_id': user.student_id,
