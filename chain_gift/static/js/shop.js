@@ -111,7 +111,7 @@ var app = new Vue({
         }else if(this.category == '文房具' && this.products[i].goods_category == '文房具'){
           isShow = true;
           //全商品の場合
-        }else if(this.category == '文房具' && this.products[i].goods_category == 'その他'){
+        }else if(this.category == 'その他' && this.products[i].goods_category == 'その他'){
           isShow = true;
         } else if (this.category == 'すべての商品'){
           isShow = true;

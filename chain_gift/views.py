@@ -1141,6 +1141,7 @@ def get_ranking(request):
                 rank_idx = total_member
                 continuous = 0
                 user_info['rank'] = rank_idx
+            before_point = user_info['point']
             if continuous == 0 and total_member > 10:
                 break
         else:
