@@ -1361,7 +1361,10 @@ def settings(request):
         except MultiValueDictKeyError:
             user.dark_mode = False
         user.template_point = form.data['template_point']
-        user.save()
+        if user.template_point:
+            user.save()
+        else:
+            return redirect('/settings')
 
     if user.dark_mode:
         form = UserSettingsForm(initial={'dark_mode': True, 'template_point': user.template_point})
