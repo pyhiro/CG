@@ -1,0 +1,1635 @@
+python3: can't open file 'blockchain_server.py': [Errno 2] No such file or directory
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 09:27:03] "[37mGET / HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/top.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[36mGET /static/animate.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[36mGET /static/icomoon.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[36mGET /static/bootstrap.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[36mGET /static/flexslider.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/modernizr-2.6.2.min.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/particles.min.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/setting.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/jquery.min.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/jquery.easing.1.3.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/bootstrap.min.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/jquery.waypoints.min.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/jquery.flexslider-min.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[37mGET /static/js/main.js HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:27:04] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:27:05] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+Not Found: /favicon.ico
+WARNING:django.request:Not Found: /favicon.ico
+python3: can't open file 'blockchain_server.py': [Errno 2] No such file or directory
+113.33.218.214 - - [15/Feb/2021 09:27:05] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[32mGET /login HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[32mGET /login/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[35m[1mGET /home/ HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connection.py", line 159, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/connection.py", line 80, in create_connection
+    raise err
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/connection.py", line 70, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 600, in urlopen
+    chunked=chunked)
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 354, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "/usr/lib/python3.7/http/client.py", line 1244, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "/usr/lib/python3.7/http/client.py", line 1290, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.7/http/client.py", line 1239, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "/usr/lib/python3.7/http/client.py", line 1026, in _send_output
+    self.send(msg)
+  File "/usr/lib/python3.7/http/client.py", line 966, in send
+    self.connect()
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connection.py", line 181, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connection.py", line 168, in _new_conn
+    self, "Failed to establish a new connection: %s" % e)
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7f8ec42e11d0>: Failed to establish a new connection: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/connectionpool.py", line 638, in urlopen
+    _stacktrace=sys.exc_info()[2])
+  File "/usr/local/lib/python3.7/dist-packages/urllib3/util/retry.py", line 399, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /amount?blockchain_address=Chain+Gift (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8ec42e11d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/staticfiles/handlers.py", line 68, in __call__
+    return self.application(environ, start_response)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/wsgi.py", line 133, in __call__
+    response = self.get_response(request)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/base.py", line 75, in get_response
+    response = self._middleware_chain(request)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/exception.py", line 36, in inner
+    response = response_for_exception(request, exc)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/exception.py", line 90, in response_for_exception
+    response = handle_uncaught_exception(request, get_resolver(get_urlconf()), sys.exc_info())
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/exception.py", line 125, in handle_uncaught_exception
+    return debug.technical_500_response(request, *exc_info)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/technical_response.py", line 40, in null_technical_500_response
+    raise exc_value.with_traceback(tb)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/auth/decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "/home/thwkana/CG/chain_gift/views.py", line 261, in home
+    timeout=5)
+  File "/usr/local/lib/python3.7/dist-packages/requests/api.py", line 75, in get
+    return request('get', url, params=params, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /amount?blockchain_address=Chain+Gift (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f8ec42e11d0>: Failed to establish a new connection: [Errno 111] Connection refused'))
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[37mGET /home/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[37mGET /home/?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[37mGET /home/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[37mGET /home/?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[37mGET /home/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:06] "[37mGET /home/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[37mGET /home/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[36mGET /static/darkmode.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[36mGET /static/user_search_dark.css HTTP/1.1[0m" 304 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:27:43] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:28:15] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:28:15] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:28:15] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:28:16] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:28:16] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 09:30:50] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:30:51] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:01] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:03] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:03] "[36mGET /static/message.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:31:03] "[37mGET /static/message_modal_dark.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:03] "[36mGET /static/point.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:31:03] "[36mGET /static/js/message_modal.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:31:07] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:09] "[32mGET /settings HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:31:09] "[37mGET /settings/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:09] "[37mGET /static/super_edit_width.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:09] "[36mGET /static/super_edit.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:31:31] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:34] "[37mGET /settings/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:36] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:31:36] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:31:36] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:31:36] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:31:36] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:31:36] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:37] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:37] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:31:39] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:40] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:42] "[37mGET /settings/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:45] "[32mGET /management HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:31:45] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:48] "[32mGET /all_users HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:31:48] "[37mGET /all_users/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:48] "[36mGET /static/user_search.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:31:48] "[36mGET /static/all_users.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:31:55] "[32mGET /super_update HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:31:55] "[37mGET /super_update/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:31:55] "[36mGET /static/pagination.css HTTP/1.1[0m" 304 -
+Not Found: /super_update/favicon.ico
+WARNING:django.request:Not Found: /super_update/favicon.ico
+113.33.218.214 - - [15/Feb/2021 09:31:56] "[33mGET /super_update/favicon.ico HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:00] "[37mGET /super_update/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:09] "[32mPOST /super_update/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:32:09] "[32mGET /super_update HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:32:09] "[37mGET /super_update/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:20] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:23] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:25] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:27] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:47] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:32:54] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:57] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:32:59] "[37mGET /settings/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:33:41] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:33:43] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:34:48] "[37mGET / HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/top.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/animate.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/icomoon.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/bootstrap.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/flexslider.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/modernizr-2.6.2.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/particles.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/setting.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/jquery.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/jquery.easing.1.3.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/bootstrap.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/jquery.waypoints.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/jquery.flexslider-min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:34:49] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:12] "[32mGET /login/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:35:12] "[37mGET /home/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[36mGET /media/1902054.png HTTP/1.1[0m" 304 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:13] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:21] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:22] "[36mGET /static/message.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:35:22] "[36mGET /static/message_modal.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:35:22] "[36mGET /static/point.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:35:22] "[37mGET /static/js/message_modal.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:30] "[37mGET /message_detail/16 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:35] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:35:36] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:35:36] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:35:36] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:35:36] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:36] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:36] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:38] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:40] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:44] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:46] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:48] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:50] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:35:54] "[37mGET /ranking/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:54] "[37mGET /media/a8210c8f22d8600293f3f25173dd513e.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:54] "[37mGET /media/CF1A5AAD-88A2-47E7-ADF9-6FB26D394AF4.jpeg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:35:54] "[37mGET /static/images/smile.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:36:00] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:02] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:38:02] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:38:03] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:38:03] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:38:03] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:38:03] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:38:03] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:38:03] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:38:06] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:15] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:18] "[32mGET /grades/top HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:38:18] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:23] "[32mGET /test/create HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:38:23] "[37mGET /test/create/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:23] "[37mGET /static/forget.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:23] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:38:23] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+Not Found: /test/create/favicon.ico
+WARNING:django.request:Not Found: /test/create/favicon.ico
+113.33.218.214 - - [15/Feb/2021 09:38:23] "[33mGET /test/create/favicon.ico HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:38:35] "[32mPOST /test/create/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:38:35] "[32mGET /grades/top HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:38:35] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:37] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:38:51] "[32mPOST /add_subject/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:38:51] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:39:06] "[32mPOST /add_subject/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:39:06] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:39:19] "[32mPOST /add_subject/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:39:19] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:39:26] "[32mPOST /delete_subject/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:39:26] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:39:30] "[32mPOST /add_subject/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:39:30] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:40:15] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:40:15] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:40:15] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:40:16] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:40:16] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:40:18] "[37mGET /grades/detail/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:40:22] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:40:22] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:40:22] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:40:22] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:40:22] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:40:24] "[32mPOST /add_subject/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:40:24] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:40:24] "[37mGET /grades/detail/1 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:40:39] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:40:39] "[36mGET /static/user_search.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:41:58] "[32mPOST /grades/edit/2 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:41:58] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:41:58] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:10] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:13] "[32mGET /signup HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:42:13] "[37mGET /signup/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:13] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:42:19] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:23] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:23] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:28] "[37mGET /grades/edit/1 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:33] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:33] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:48] "[37mGET /test/create/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:48] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:42:48] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:42:57] "[32mPOST /test/create/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:42:57] "[32mGET /grades/top HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:42:57] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:42:59] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:00] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:04] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:09] "[32mPOST /add_subject/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:43:09] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:18] "[32mPOST /grades/edit/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:43:18] "[37mGET /grades/result/3/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:18] "[37mGET /grades/result/3/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:20] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:21] "[37mGET /all_users/ HTTP/1.1[0m" 200 -
+INFO:axes.handlers.database:AXES: Successful logout by {username: "tky1902054@stu.o-hara.ac.jp", ip_address: "113.33.218.214", user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.146 Safari/537.36", path_info: "/logout/"}.
+113.33.218.214 - - [15/Feb/2021 09:43:23] "[32mGET /logout/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:43:23] "[37mGET /login/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:23] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:23] "[33mGET /static/login.css HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:24] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+INFO:axes.handlers.database:AXES: Successful login by {username: "tky1902054@stu.o-hara.ac.jp", ip_address: "113.33.218.214", user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.146 Safari/537.36", path_info: "/login/"}.
+INFO:axes.attempts:AXES: Reset 0 access attempts from database.
+INFO:axes.handlers.database:AXES: Deleted 0 failed login attempts by {username: "tky1902054@stu.o-hara.ac.jp", ip_address: "113.33.218.214", user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.146 Safari/537.36", path_info: "/login/"} from database.
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[32mPOST /login/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[32mGET /home HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:25] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:26] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:27] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:27] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:43:27] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:43:27] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:27] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:27] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:31] "[37mGET /grades/detail/1 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:31] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:32] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:34] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:43:34] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:43:34] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:34] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:34] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:36] "[37mGET /grades/detail/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:39] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:43:39] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:43:39] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:39] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:39] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:43:41] "[37mGET /grades/detail/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:46] "[37mGET /return_csv/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:59] "[37mGET /grades/result/1/ranking HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:43:59] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:00] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:00] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:02] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:03] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:08] "[37mGET /grades/result/3/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:08] "[37mGET /grades/result/3/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:11] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:13] "[37mGET /all_users/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:18] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:21] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:24] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:29] "[32mPOST /add_subject/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:44:29] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:31] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:33] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:35] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:35] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:44:36] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:44:41] "[37mGET /grades/edit/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:41] "[37mGET /shop/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:41] "[36mGET /static/shop.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:44:41] "[37mGET /static/js/shop.js HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[37mGET /goods_db/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[37mGET /media/unnamed.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[36mGET /media/223007005335.jpg HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[37mGET /media/31S4swH7iiL._SX338_BO1204203200_.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[37mGET /media/textbook_eigo.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[37mGET /media/textbook_kokugo.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:42] "[37mGET /media/money_chokinbako.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:44] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:48] "[32mPOST /delete_subject/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:44:48] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:44:48] "[33mGET /media/ HTTP/1.1[0m" 404 -
+/usr/local/lib/python3.7/dist-packages/numpy/lib/nanfunctions.py:1665: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  keepdims=keepdims)
+113.33.218.214 - - [15/Feb/2021 09:44:50] "[32mPOST /grades/edit/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:44:50] "[37mGET /grades/result/3/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:51] "[37mGET /grades/result/3/favicon.ico HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:44:52] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:44:53] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:54] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:56] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:44:56] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:44:57] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:45:00] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:00] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:45:06] "[33mGET /media/ HTTP/1.1[0m" 404 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:45:09] "[33mGET /media/ HTTP/1.1[0m" 404 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:45:12] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:45:15] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:18] "[32mPOST /add_subject/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:45:18] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:21] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:23] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:23] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:27] "[37mGET /grades/edit/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:35] "[32mPOST /grades/edit/3 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:45:35] "[37mGET /grades/result/3/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:35] "[37mGET /grades/result/3/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:38] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:40] "[37mGET /grades/result/2/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:40] "[37mGET /grades/result/2/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:52] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:45:52] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:46:01] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[32mGET /admin HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/css/responsive.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/css/dashboard.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/css/base.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/css/fonts.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/img/icon-addlink.svg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/img/icon-changelink.svg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:04] "[37mGET /static/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:46:14] "[37mGET / HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:46:14] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:46:14] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:46:14] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:46:14] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:46:14] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:46:17] "[32mGET /login/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:46:17] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:46:17] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:46:17] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:46:17] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:46:17] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+Error occurred during checks: AttributeError("'Grades' object has no attribute 'urls'")
+
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[35m[1mGET /admin/ HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/staticfiles/handlers.py", line 68, in __call__
+    return self.application(environ, start_response)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 302, in application
+    raise exc
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 339, in inner_run
+    check_errors(self.check)(display_num_errors=self.show_startup_messages)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 107, in wrapper
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/base.py", line 395, in check
+    include_deployment_checks=include_deployment_checks,
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/base.py", line 382, in _run_checks
+    return checks.run_checks(**kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/checks/registry.py", line 72, in run_checks
+    new_errors = check(app_configs=app_configs)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/checks/urls.py", line 13, in check_url_config
+    return check_resolver(resolver)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/checks/urls.py", line 23, in check_resolver
+    return check_method()
+  File "/usr/local/lib/python3.7/dist-packages/django/urls/resolvers.py", line 407, in check
+    for pattern in self.url_patterns:
+  File "/usr/local/lib/python3.7/dist-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.7/dist-packages/django/urls/resolvers.py", line 588, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/usr/local/lib/python3.7/dist-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.7/dist-packages/django/urls/resolvers.py", line 581, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+    
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+    
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+    
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+    
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+    
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+    
+  File "/home/thwkana/CG/CG/urls.py", line 23, in <module>
+    path('admin/', admin.site.urls),
+  File "/usr/local/lib/python3.7/dist-packages/django/utils/functional.py", line 225, in inner
+    return func(self._wrapped, *args)
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/admin/sites.py", line 293, in urls
+    return self.get_urls(), 'admin', self.name
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/admin/sites.py", line 277, in get_urls
+    path('%s/%s/' % (model._meta.app_label, model._meta.model_name), include(model_admin.urls)),
+AttributeError: 'Grades' object has no attribute 'urls'
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[37mGET /admin/?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[37mGET /admin/?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[37mGET /admin/?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[37mGET /admin/?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[37mGET /admin/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:30] "[37mGET /admin/?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:45] "[35m[1mGET /buy/6 HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/staticfiles/handlers.py", line 68, in __call__
+    return self.application(environ, start_response)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 302, in application
+    raise exc
+  File "/usr/local/lib/python3.7/dist-packages/werkzeug/debug/__init__.py", line 304, in debug_application
+    app_iter = self.app(environ, start_response)
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/staticfiles/handlers.py", line 68, in __call__
+    return self.application(environ, start_response)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 302, in application
+    raise exc
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 339, in inner_run
+    check_errors(self.check)(display_num_errors=self.show_startup_messages)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 107, in wrapper
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/base.py", line 395, in check
+    include_deployment_checks=include_deployment_checks,
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/base.py", line 382, in _run_checks
+    return checks.run_checks(**kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/checks/registry.py", line 72, in run_checks
+    new_errors = check(app_configs=app_configs)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/checks/urls.py", line 13, in check_url_config
+    return check_resolver(resolver)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/checks/urls.py", line 23, in check_resolver
+    return check_method()
+  File "/usr/local/lib/python3.7/dist-packages/django/urls/resolvers.py", line 407, in check
+    for pattern in self.url_patterns:
+  File "/usr/local/lib/python3.7/dist-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.7/dist-packages/django/urls/resolvers.py", line 588, in url_patterns
+    patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+  File "/usr/local/lib/python3.7/dist-packages/django/utils/functional.py", line 48, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+  File "/usr/local/lib/python3.7/dist-packages/django/urls/resolvers.py", line 581, in urlconf_module
+    return import_module(self.urlconf_name)
+  File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+    
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+    
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+    
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+    
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+    
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+    
+  File "/home/thwkana/CG/CG/urls.py", line 23, in <module>
+    path('admin/', admin.site.urls),
+  File "/usr/local/lib/python3.7/dist-packages/django/utils/functional.py", line 225, in inner
+    return func(self._wrapped, *args)
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/admin/sites.py", line 293, in urls
+    return self.get_urls(), 'admin', self.name
+  File "/usr/local/lib/python3.7/dist-packages/django/contrib/admin/sites.py", line 277, in get_urls
+    path('%s/%s/' % (model._meta.app_label, model._meta.model_name), include(model_admin.urls)),
+AttributeError: 'Grades' object has no attribute 'urls'
+113.33.218.214 - - [15/Feb/2021 09:48:45] "[37mGET /buy/6?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:45] "[37mGET /buy/6?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:45] "[37mGET /buy/6?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:46] "[37mGET /buy/6?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:46] "[37mGET /buy/6?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:48:46] "[37mGET /buy/6?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+ * Detected change in '/home/thwkana/CG/chain_gift/admin.py', reloading
+Performing system checks...
+
+
+Django version 3.0.4, using settings 'CG.settings'
+Development server is running at https://0.0.0.0:443/
+Using the Werkzeug debugger (http://werkzeug.pocoo.org/)
+Quit the server with CONTROL-C.
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/__init__.py", line 401, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/__init__.py", line 395, in execute
+    self.fetch_command(subcommand).run_from_argv(self.argv)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/base.py", line 328, in run_from_argv
+    self.execute(*args, **cmd_options)
+  File "/usr/local/lib/python3.7/dist-packages/django/core/management/base.py", line 369, in execute
+    output = self.handle(*args, **options)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/utils.py", line 62, in inner
+    ret = func(self, *args, **kwargs)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 290, in handle
+    self.inner_run(options)
+  File "/usr/local/lib/python3.7/dist-packages/django_extensions/management/commands/runserver_plus.py", line 416, in inner_run
+    ssl_context=ssl_context,
+  File "/usr/local/lib/python3.7/dist-packages/werkzeug/serving.py", line 1030, in run_simple
+    s.bind(server_address)
+OSError: [Errno 98] Address already in use
+Error occurred during checks: AttributeError("'Grades' object has no attribute 'urls'")
+
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 09:49:55] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:57] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/css/changelists.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/core.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/jquery.init.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/actions.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/urlify.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/prepopulate.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:49:58] "[37mGET /static/admin/img/tooltag-add.svg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:03] "[37mGET /admin/chain_gift/grades/1/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:03] "[37mGET /static/admin/css/forms.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:03] "[37mGET /static/admin/js/change_form.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:03] "[37mGET /static/admin/css/widgets.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:03] "[37mGET /static/admin/js/prepopulate_init.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:03] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:13] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:16] "[37mGET /admin/chain_gift/grades/12/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:16] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:18] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:18] "[32mGET /buy/6 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:50:18] "[32mGET /shop HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:50:18] "[37mGET /shop/ HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 09:50:19] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:50:19] "[37mGET /goods_db/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:20] "[37mGET /admin/chain_gift/grades/39/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:20] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:22] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:23] "[37mGET /admin/chain_gift/grades/29/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:23] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:25] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:27] "[37mGET /admin/chain_gift/grades/25/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:27] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:29] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:30] "[32mGET /buy/1 HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:50:30] "[37mGET /done/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:50:30] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:50:31] "[37mGET /admin/chain_gift/grades/23/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:31] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:50:33] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:50:34] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:36] "[37mGET /admin/chain_gift/grades/24/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:36] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:38] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:40] "[37mGET /admin/chain_gift/grades/25/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:40] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:42] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:51] "[37mGET /admin/chain_gift/grades/14/change/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:51] "[37mGET /admin/jsi18n/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:52] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:53] "[37mGET /admin/chain_gift/grades/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:50:53] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:51:18] "[37mGET /message_detail/11 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:51:25] "[37mGET /message_detail/11 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:51:25] "[37mGET /profile/1902055/ HTTP/1.1[0m" 200 -
+ * Detected change in '/home/thwkana/CG/chain_gift/admin.py', reloading
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+Django version 3.0.4, using settings 'CG.settings'
+Development server is running at https://0.0.0.0:443/
+Using the Werkzeug debugger (http://werkzeug.pocoo.org/)
+Quit the server with CONTROL-C.
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+INFO:chain_gift.views:{'action': 'send point', 'from ip address': '113.33.218.214', 'status': 'done'}
+113.33.218.214 - - [15/Feb/2021 09:52:09] "[37mPOST /profile/1902055/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:52:10] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:52:13] "[37mGET /profile/1902055/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:15] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:22] "[37mPOST /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:27] "[37mPOST /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:31] "[32mGET /profile/1902050 HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:52:31] "[37mGET /profile/1902050/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:31] "[37mGET /media/16128314395107441662280880954223.jpg HTTP/1.1[0m" 200 -
+Not Found: /profile/1902050/favicon.ico
+WARNING:django.request:Not Found: /profile/1902050/favicon.ico
+113.33.218.214 - - [15/Feb/2021 09:52:31] "[33mGET /profile/1902050/favicon.ico HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:52:35] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:38] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:52:38] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:52:38] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:52:38] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:52:38] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:52:41] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:52:41] "[36mGET /media/jon.png HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:52:44] "[37mGET /profile/edit/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:07] "[32mPOST /profile/edit/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:55:07] "[32mGET /profile/1902054 HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 09:55:07] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:07] "[37mGET /media/きゅー.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:14] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:14] "[36mGET /media/きゅー.jpg HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:55:22] "[37mGET /settings/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:22] "[36mGET /static/super_edit.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:55:22] "[36mGET /static/darkmode.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:55:22] "[36mGET /static/user_search_dark.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:55:22] "[36mGET /static/super_edit_width.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:55:28] "[37mPOST /settings/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:30] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:32] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:34] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:55:35] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:55:35] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:55:35] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:55:35] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:55:35] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:55:35] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:55:36] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:55:46] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:55:50] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:55] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:58] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:55:58] "[36mGET /media/きゅー.jpg HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 09:55:59] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:56:02] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:56:02] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:56:02] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:56:02] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:56:02] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:56:21] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:56:22] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 09:56:22] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:56:22] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:56:22] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:56:22] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:56:22] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:56:24] "[37mGET /message/ HTTP/1.1[0m" 200 -
+ * Detected change in '/home/thwkana/CG/chain_gift/views.py', reloading
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+Django version 3.0.4, using settings 'CG.settings'
+Development server is running at https://0.0.0.0:443/
+Using the Werkzeug debugger (http://werkzeug.pocoo.org/)
+Quit the server with CONTROL-C.
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 09:57:13] "[37mGET /admin/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:57:27] "[37mGET /message_detail/11 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:57:40] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:57:40] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:57:40] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:57:40] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:57:40] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:57:44] "[37mGET /grades/detail/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:57:47] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:57:47] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:57:47] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:57:47] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:57:47] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:57:50] "[37mGET /grades/detail/1 HTTP/1.1[0m" 200 -
+Not Found: /grades_edit
+WARNING:django.request:Not Found: /grades_edit
+113.33.218.214 - - [15/Feb/2021 09:58:14] "[33mGET /grades_edit HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:19] "[37mGET / HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:58:19] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:58:20] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:58:20] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:20] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:20] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[32mGET /login/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 09:58:21] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:22] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:22] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 09:58:25] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:58:29] "[37mGET /grades/top/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:58:31] "[37mGET /grades/edit/1 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:58:36] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 09:58:36] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:13:42] "[37mGET /grades/result/1/normal HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:13:42] "[37mGET /grades/result/1/favicon.ico HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:16:10] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /media/None
+WARNING:django.request:Not Found: /media/None
+113.33.218.214 - - [15/Feb/2021 11:16:10] "[33mGET /media/None HTTP/1.1[0m" 404 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:16:10] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_3.jpg
+WARNING:django.request:Not Found: /media/img_bg_3.jpg
+113.33.218.214 - - [15/Feb/2021 11:16:10] "[33mGET /media/img_bg_3.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:16:10] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Restarting with stat
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 11:19:23] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:19:32] "[37mGET /grades/detail/1 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:19:34] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:19:41] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:19:46] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:19:51] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:19:53] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:19:53] "[36mGET /media/きゅー.jpg HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 11:19:57] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:03] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:20:03] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:20:03] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:03] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:03] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:08] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:10] "[37mGET /ranking/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:16] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:21] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:23] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:30] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:32] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:38] "[37mGET /message_detail/16 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:47] "[37mGET /message_detail/24 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:53] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[32mGET /profile/ HTTP/1.1[0m" 302 -
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:20:58] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:21:04] "[37mGET /shop/ HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:21:04] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:21:05] "[37mGET /goods_db/ HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:21:12] "[33mGET /media/ HTTP/1.1[0m" 404 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:21:19] "[33mGET /media/ HTTP/1.1[0m" 404 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:21:24] "[33mGET /media/ HTTP/1.1[0m" 404 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:21:29] "[33mGET /media/ HTTP/1.1[0m" 404 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:21:34] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:21:45] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:21:48] "[37mGET /message/ HTTP/1.1[0m" 200 -
+ * Detected change in '/home/thwkana/CG/chain_gift/views.py', reloading
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+Django version 3.0.4, using settings 'CG.settings'
+Development server is running at https://0.0.0.0:443/
+Using the Werkzeug debugger (http://werkzeug.pocoo.org/)
+Quit the server with CONTROL-C.
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 11:22:36] "[37mGET /message_detail/16 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:22:36] "[37mGET /profile/1902056/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:22:40] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:22:47] "[32mGET /profile/1902005 HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 11:22:47] "[37mGET /profile/1902005/ HTTP/1.1[0m" 200 -
+Not Found: /profile/1902005/favicon.ico
+WARNING:django.request:Not Found: /profile/1902005/favicon.ico
+113.33.218.214 - - [15/Feb/2021 11:22:47] "[33mGET /profile/1902005/favicon.ico HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:22:55] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:22:55] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:22:55] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:22:56] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:22:56] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:22:56] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:22:56] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+ * Detected change in '/home/thwkana/CG/chain_gift/views.py', reloading
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+Django version 3.0.4, using settings 'CG.settings'
+Development server is running at https://0.0.0.0:443/
+Using the Werkzeug debugger (http://werkzeug.pocoo.org/)
+Quit the server with CONTROL-C.
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Restarting with stat
+ * Restarting with stat
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 223-190-081
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:48:50] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:48:53] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:48:55] "[37mGET /point/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:48:58] "[37mGET /management/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:48:59] "[37mGET /profile/1902054/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:00] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:01] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:03] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:49:03] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:49:03] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:03] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:03] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+/home/thwkana/CG/chain_gift/views.py:1233: RuntimeWarning: invalid value encountered in double_scalars
+  my_deviation = round((my_score - mean)/std * 10 + 50, 2)
+113.33.218.214 - - [15/Feb/2021 11:49:06] "[37mGET /grades/detail/3 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:09] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:49:09] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:49:09] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:10] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:10] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:11] "[37mGET /grades/detail/2 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:14] "[37mGET /grades/ HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:49:14] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:49:14] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:14] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:14] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:16] "[37mGET /grades/detail/1 HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:19] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:27] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:49:27] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:49:27] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:49:27] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:49:27] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:28] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:28] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:29] "[37mGET /ranking/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:35] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:40] "[37mGET /shop/ HTTP/1.1[0m" 200 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 11:49:40] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 11:49:40] "[37mGET /goods_db/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:07:41] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:07:48] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:08:03] "[37mGET /profile/1902019/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/animate.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/icomoon.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/bootstrap.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/flexslider.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/modernizr-2.6.2.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/jquery.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/jquery.easing.1.3.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/bootstrap.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/jquery.waypoints.min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/jquery.flexslider-min.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /static/js/main.js HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:04] "[36mGET /media/cute_girl.jpeg HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:08:13] "[37mGET /message/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:30] "[37mGET /home/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[36mGET /media/1902019.png HTTP/1.1[0m" 304 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:31] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:38] "[32mGET /shop HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 12:12:38] "[37mGET /shop/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:39] "[37mGET /static/shop.css HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:39] "[37mGET /static/js/shop.js HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[32mGET /goods_db HTTP/1.1[0m" 301 -
+Not Found: /media/
+WARNING:django.request:Not Found: /media/
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[33mGET /media/ HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /goods_db/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /media/223007005335.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /media/unnamed.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /media/31S4swH7iiL._SX338_BO1204203200_.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /media/textbook_eigo.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /media/textbook_kokugo.png HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:40] "[37mGET /media/money_chokinbako.png HTTP/1.1[0m" 200 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:12:51] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:12:51] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:51] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:51] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:12:53] "[32mGET /ranking HTTP/1.1[0m" 301 -
+113.33.218.214 - - [15/Feb/2021 12:12:53] "[37mGET /ranking/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:54] "[36mGET /static/point.css HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:12:54] "[37mGET /media/a8210c8f22d8600293f3f25173dd513e.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:54] "[37mGET /media/CF1A5AAD-88A2-47E7-ADF9-6FB26D394AF4.jpeg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:54] "[37mGET /media/きゅー.jpg HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:12:54] "[36mGET /static/images/smile.png HTTP/1.1[0m" 304 -
+Not Found: /ranking/favicon.ico
+WARNING:django.request:Not Found: /ranking/favicon.ico
+113.33.218.214 - - [15/Feb/2021 12:12:54] "[33mGET /ranking/favicon.ico HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:29:31] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:29:33] "[37mGET /user_search/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:29:36] "[37mGET /profile/1902055/ HTTP/1.1[0m" 200 -
+INFO:chain_gift.views:{'action': 'send point', 'from ip address': '113.33.218.214', 'status': 'done'}
+113.33.218.214 - - [15/Feb/2021 12:29:50] "[37mPOST /profile/1902055/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:29:51] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:29:54] "[37mGET /profile/1902055/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:29:58] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:29:59] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:29:59] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:29:59] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:29:59] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:29:59] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:29:59] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:04] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:05] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:06] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:06] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:06] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:06] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:06] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:06] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:09] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:10] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:12] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:13] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[33mGET /fonts/icomoon/icomoon.woff?srf3rx HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[33mGET /static/fonts/icomoon.ttf?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:30:15] "[33mGET /static/fonts/icomoon.woff?6py85u HTTP/1.1[0m" 404 -
+113.33.218.214 - - [15/Feb/2021 12:33:47] "[37mGET /ranking/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:33:48] "[37mGET /ranking/ HTTP/1.1[0m" 200 -
+113.33.218.214 - - [15/Feb/2021 12:33:49] "[36mGET /media/きゅー.jpg HTTP/1.1[0m" 304 -
+113.33.218.214 - - [15/Feb/2021 12:34:04] "[37mGET /home/ HTTP/1.1[0m" 200 -
+Not Found: /images/loader.gif
+WARNING:django.request:Not Found: /images/loader.gif
+113.33.218.214 - - [15/Feb/2021 12:34:05] "[33mGET /images/loader.gif HTTP/1.1[0m" 404 -
+Not Found: /media/img_bg_1.jpg
+WARNING:django.request:Not Found: /media/img_bg_1.jpg
+113.33.218.214 - - [15/Feb/2021 12:34:05] "[33mGET /media/img_bg_1.jpg HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.ttf
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.ttf
+113.33.218.214 - - [15/Feb/2021 12:34:05] "[33mGET /fonts/icomoon/icomoon.ttf?srf3rx HTTP/1.1[0m" 404 -
+Not Found: /fonts/icomoon/icomoon.woff
+WARNING:django.request:Not Found: /fonts/icomoon/icomoon.woff
+ * Running on https://0.0.0.0:443/ (Press CTRL+C to quit)
+ * Restarting with stat

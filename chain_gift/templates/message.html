@@ -161,7 +161,7 @@
                                     {% endif %}
                                     {% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
-												<h5><object><a href="/profile/{{ value.sender.1 }}"  class="message-link">{{ value.sender.0 }}<br></a></object></h5>
+												<h5><object><a href="/profile/{{ value.sender.1 }}"  class="message-link" onclick="location.href='/profile/{{ value.sender.1 }}'">{{ value.sender.0 }}<br></a></object></h5>
 												<h6 style="">{{ value.contents|truncatechars:18 }}</h6>
 												<span>{{ value.time_of_message|date:"n/j H:i"}}</span>
 											</div>
@@ -184,7 +184,7 @@
 										<a href="http:/..." onclick="return false;" name='/message_detail/{{ value.pk }}' class="work image-popup {{ value.pk }}" style="height:130px; background-color: rgb(230, 230, 230)" id='modal3'>
 									{% endif %}
 											<div class="" style="height: 100%;padding:15px 0 0;">
-												<h5><object><a href="/profile/{{ value.recipient.1 }}" class="message-link">{{ value.recipient.0 }}<br></a></object></h5>
+												<h5><object><a href="/profile/{{ value.recipient.1 }}" class="message-link" onclick="location.href='/profile/{{ value.recipient.1 }}'">{{ value.recipient.0 }}<br></a></object></h5>
 												<h6 style="">{{ value.contents|truncatechars:18 }}</h6>
 												<span>{{ value.time_of_message|date:"n/j H:i"}}</span>
 											</div>

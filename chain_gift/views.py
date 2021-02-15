@@ -1585,7 +1585,10 @@ def test_result_super(request, pk: int, order: str):
     try:
         array_for_average = list()
         for user in users:
-            usr = User.objects.get(student_id=user['student_id'])
+            try:
+                usr = User.objects.get(student_id=user['student_id'])
+            except:
+                continue
             name_and_grades[usr.username] = dict()
             name_and_grades[usr.username]['furigana'] = usr.furigana
             name_and_grades[usr.username]['class_id'] = usr.class_id
@@ -1605,7 +1608,10 @@ def test_result_super(request, pk: int, order: str):
             else:
                 name_and_grades[usr.username]['average'] = 0
 
-        total_average = round(t.mean, 2)
+        if array_for_average:
+            total_average = round(sum(array_for_average)/len(array_for_average), 2)
+        else:
+            total_average = 0
         std_div_of_total = round(t.std_div, 2)
         if order == 'normal':
             sorted_user_list = sorted(name_and_grades.items(), key=lambda x: ((natural_keys(x[1]['class_id'])),
@@ -1653,7 +1659,10 @@ def return_csv(request, pk: int, order: str):
     name_and_grades = dict()
     try:
         for user in users:
-            usr = User.objects.get(student_id=user['student_id'])
+            try:
+                usr = User.objects.get(student_id=user['student_id'])
+            except:
+                continue
             name_and_grades[usr.username] = dict()
             name_and_grades[usr.username]['furigana'] = usr.furigana
             name_and_grades[usr.username]['class_id'] = usr.class_id
