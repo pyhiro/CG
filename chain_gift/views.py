@@ -325,6 +325,7 @@ def message(request: HttpRequest) -> HttpResponse:
               'send': send_messages}
     if user.is_superuser:
         params['receive'] = ''
+        params['send'] = ''
 
     my_blockchain_address: str = user.blockchain_address
     response: Response = requests.get(
@@ -1889,6 +1890,7 @@ def super_update(request):
         for stu_id in all_student_id:
             if request.POST.get(f'{stu_id}___delete'):
                 User.objects.filter(student_id=stu_id).delete()
+                Grades.objects.filter(student_id=stu_id).delete()
                 continue
             User.objects.filter(student_id=stu_id).update(grade_id=request.POST.get(f'{stu_id}___grade_id'),
                                                           class_id=request.POST.get(f'{stu_id}___class_id'),
